@@ -1,0 +1,37 @@
+# get-scade-dir.yml
+name: 'Retrieve the installation directory of an Ansys SCADE version'
+description: 'A GitHub action that takes as input an Ansys SCADE version and returns its installation directory'
+inputs:
+  scade-version:
+    description: 'SCADE version: 19.2, 20.1, ..., 23.1, ...'
+    required: true
+outputs:
+  scade-directory:
+    description: 'Intallation directory of the requested version'
+    value: ${{ steps.find-scade-dir.outputs.scade-dir }}
+  
+author: 'ESEG'
+runs:
+  using: composite
+  steps:
+  - name: Pass Inputs to Shell
+    shell: cmd
+    run: |
+            :: Pass Inputs to Shell
+            echo INPUT_SCADE_VERSION=${{ inputs.scade-version }}>> %GITHUB_ENV%
+
+  - name: Find SCADE_DIR
+    id: find-scade-dir
+    shell: cmd
+    run: |
+            :: Find SCADE_DIR
+            echo Searching for Ansys SCADE "%INPUT_SCADE_VERSION%"
+            if "%INPUT_SCADE_VERSION%" lss "21.2" (set SCADE_COMPANY=Esterel Technologies) else (set SCADE_COMPANY=Ansys Inc)
+            echo SCADE registry company is "%SCADE_COMPANY%"
+            for /f "usebackq skip=2 tokens=2,*" %%A in (`REG QUERY "HKLM\SOFTWARE\%SCADE_COMPANY%\SCADE\%INPUT_SCADE_VERSION%" /v InstallDir 2^>nul`) do (set SCADE_DIR=%%B)
+            if "%SCADE_DIR%" == "" (
+                echo Ansys SCADE "%INPUT_SCADE_VERSION%" not available
+                exit /b 1
+            )
+            echo Ansys SCADE %INPUT_SCADE_VERSION% found in "%SCADE_DIR%"
+            echo scade-dir=%SCADE_DIR%>> %GITHUB_OUTPUT%

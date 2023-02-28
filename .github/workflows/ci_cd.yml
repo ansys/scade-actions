@@ -1,0 +1,46 @@
+name: GitHub CI
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  MAIN_SCADE_VERSION: '23.1'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+
+  tests:
+    name: "Tests"
+    runs-on: self-hosted
+    strategy:
+      matrix:
+        # scade-version: ['19.2', '19.4', '21.1', '21.2']
+        scade-version: ['23.1']
+      fail-fast: false
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - uses: ./get-scade-dir
+        id: get-scade-dir
+        with:
+          scade-version: ${{ matrix.scade-version }}
+      - uses: ./get-scade-python
+        id: get-scade-python
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+      - uses: ./create-scade-venv
+        id: create-scade-venv
+        with:
+          python-dir: ${{ steps.get-scade-python.outputs.python-dir }}
+          target-dir: '.venvs'
+          target-name: ${{ steps.get-scade-python.outputs.python-name }}
+      - name: Tests
+        uses: ./scade-tests-pytest
+        with:
+          python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
+          checkout: false

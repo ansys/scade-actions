@@ -1,0 +1,44 @@
+# get-scade-python
+name: 'Retrieve the Python installation installed with Ansys SCADE'
+description: 'A GitHub action that takes as input an Ansys SCADE installation directory and returns the name and path to the corresponding Python installation'
+inputs:
+  scade-dir:
+    description: 'C:\Program Files\ANSYS Inc\v231\SCADE'
+    required: true
+outputs:
+  python-name:
+    description: Name of the directory containing python.exe
+    value: ${{ steps.get.outputs.python-name }}
+  python-dir:
+    description: Directory containing python.exe
+    value: ${{ steps.get.outputs.python-dir }}
+  python-version:
+    description: Version of python.exe, two digits
+    value: ${{ steps.get.outputs.python-version }}
+  
+author: 'ESEG'
+runs:
+  using: composite
+  steps:
+  - name: Pass Inputs to Shell
+    id: set
+    shell: cmd
+    run: |
+            :: Pass Inputs to Shell
+            echo INPUT_SCADE_DIR=${{ inputs.scade-dir }}>> %GITHUB_ENV%
+
+  - name: Retrieve Python name/directory/version
+    id: get
+    shell: cmd
+    run: |
+            :: Retrieve Python name/directory
+            echo Get Python interpreter for "%INPUT_SCADE_DIR%"
+            for /f "usebackq" %%A in (`dir /B "%INPUT_SCADE_DIR%\contrib\Python*"`) do (set PYTHON_NAME=%%A)
+            echo Python name="%PYTHON_NAME%"
+            echo python-name=%PYTHON_NAME%>> %GITHUB_OUTPUT%
+            set PYTHON_DIR=%INPUT_SCADE_DIR%\contrib\%PYTHON_NAME%
+            echo Python directory="%PYTHON_DIR%"
+            echo python-dir=%PYTHON_DIR%>> %GITHUB_OUTPUT%
+            for /f "usebackq tokens=2,3 delims=. " %%A in (`"%PYTHON_DIR%\python" --version`) do (set PYTHON_VERSION=%%A.%%B)
+            echo Python version="%PYTHON_VERSION%"
+            echo python-version=%PYTHON_VERSION%>> %GITHUB_OUTPUT%

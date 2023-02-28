@@ -1,0 +1,48 @@
+# create-scade-venv.yml
+name: 'Create a virtual Python environment'
+description: 'A GitHub action creates a virutal Python environment in the target directory from a Python installation'
+inputs:
+  python-dir:
+    description: 'Directory containing a Python installation'
+    required: true
+  target-dir:
+    description: 'Target directory for the virtual environment'
+    required: false
+    default: '.'
+  target-name:
+    description: 'Target name of the virtual environment'
+    required: false
+    default: '.venv'
+outputs:
+  scripts-dir:
+    description: Directory containing python.exe
+    value: ${{ steps.venv.outputs.scripts-dir }}
+  
+author: 'ESEG'
+runs:
+  using: composite
+  steps:
+  - name: Pass Inputs to Shell
+    shell: cmd
+    run: |
+            :: Pass inputs to the shell
+            echo INPUT_PYTHON_DIR=${{ inputs.python-dir }}>> %GITHUB_ENV%
+            echo INPUT_TARGET_DIR=${{ inputs.target-dir }}>> %GITHUB_ENV%
+            echo INPUT_TARGET_NAME=${{ inputs.target-name}}>> %GITHUB_ENV%
+
+  - name: Create environment
+    id: venv
+    shell: cmd
+    run: |
+            :: Create virtual environment
+            set VENV=%INPUT_TARGET_DIR%\%INPUT_TARGET_NAME%
+            if not exist "%VENV%" (
+                    echo Create virtual environment "%VENV%"
+                    "%INPUT_PYTHON_DIR%\python.exe" -m venv "%VENV%"
+                    rem add the environment to the path
+            ) else (
+                    echo Skip existing virtual environment "%VENV%"
+            )
+            set PATH=%VENV%\Scripts;%PATH%
+            python --version
+            echo scripts-dir=%VENV%\Scripts>> %GITHUB_OUTPUT%

@@ -1,0 +1,98 @@
+# scade-tests-pytest
+# action derived from pyansys/actions/tests-pytest
+name: >
+  Tests pytest action
+
+description: >
+  Run a test suite using `pytest <https://docs.pytest.org/en/stable/>`_.
+
+inputs:
+
+  python-dir:
+    description: >
+      Directory of the Python interpreter.
+    required: true
+
+  # Optional inputs
+  pytest-markers:
+    description: >
+      Set of `pytest markers
+      <https://docs.pytest.org/en/stable/example/markers.html>`_ in the form of
+      a string. These markers are used to discretize tests when running the test
+      session.
+    default: ''
+    required: false
+
+  pytest-extra-args:
+    description: >
+      Set of additional ``pytest`` arguments in the form of a string.
+    default: ''
+    required: false
+
+  pytest-postargs:
+    description: >
+      Directory of the test suite and the level of verbosity.
+    default: 'tests -vv'
+    required: false
+
+  checkout:
+    description: >
+      Whether to clone the repository in the CI/CD machine. Default value is
+      ``true``.
+    default: 'true'
+    required: false
+
+
+runs:
+  using: "composite"
+  steps:
+  
+    - name: "Install Git and clone project"
+      uses: actions/checkout@v3
+      if: ${{ inputs.checkout == 'true' }}
+    
+    - name: Pass Inputs to Shell
+      shell: cmd
+      run: |
+              :: Pass inputs to the shell
+              echo INPUT_PYTHON_DIR=${{ inputs.python-dir }}>> %GITHUB_ENV%
+
+    - name: Check python
+      shell: cmd
+      run: |
+            :: Check python
+            echo Activate the environment %INPUT_PYTHON_DIR%
+            call %INPUT_PYTHON_DIR%\activate.bat
+            python.exe --version
+            :: store the "exe for the next steps"
+            echo PYTHON_EXE=%INPUT_PYTHON_DIR%\python.exe>> %GITHUB_ENV%
+
+    - name: "Update pip"
+      shell: cmd
+      run: |
+            %PYTHON_EXE% -m pip install -U pip
+  
+    - name: "Install Python library"
+      shell: cmd
+      run: |
+            %PYTHON_EXE% -m pip install .
+
+    - name: "Check if requirements.txt file exists"
+      shell: cmd
+      run: |
+            :: Add the requirements
+            if exist requirements/requirements_tests.txt (
+                    echo Install test dependencies from the requirements file
+                    %PYTHON_EXE% -m pip install -r requirements/requirements_tests.txt
+            )
+
+    # - name: "Install test dependencies from pyproject.toml"
+    #   shell: cmd
+    #   if: env.EXISTS_TESTS_REQUIREMENTS == 'false'
+    #   run: python -m pip install .[tests]
+    
+    - name: "Executing test suite"
+      shell: cmd
+      run: |
+            :: Run tests
+            %PYTHON_EXE% -m pytest ${{ inputs.pytest-markers }} ${{ inputs.pytest-extra-args }} ${{ inputs.pytest-postargs }}
