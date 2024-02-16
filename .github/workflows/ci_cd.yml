@@ -97,7 +97,7 @@ jobs:
     needs: commit-and-branch-style
     steps:
       - name: "Run code style checks"
-        uses: ansys/actions/code-style@main
+        uses: ansys/actions/code-style@v5
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           use-python-cache: false
@@ -116,7 +116,7 @@ jobs:
     needs: commit-and-branch-style
     steps:
       - name: "Run documentation style checks"
-        uses: ansys/actions/doc-style@main
+        uses: ansys/actions/doc-style@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -126,7 +126,7 @@ jobs:
     needs: doc-style
     steps:
       - name: "Build documentation"
-        uses: ansys/actions/doc-build@main
+        uses: ansys/actions/doc-build@v5
         with:
           skip-install: true
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
@@ -169,3 +169,14 @@ jobs:
         with:
           python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
           checkout: false
+
+  doc-deploy-dev:
+    name: "Deploy developers documentation"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
+    needs: [doc-build, tests]
+    steps:
+      - uses: ansys/actions/doc-deploy-dev@v5
+        with:
+            cname: ${{ env.DOCUMENTATION_CNAME }}
+            token: ${{ secrets.GITHUB_TOKEN }}

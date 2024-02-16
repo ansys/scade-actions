@@ -1,6 +1,9 @@
 # create-scade-venv.yml
 name: 'Create a virtual Python environment'
-description: 'A GitHub action creates a virutal Python environment in the target directory from a Python installation'
+description: >
+  A GitHub action that creates a virtual Python environment in the target
+  directory from a Python installation.
+
 inputs:
   python-dir:
     description: 'Directory containing a Python installation'

@@ -1,0 +1,10 @@
+tests:
+  name: "Run tests basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Run the tests"
+      uses: ansys-scade/actions/scade-tests-pytest@main
+      with:
+        python-dir: '.venvs\Python310\Scripts'
+        pytest-extra-args: "--cov=ansys --cov-report=term --cov-branch --cov-report=html:.cov/html"
+        checkout: false

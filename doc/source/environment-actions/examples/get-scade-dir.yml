@@ -1,0 +1,8 @@
+get-scade-dir:
+  name: "Get SCADE installation directory basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Get SCADE directory"
+      uses: ansys-scade/actions/get-scade-dir@{{ version }}
+      with:
+        scade-version: "23.2"
