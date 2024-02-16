@@ -17,7 +17,7 @@ outputs:
   scripts-dir:
     description: Directory containing python.exe
     value: ${{ steps.venv.outputs.scripts-dir }}
-  
+
 author: 'ESEG'
 runs:
   using: composite
@@ -39,10 +39,10 @@ runs:
             if not exist "%VENV%" (
                     echo Create virtual environment "%VENV%"
                     "%INPUT_PYTHON_DIR%\python.exe" -m venv "%VENV%"
-                    rem add the environment to the path
             ) else (
                     echo Skip existing virtual environment "%VENV%"
             )
+            rem add the environment to the path
             set PATH=%VENV%\Scripts;%PATH%
             python --version
             echo scripts-dir=%VENV%\Scripts>> %GITHUB_OUTPUT%

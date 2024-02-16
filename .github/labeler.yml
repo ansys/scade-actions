@@ -1,0 +1,2 @@
+maintenance:
+- any-glob-to-any-file: ['.github/**/*', '.pre-commit-config.yaml', 'VERSION']
