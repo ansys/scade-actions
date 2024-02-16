@@ -16,7 +16,7 @@ BASE_DIR = DOC_SOURCE_DIR.parent
 ACTIONS_PREFIXES = ("get-", "scade-", "create-", "tests-")
 ACTIONS_SUFFIXES = ""
 ACTIONS_INPUTS_FIELDS = ("description", "required", "type", "default")
-ACTIONS_OUTPUTS_FIELDS = ("description", )
+ACTIONS_OUTPUTS_FIELDS = ("description",)
 ACCEPTED_LICENSES = BASE_DIR / "check-licenses" / "accepted-licenses.txt"
 IGNORED_PACKAGES = BASE_DIR / "check-licenses" / "ignored-packages.txt"
 IGNORED_SAFETY = BASE_DIR / "check-vulnerabilities" / "ignored-safety.txt"
@@ -212,7 +212,9 @@ def generate_inputs_table_from_action_file(action_file):
         String representing the RST table.
 
     """
-    return _generate_io_table_from_action_file(action_file, "input", ACTIONS_INPUTS_FIELDS)
+    return _generate_io_table_from_action_file(
+        action_file, "input", ACTIONS_INPUTS_FIELDS
+    )
 
 
 def generate_outputs_table_from_action_file(action_file):
@@ -229,7 +231,9 @@ def generate_outputs_table_from_action_file(action_file):
         String representing the RST table.
 
     """
-    return _generate_io_table_from_action_file(action_file, "output", ACTIONS_OUTPUTS_FIELDS)
+    return _generate_io_table_from_action_file(
+        action_file, "output", ACTIONS_OUTPUTS_FIELDS
+    )
 
 
 # Collect all public actions directories and files

@@ -7,7 +7,7 @@ description: >
 
 inputs:
   scade-dir:
-    description: > 
+    description: >
       Ansys SCADE Installation directory, e.g.::
 
         C:\Program Files\Ansys Inc\v231\SCADE
