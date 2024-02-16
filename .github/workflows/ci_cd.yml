@@ -11,6 +11,8 @@ on:
 env:
   MAIN_SCADE_VERSION: '23.2'
   MAIN_PYTHON_VERSION: '3.10'
+  DOCUMENTATION_CNAME: 'scade-actions.docs.pyansys.com'
+  test-library-name: 'ansys-scade-actions'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -107,9 +109,32 @@ jobs:
             echo -e "\033[1;91m[ERROR]: Found private actions pointing to the 'main' branch.\033[0m"
             grep -q --exclude-dir={.git,.github,doc} "ansys\/actions\/.*\@main" -r .
           fi
+
+  doc-style:
+    name: "Doc style"
+    runs-on: ubuntu-latest
+    needs: commit-and-branch-style
+    steps:
+      - name: "Run documentation style checks"
+        uses: ansys/actions/doc-style@main
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  doc-build:
+    name: "Doc build"
+    runs-on: ubuntu-latest
+    needs: doc-style
+    steps:
+      - name: "Build documentation"
+        uses: ansys/actions/doc-build@main
+        with:
+          skip-install: true
+          python-version: ${{ env.MAIN_PYTHON_VERSION }}
+          use-python-cache: false
+
   tests:
     name: "Tests"
-    runs-on: self-hosted
+    runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
         # scade-version: ['19.2', '19.4', '21.1', '21.2']

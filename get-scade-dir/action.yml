@@ -9,7 +9,7 @@ outputs:
   scade-directory:
     description: 'Intallation directory of the requested version'
     value: ${{ steps.find-scade-dir.outputs.scade-dir }}
-  
+
 author: 'ESEG'
 runs:
   using: composite

@@ -1,5 +1,5 @@
 # scade-tests-pytest
-# action derived from pyansys/actions/tests-pytest
+# action derived from ansys/actions/tests-pytest
 name: >
   Tests pytest action
 
@@ -46,7 +46,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-  
+
     - name: "Install Git and clone project"
       uses: actions/checkout@v3
       if: ${{ inputs.checkout == 'true' }}
@@ -71,7 +71,7 @@ runs:
       shell: cmd
       run: |
             %PYTHON_EXE% -m pip install -U pip
-  
+
     - name: "Install Python library"
       shell: cmd
       run: |
@@ -90,7 +90,7 @@ runs:
     #   shell: cmd
     #   if: env.EXISTS_TESTS_REQUIREMENTS == 'false'
     #   run: python -m pip install .[tests]
-    
+
     - name: "Executing test suite"
       shell: cmd
       run: |

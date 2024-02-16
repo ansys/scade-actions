@@ -5,17 +5,20 @@ inputs:
   scade-dir:
     description: 'C:\Program Files\ANSYS Inc\v231\SCADE'
     required: true
+
 outputs:
   python-name:
     description: Name of the directory containing python.exe
     value: ${{ steps.get.outputs.python-name }}
+
   python-dir:
     description: Directory containing python.exe
     value: ${{ steps.get.outputs.python-dir }}
+
   python-version:
     description: Version of python.exe, two digits
     value: ${{ steps.get.outputs.python-version }}
-  
+
 author: 'ESEG'
 runs:
   using: composite
