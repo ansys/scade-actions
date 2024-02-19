@@ -1,7 +1,32 @@
 Tests actions
 =============
 
-The tests actions allow to run the test suite for a SCADE Python library.
+The tests actions allow to setup Python environments for SCADE and
+run the test suite for a SCADE Python library.
+
+
+Create SCADE Python virtual environment action
+----------------------------------------------
+
+.. jinja:: create-scade-venv
+
+    {{ description }}
+
+    {{ inputs_table }}
+
+    {{ outputs_table }}
+
+    Examples
+    ++++++++
+
+    {% for filename, title in examples %}
+    .. dropdown:: {{ title }}
+       :animate: fade-in
+
+       .. literalinclude:: examples/{{ filename }}
+          :language: yaml
+
+    {% endfor %}
 
 
 Test library action

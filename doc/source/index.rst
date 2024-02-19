@@ -8,21 +8,23 @@ see each card below:
 .. grid:: 1 1 2 2
     :gutter: 2
 
-    .. grid-item-card:: :octicon:`file-directory` Environment actions
-       :link: environment-actions/index
+    .. grid-item-card:: :octicon:`search` Query actions
+       :link: query-actions/index
        :link-type: doc
 
-       Environment actions allow to retrieve SCADE directories or setup Python environments.
+       Query actions allow to retrieve SCADE directories and
+       Python environments.
 
     .. grid-item-card:: :octicon:`tools` Tests actions
        :link: tests-actions/index
        :link-type: doc
 
-       Tests actions allow to run the test suite.
+       Tests actions allow to setup Python environments for SCADE and
+       run the test suite.
 
 .. toctree::
    :hidden:
    :maxdepth: 3
 
-   environment-actions/index
+   query-actions/index
    tests-actions/index

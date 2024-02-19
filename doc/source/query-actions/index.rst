@@ -1,8 +1,8 @@
-Environment actions
+Query actions
 ===================
 
-The environment actions allow for querying Ansys SCADE installations
-and create a Python virtual environment.
+The query actions allow for querying Ansys SCADE installations
+and Python environments.
 
 
 Get SCADE directory action
@@ -51,28 +51,3 @@ Get SCADE Python version
           :language: yaml
 
     {% endfor %}
-
-
-Create SCADE Python virtual environment action
-----------------------------------------------
-
-.. jinja:: create-scade-venv
-
-    {{ description }}
-
-    {{ inputs_table }}
-
-    {{ outputs_table }}
-
-    Examples
-    ++++++++
-
-    {% for filename, title in examples %}
-    .. dropdown:: {{ title }}
-       :animate: fade-in
-
-       .. literalinclude:: examples/{{ filename }}
-          :language: yaml
-
-    {% endfor %}
-
