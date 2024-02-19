@@ -22,7 +22,7 @@ reused by projects in the Ansys SCADE ecosystem.
 .. readme_common_ends
 
 For more information on available actions and how to use them, see
-`scade-actions.docs.pyansys.com <https://scade-actions.docs.pyansys.com>`_ .
+`actions.scade.docs.pyansys.com <https://actions.scade.docs.pyansys.com>`_ .
 
 
 Purpose
