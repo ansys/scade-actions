@@ -1,0 +1,10 @@
+create-scade-venv:
+  name: "Create Python virtual environment basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Create Python virtual environment"
+      uses: ansys-scade/actions/create-scade-venv@{{ version }}
+      with:
+        python-dir: 'C:\Program Files\Ansys Inc\v232\SCADE\contrib\Python310'
+        target-dir: '.venvs'
+        target-name: 'Python310'

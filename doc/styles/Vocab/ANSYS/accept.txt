@@ -1,0 +1,8 @@
+Ansys
+ansys
+CI
+dev
+GitHub
+pytest
+PyPI
+TXT
