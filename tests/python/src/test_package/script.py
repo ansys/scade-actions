@@ -39,7 +39,7 @@ def get_operator_paths(model):
     return [_.get_full_path() for _ in model.all_operators]
 
 
-if __name__ =='__main__':
-    output(str(get_project_names(get_projects())) + '\n')
+if __name__ == "__main__":
+    output(str(get_project_names(get_projects())) + "\n")
     # assume one and only one SCADE project
-    output(str(get_operator_paths(get_sessions()[0].model)) + '\n')
+    output(str(get_operator_paths(get_sessions()[0].model)) + "\n")

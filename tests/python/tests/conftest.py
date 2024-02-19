@@ -22,42 +22,43 @@
 
 """Unit tests fixtures."""
 
-from inspect import getsourcefile
 import os
-from pathlib import Path
 import re
 import sys
+from inspect import getsourcefile
+from pathlib import Path
 
-import pytest
+# import pytest
 
 # set sys.path from the python interpreter location (<install>/SCADE/contrib/Python3xx)
 # note: these tests are executed in the context of a virtual environment
 # on top of a SCADE's Python distribution
 
-for line in (Path(sys.executable).parent.parent / 'pyvenv.cfg').open('r'):
-    m = re.match('^home\s*=\s*(.*)$', line)
+for line in (Path(sys.executable).parent.parent / "pyvenv.cfg").open("r"):
+    m = re.match(r"^home\s*=\s*(.*)$", line)
     if m:
         contrib = Path(m.groups()[0]).parent
         break
 
 assert contrib
-base = contrib.parent / 'SCADE'
-bin = base / 'bin'
-assert(bin.exists())
+base = contrib.parent / "SCADE"
+bin = base / "bin"
+assert bin.exists()
 sys.path.append(str(bin))
-lib = base / 'APIs' / 'Python' / 'lib'
-assert(lib.exists())
+lib = base / "APIs" / "Python" / "lib"
+assert lib.exists()
 sys.path.append(str(lib))
 
 
-# activate the SCADE Python APIs
-import scade_env
+# can be imported since sys.path is updated
+# isort: split
+# activate the SCADE Python APIs by importing scade_env
+import scade_env  # noqa: E402, F401
 
 # must be imported after scade_env
 # isort: split
-import scade
-import scade.model.project.stdproject as project
-import scade.model.suite as suite
+import scade  # noqa: E402
+import scade.model.suite as suite  # noqa: E402
 
 
 def get_resources_dir() -> Path:

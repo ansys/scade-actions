@@ -29,17 +29,14 @@ Test strategy:
 """
 
 import pytest
-import scade.model.suite as suite
-
-# shall modify sys.path to access SCACE APIs
 from conftest import get_resources_dir, load_project, load_session
 from test_package import script
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def roots():
     """Unique instance of the test model Model."""
-    path = get_resources_dir() / 'resources' / 'Model.etp'
+    path = get_resources_dir() / "resources" / "Model.etp"
     project = load_project(path)
     session = load_session(path)
     return project, session
@@ -48,10 +45,10 @@ def roots():
 def test_get_project_names(roots):
     project, _ = roots
     names = script.get_project_names([project])
-    assert names == ['Model.etp']
+    assert names == ["Model.etp"]
 
 
 def test_get_operator_paths(roots):
     _, session = roots
     paths = script.get_operator_paths(session.model)
-    assert paths == ['P::Root/']
+    assert paths == ["P::Root/"]

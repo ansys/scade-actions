@@ -137,8 +137,8 @@ jobs:
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
-        # scade-version: ['19.2', '19.4', '21.1', '21.2']
-        scade-version: ['23.1']
+        # scade-version: ['23.1', '23.2']
+        scade-version: ['23.2']
       fail-fast: false
     steps:
       - name: Checkout
