@@ -42,8 +42,17 @@ runs:
     shell: cmd
     run: |
             :: Retrieve Python name/directory
+            setlocal ENABLEDELAYEDEXPANSION
             echo Get Python interpreter for "%INPUT_SCADE_DIR%"
-            for /f "usebackq" %%A in (`dir /B "%INPUT_SCADE_DIR%\contrib\Python*"`) do (set PYTHON_NAME=%%A)
+            set PYTHON_VERSION=0
+            for /f "usebackq" %%A in (`dir /B "%INPUT_SCADE_DIR%\contrib\Python*"`) do (
+                set CURRENT_VERSION=%%A
+                set CURRENT_VERSION=!CURRENT_VERSION:Python=%!
+                if !CURRENT_VERSION! GTR !PYTHON_VERSION! (
+                    set PYTHON_VERSION=!CURRENT_VERSION!
+                )
+            )
+            set PYTHON_NAME=Python%PYTHON_VERSION%
             echo Python name="%PYTHON_NAME%"
             echo python-name=%PYTHON_NAME%>> %GITHUB_OUTPUT%
             set PYTHON_DIR=%INPUT_SCADE_DIR%\contrib\%PYTHON_NAME%
