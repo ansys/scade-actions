@@ -14,6 +14,12 @@ inputs:
     required: true
 
   # Optional inputs
+  library-dir:
+    description: >
+      Directory of the library to test.
+    default: '.'
+    required: false
+
   pytest-markers:
     description: >
       Set of `pytest markers
@@ -75,15 +81,15 @@ runs:
     - name: "Install Python library"
       shell: cmd
       run: |
-            %PYTHON_EXE% -m pip install .
+            %PYTHON_EXE% -m pip install ${{ inputs.library-dir }}
 
-    - name: "Check if requirements.txt file exists"
+    - name: "Check if requirements_tests.txt file exists"
       shell: cmd
       run: |
             :: Add the requirements
-            if exist requirements/requirements_tests.txt (
+            if exist ${{ inputs.library-dir }}/requirements/requirements_tests.txt (
                     echo Install test dependencies from the requirements file
-                    %PYTHON_EXE% -m pip install -r requirements/requirements_tests.txt
+                    %PYTHON_EXE% -m pip install -r ${{ inputs.library-dir }}/requirements/requirements_tests.txt
             )
 
     # - name: "Install test dependencies from pyproject.toml"

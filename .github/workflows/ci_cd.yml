@@ -164,12 +164,13 @@ jobs:
           target-dir: '.venvs'
           target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
-      # no test application for now
-      # - name: Execute tests
-      #   uses: ./scade-tests-pytest
-      #   with:
-      #     python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
-      #     checkout: false
+      - name: Execute tests
+        uses: ./scade-tests-pytest
+        with:
+          python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
+          library-dir: "tests/python"
+          pytest-postargs: "tests/python/tests -vv"
+          checkout: false
 
   doc-deploy-dev:
     name: "Deploy developers documentation"
