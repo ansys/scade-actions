@@ -11,7 +11,7 @@ on:
 env:
   MAIN_SCADE_VERSION: '23.2'
   MAIN_PYTHON_VERSION: '3.10'
-  DOCUMENTATION_CNAME: 'scade-actions.docs.pyansys.com'
+  DOCUMENTATION_CNAME: 'actions.scade.docs.pyansys.com'
   test-library-name: 'ansys-scade-actions'
 
 concurrency:
@@ -164,11 +164,12 @@ jobs:
           target-dir: '.venvs'
           target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
-      - name: Execute tests
-        uses: ./scade-tests-pytest
-        with:
-          python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
-          checkout: false
+      # no test application for now
+      # - name: Execute tests
+      #   uses: ./scade-tests-pytest
+      #   with:
+      #     python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
+      #     checkout: false
 
   doc-deploy-dev:
     name: "Deploy developers documentation"
