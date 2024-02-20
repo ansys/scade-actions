@@ -1,0 +1,10 @@
+tests:
+  name: "Run tests basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Run the tests for a given version of Ansys SCADE"
+      uses: ansys/scade-actions/scade-tests-pytest@{{ version }}
+      with:
+        scade-version: '23.2'
+        pytest-extra-args: "--cov=ansys --cov-report=term --cov-branch --cov-report=html:.cov/html"
+        checkout: false
