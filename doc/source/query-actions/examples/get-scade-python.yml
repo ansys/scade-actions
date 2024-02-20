@@ -3,6 +3,6 @@ get-scade-python:
   runs-on: [self-hosted, 'SCADE']
   steps:
     - name: "Get SCADE Python"
-      uses: ansys-scade/actions/get-scade-python@{{ version }}
+      uses: ansys/scade-actions/get-scade-python@{{ version }}
       with:
         scade-dir: 'C:\Program Files\Ansys Inc\v232\SCADE'
