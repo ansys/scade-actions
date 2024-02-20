@@ -47,6 +47,12 @@ inputs:
     default: 'true'
     required: false
 
+  requirements-tests-file:
+    description: >
+      Flag to indicate if the requirements_tests.txt file exists.
+    default: 'false'
+    required: false
+
 
 runs:
   using: "composite"
@@ -90,11 +96,14 @@ runs:
                     echo Install test dependencies from the requirements file
                     %PYTHON_EXE% -m pip install -r ${{ inputs.library-dir }}/requirements/requirements_tests.txt
             )
+            echo EXISTS_TESTS_REQUIREMENTS=%ERRORLEVEL%>> %GITHUB_ENV%
 
-    # - name: "Install test dependencies from pyproject.toml"
-    #   shell: cmd
-    #   if: env.EXISTS_TESTS_REQUIREMENTS == 'false'
-    #   run: python -m pip install .[tests]
+    - name: "Install test dependencies from pyproject.toml"
+      shell: cmd
+      if: env.EXISTS_TESTS_REQUIREMENTS == 'false'
+      run: |
+            :: Add the requirements
+            %PYTHON_EXE% -m pip install ${{ inputs.library-dir }}[tests]
 
     - name: "Executing test suite"
       shell: cmd
