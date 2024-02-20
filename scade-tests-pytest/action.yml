@@ -72,21 +72,6 @@ runs:
         target-dir: '.venvs'
         target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
-    # redundant with ./tests-pytest
-    # - name: Check Python and install dependencies
-    #   shell: cmd
-    #   run: |
-    #     echo "Activate the environment ${{ steps.create-scade-venv.outputs.scripts-dir }}"
-    #     echo PYTHON_DIR=${{ steps.create-scade-venv.outputs.scripts-dir }}>> %GITHUB_ENV%
-    # 
-    # - name: Check Python
-    #   shell: cmd
-    #   run: |
-    #     call %PYTHON_DIR%\activate.bat
-    #     python --version
-    #     %PYTHON_DIR%\python.exe -m pip install -U pip
-    #     %PYTHON_DIR%\python.exe -m pip install ${{ inputs.library-dir }}[tests]
-
     - name: "Run the tests"
       uses: ./tests-pytest
       with:
