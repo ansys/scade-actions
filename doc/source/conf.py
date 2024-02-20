@@ -96,6 +96,9 @@ master_doc = "index"
 # Generate section labels for up to four levels
 autosectionlabel_maxdepth = 2
 
+linkcheck_ignore = [
+    r"https://github.com/ansys/scade-actions*",
+]
 
 # Auxiliary routines for automatic documentation generation
 
