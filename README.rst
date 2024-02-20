@@ -26,7 +26,7 @@ For more information on available actions and how to use them, see
 
 
 Purpose
-=======
+-------
 
 The Ansys SCADE actions prepare a SCADE environment for executing tests.
 

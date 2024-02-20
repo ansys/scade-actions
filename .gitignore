@@ -129,3 +129,6 @@ dmypy.json
 .pyre/
 doc/_build/
 *-rendered-example.yml
+
+# vscode
+.vscode/

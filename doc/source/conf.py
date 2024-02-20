@@ -17,10 +17,6 @@ ACTIONS_PREFIXES = ("get-", "scade-", "create-", "tests-")
 ACTIONS_SUFFIXES = ""
 ACTIONS_INPUTS_FIELDS = ("description", "required", "type", "default")
 ACTIONS_OUTPUTS_FIELDS = ("description",)
-ACCEPTED_LICENSES = BASE_DIR / "check-licenses" / "accepted-licenses.txt"
-IGNORED_PACKAGES = BASE_DIR / "check-licenses" / "ignored-packages.txt"
-IGNORED_SAFETY = BASE_DIR / "check-vulnerabilities" / "ignored-safety.txt"
-
 # Project information
 project = "Ansys SCADE Actions"
 copyright = f"(c) 2023-{datetime.today().year} ANSYS, Inc. and/or its affiliates."
@@ -61,7 +57,6 @@ html_theme_options = {
     "use_edit_page_button": True,
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
-        ("PyAnsys Developer’s Guide", "https://dev.docs.pyansys.com/"),
     ],
     "switcher": {
         "json_url": f"https://{cname}/versions.json",
@@ -73,6 +68,7 @@ html_theme_options = {
             f"actions-v{get_version_match(__version__).replace('.', '-')}": "Ansys-scade-actions",
         },
     },
+    "check_switcher": False,
 }
 
 # Specify Sphinx extensions to use
@@ -368,18 +364,3 @@ def load_file_lines_as_list(file_path):
     """
     with open(file_path) as accepted_licenses_file:
         return list(accepted_licenses_file.read().split("\n"))
-
-
-if False:
-    # TODO: should that be replicated this in this context?
-    # Check licenses
-    for var, file in zip(
-        ["accepted_licenses", "ignored_packages"], [ACCEPTED_LICENSES, IGNORED_PACKAGES]
-    ):
-        jinja_contexts["check-licenses"][var] = load_file_lines_as_list(file)
-
-    # Check vulnerabilities
-    jinja_contexts["check-vulnerabilities"]["ignored_safety"] = load_file_lines_as_list(
-        IGNORED_SAFETY
-    )
-    print(jinja_contexts["check-vulnerabilities"]["ignored_safety"])
