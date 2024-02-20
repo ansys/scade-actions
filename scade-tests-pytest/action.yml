@@ -95,4 +95,4 @@ runs:
         pytest-markers: ${{ inputs.pytest-markers }}
         pytest-extra-args: ${{ inputs.pytest-extra-args }}
         pytest-postargs: ${{ inputs.pytest-postargs }}
-        checkout: ${{ checkout }}
+        checkout: ${{ inputs.checkout }}
