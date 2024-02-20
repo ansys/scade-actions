@@ -3,6 +3,6 @@ get-scade-dir:
   runs-on: [self-hosted, 'SCADE']
   steps:
     - name: "Get SCADE directory"
-      uses: ansys-scade/actions/get-scade-dir@{{ version }}
+      uses: ansys/scade-actions/get-scade-dir@{{ version }}
       with:
         scade-version: "23.2"

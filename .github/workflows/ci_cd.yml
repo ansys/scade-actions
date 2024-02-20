@@ -165,7 +165,7 @@ jobs:
           target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
       - name: Execute tests
-        uses: ./scade-tests-pytest
+        uses: ./tests-pytest
         with:
           python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
           library-dir: "tests/python"

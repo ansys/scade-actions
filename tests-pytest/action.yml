@@ -1,4 +1,4 @@
-# scade-tests-pytest
+# tests-pytest
 # action derived from ansys/actions/tests-pytest
 name: >
   Tests pytest action

@@ -35,7 +35,7 @@ This action runs the test suite for a Python library. This action accepts
 markers, options, and post arguments to be passed to pytest before executing
 the test session.
 
-.. jinja:: scade-tests-pytest
+.. jinja:: tests-pytest
 
     {{ description }}
 
@@ -46,7 +46,7 @@ the test session.
 Examples
 ++++++++
 
-.. jinja:: scade-tests-pytest
+.. jinja:: tests-pytest
 
      {% for filename, title in examples %}
      .. dropdown:: {{ title }}
