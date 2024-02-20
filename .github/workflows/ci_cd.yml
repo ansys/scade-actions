@@ -73,11 +73,11 @@ jobs:
           body: |
             Please add one of the following labels to add this contribution to the Release Notes :point_down:
             - [bug](https://github.com/ansys/actions/pulls?q=label%3Abug+)
-            - [documentation](https://github.com/ansys/actions/pulls?q=label%3Adocumentation+)
-            - [enhancement](https://github.com/ansys/actions/pulls?q=label%3Aenhancement+)
-            - [good first issue](https://github.com/ansys/actions/pulls?q=label%3Agood+first+issue)
-            - [maintenance](https://github.com/ansys/actions/pulls?q=label%3Amaintenance+)
-            - [release](https://github.com/ansys/actions/pulls?q=label%3Arelease+)
+            - [documentation](https://github.com/ansys/scade-actions/pulls?q=label%3Adocumentation+)
+            - [enhancement](https://github.com/ansys/scade-actions/pulls?q=label%3Aenhancement+)
+            - [good first issue](https://github.com/ansys/scade-actions/pulls?q=label%3Agood+first+issue)
+            - [maintenance](https://github.com/ansys/scade-actions/pulls?q=label%3Amaintenance+)
+            - [release](https://github.com/ansys/scade-actions/pulls?q=label%3Arelease+)
 
   commit-and-branch-style:
     name: "Commit and branch style"
@@ -143,7 +143,7 @@ jobs:
     steps:
       # - name: Checkout
       #   uses: actions/checkout@v4
-      # 
+      #
       - name: Execute tests
         uses: ./scade-tests-pytest
         with:
