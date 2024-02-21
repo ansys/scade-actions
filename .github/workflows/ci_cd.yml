@@ -144,12 +144,19 @@ jobs:
       # - name: Checkout
       #   uses: actions/checkout@v4
       #
-      - name: Execute tests
+      - name: Execute pyproject tests
         uses: ./scade-tests-pytest
         with:
           scade-version: ${{ matrix.scade-version }}
-          library-dir: "tests/python"
-          pytest-postargs: "tests/python/tests -vv"
+          library-dir: "tests/python-pyproject"
+          pytest-postargs: "tests/python-pyproject/tests -vv"
+          checkout: false
+      - name: Execute setup.py tests
+        uses: ./scade-tests-pytest
+        with:
+          scade-version: ${{ matrix.scade-version }}
+          library-dir: "tests/python-setup"
+          pytest-postargs: "tests/python-setup/tests -vv"
           checkout: false
 
   doc-deploy-dev:
