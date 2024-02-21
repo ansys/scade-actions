@@ -7,8 +7,8 @@ Ansys SCADE actions
    :target: https://actions.docs.ansys.com/
    :alt: Ansys
 
-.. |CI-CD| image:: https://github.com/ansys/actions/actions/workflows/ci_cd.yml/badge.svg
-   :target: https://github.com/ansys/actions/actions/workflows/ci_cd.yml
+.. |CI-CD| image:: https://github.com/ansys/scade-actions/actions/workflows/ci_cd.yml/badge.svg
+   :target: https://github.com/ansys/scade-actions/actions/workflows/ci_cd.yml
    :alt: CI-CD
 
 .. |MIT| image:: https://img.shields.io/badge/License-MIT-blue.svg
@@ -30,4 +30,5 @@ Purpose
 
 The Ansys SCADE actions prepare a SCADE environment for executing tests.
 
-They are driven by a Ansys SCADE version, such as ``23.1`` or ``24.1``, instead of a Python version, such as ``3.7`` or ``3.10``.
+They are driven by a Ansys SCADE version, such as ``23.1`` or ``24.1``,
+instead of a Python version, such as ``3.7`` or ``3.10``.
