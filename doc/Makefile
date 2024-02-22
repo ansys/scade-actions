@@ -27,4 +27,4 @@ clean:
 pdf:
 	@$(SPHINXBUILD) -M latex "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	cd $(BUILDDIR)/latex && latexmk -r latexmkrc -pdf *.tex -interaction=nonstopmode || true
-	qpdf --check $(BUILDDIR)/latex/ansysscade-*.pdf && echo "File is OK" && exit 0 || echo "File is corrupt" && exit 1
+	qpdf --check $(BUILDDIR)/latex/ansysscadeactions.pdf && echo "File is OK" && exit 0 || echo "File is corrupt" && exit 1
