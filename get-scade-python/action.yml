@@ -8,7 +8,7 @@ description: >
 inputs:
   scade-dir:
     description: >
-      Ansys SCADE Installation directory, for instance 
+      Ansys SCADE Installation directory, for instance
       ``C:\Program Files\Ansys Inc\v231\SCADE``
     required: true
 
