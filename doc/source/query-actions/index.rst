@@ -1,5 +1,5 @@
 Query actions
-===================
+=============
 
 The query actions allow for querying Ansys SCADE installations
 and Python environments.
