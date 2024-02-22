@@ -1,4 +1,3 @@
-.. readme_common_begins
 Ansys SCADE actions
 ===================
 |ansys| |CI-CD| |MIT|
@@ -14,6 +13,8 @@ Ansys SCADE actions
 .. |MIT| image:: https://img.shields.io/badge/License-MIT-blue.svg
    :target: https://opensource.org/blog/license/mit
    :alt: MIT
+
+.. readme_common_begins
 
 A repository containing a collection of `GitHub Actions
 <https://docs.github.com/en/actions>`_ to be
