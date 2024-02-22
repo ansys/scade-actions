@@ -103,6 +103,7 @@ linkcheck_ignore = [
     r"https://github.com/ansys/scade-actions*",
 ]
 
+sd_fontawesome_latex = True
 # Auxiliary routines for automatic documentation generation
 
 
