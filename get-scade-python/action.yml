@@ -33,30 +33,30 @@ runs:
     id: set
     shell: cmd
     run: |
-            :: Pass Inputs to Shell
-            echo INPUT_SCADE_DIR=${{ inputs.scade-dir }}>> %GITHUB_ENV%
+      :: Pass Inputs to Shell
+      echo INPUT_SCADE_DIR=${{ inputs.scade-dir }}>> %GITHUB_ENV%
 
   - name: Retrieve Python name/directory/version
     id: get
     shell: cmd
     run: |
-            :: Retrieve Python name/directory
-            setlocal ENABLEDELAYEDEXPANSION
-            echo Get Python interpreter for "%INPUT_SCADE_DIR%"
-            set PYTHON_VERSION=0
-            for /f "usebackq" %%A in (`dir /B "%INPUT_SCADE_DIR%\contrib\Python*"`) do (
-                set CURRENT_VERSION=%%A
-                set CURRENT_VERSION=!CURRENT_VERSION:Python=%!
-                if !CURRENT_VERSION! GTR !PYTHON_VERSION! (
-                    set PYTHON_VERSION=!CURRENT_VERSION!
-                )
-            )
-            set PYTHON_NAME=Python%PYTHON_VERSION%
-            echo Python name="%PYTHON_NAME%"
-            echo python-name=%PYTHON_NAME%>> %GITHUB_OUTPUT%
-            set PYTHON_DIR=%INPUT_SCADE_DIR%\contrib\%PYTHON_NAME%
-            echo Python directory="%PYTHON_DIR%"
-            echo python-dir=%PYTHON_DIR%>> %GITHUB_OUTPUT%
-            for /f "usebackq tokens=2,3 delims=. " %%A in (`"%PYTHON_DIR%\python" --version`) do (set PYTHON_VERSION=%%A.%%B)
-            echo Python version="%PYTHON_VERSION%"
-            echo python-version=%PYTHON_VERSION%>> %GITHUB_OUTPUT%
+      :: Retrieve Python name/directory
+      setlocal ENABLEDELAYEDEXPANSION
+      echo Get Python interpreter for "%INPUT_SCADE_DIR%"
+      set PYTHON_VERSION=0
+      for /f "usebackq" %%A in (`dir /B "%INPUT_SCADE_DIR%\contrib\Python*"`) do (
+          set CURRENT_VERSION=%%A
+          set CURRENT_VERSION=!CURRENT_VERSION:Python=%!
+          if !CURRENT_VERSION! GTR !PYTHON_VERSION! (
+              set PYTHON_VERSION=!CURRENT_VERSION!
+          )
+      )
+      set PYTHON_NAME=Python%PYTHON_VERSION%
+      echo Python name="%PYTHON_NAME%"
+      echo python-name=%PYTHON_NAME%>> %GITHUB_OUTPUT%
+      set PYTHON_DIR=%INPUT_SCADE_DIR%\contrib\%PYTHON_NAME%
+      echo Python directory="%PYTHON_DIR%"
+      echo python-dir=%PYTHON_DIR%>> %GITHUB_OUTPUT%
+      for /f "usebackq tokens=2,3 delims=. " %%A in (`"%PYTHON_DIR%\python" --version`) do (set PYTHON_VERSION=%%A.%%B)
+      echo Python version="%PYTHON_VERSION%"
+      echo python-version=%PYTHON_VERSION%>> %GITHUB_OUTPUT%

@@ -28,24 +28,24 @@ runs:
   - name: Pass Inputs to Shell
     shell: cmd
     run: |
-            :: Pass inputs to the shell
-            echo INPUT_PYTHON_DIR=${{ inputs.python-dir }}>> %GITHUB_ENV%
-            echo INPUT_TARGET_DIR=${{ inputs.target-dir }}>> %GITHUB_ENV%
-            echo INPUT_TARGET_NAME=${{ inputs.target-name}}>> %GITHUB_ENV%
+      :: Pass inputs to the shell
+      echo INPUT_PYTHON_DIR=${{ inputs.python-dir }}>> %GITHUB_ENV%
+      echo INPUT_TARGET_DIR=${{ inputs.target-dir }}>> %GITHUB_ENV%
+      echo INPUT_TARGET_NAME=${{ inputs.target-name}}>> %GITHUB_ENV%
 
   - name: Create environment
     id: venv
     shell: cmd
     run: |
-            :: Create virtual environment
-            set VENV=%INPUT_TARGET_DIR%\%INPUT_TARGET_NAME%
-            if not exist "%VENV%" (
-                    echo Create virtual environment "%VENV%"
-                    "%INPUT_PYTHON_DIR%\python.exe" -m venv "%VENV%"
-            ) else (
-                    echo Skip existing virtual environment "%VENV%"
-            )
-            rem add the environment to the path
-            set PATH=%VENV%\Scripts;%PATH%
-            python --version
-            echo scripts-dir=%VENV%\Scripts>> %GITHUB_OUTPUT%
+      :: Create virtual environment
+      set VENV=%INPUT_TARGET_DIR%\%INPUT_TARGET_NAME%
+      if not exist "%VENV%" (
+              echo Create virtual environment "%VENV%"
+              "%INPUT_PYTHON_DIR%\python.exe" -m venv "%VENV%"
+      ) else (
+              echo Skip existing virtual environment "%VENV%"
+      )
+      rem add the environment to the path
+      set PATH=%VENV%\Scripts;%PATH%
+      python --version
+      echo scripts-dir=%VENV%\Scripts>> %GITHUB_OUTPUT%

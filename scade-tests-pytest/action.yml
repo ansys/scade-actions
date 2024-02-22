@@ -56,7 +56,7 @@ runs:
       uses: ./get-scade-dir
       id: get-scade-dir
       with:
-          scade-version: ${{ inputs.scade-version }}
+        scade-version: ${{ inputs.scade-version }}
 
     - name: "Retrieve SCADE Python interpreter"
       uses: ./get-scade-python
