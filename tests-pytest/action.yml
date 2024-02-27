@@ -55,13 +55,13 @@ runs:
       uses: actions/checkout@v4
       if: ${{ inputs.checkout == 'true' }}
 
-    - name: Pass Inputs to Shell
+    - name: "Pass Inputs to Shell"
       shell: cmd
       run: |
         :: Pass inputs to the shell
         echo INPUT_PYTHON_DIR=${{ inputs.python-dir }}>> %GITHUB_ENV%
 
-    - name: Check python
+    - name: "Check python"
       shell: cmd
       run: |
         :: Check python

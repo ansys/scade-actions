@@ -6,37 +6,43 @@ description: >
   and returns the name and path to the corresponding Python installation.
 
 inputs:
+
   scade-dir:
     description: >
-      Ansys SCADE Installation directory, for instance
-      ``C:\Program Files\Ansys Inc\v231\SCADE``
+      Ansys SCADE Installation directory. for instance
+      ``'C:\Program Files\Ansys Inc\v231\SCADE'``.
     required: true
 
 outputs:
+
   python-name:
-    description: Name of the directory containing python.exe
+    description: >
+      Name of the directory containing python.exe.
     value: ${{ steps.get.outputs.python-name }}
 
   python-dir:
-    description: Directory containing python.exe
+    description: >
+      Directory containing python.exe.
     value: ${{ steps.get.outputs.python-dir }}
 
   python-version:
-    description: Version of python.exe, two digits
+    description: >
+      Version of python.exe, two digits.
     value: ${{ steps.get.outputs.python-version }}
 
 author: 'ESEG'
 runs:
   using: composite
   steps:
-  - name: Pass Inputs to Shell
+
+  - name: "Pass Inputs to Shell"
     id: set
     shell: cmd
     run: |
       :: Pass Inputs to Shell
       echo INPUT_SCADE_DIR=${{ inputs.scade-dir }}>> %GITHUB_ENV%
 
-  - name: Retrieve Python name/directory/version
+  - name: "Retrieve Python name/directory/version"
     id: get
     shell: cmd
     run: |

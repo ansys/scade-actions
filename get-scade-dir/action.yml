@@ -1,28 +1,36 @@
 # get-scade-dir.yml
 name: 'Retrieve the installation directory of an Ansys SCADE version'
+
 description: >
   A GitHub action that takes as input an Ansys SCADE version and
   returns its installation directory.
+
 inputs:
+
   scade-version:
-    description: 'SCADE version: 19.2, 20.1, ..., 23.1, ...'
+    description: >
+      SCADE version: ``19.2, 20.1, ..., 23.1, ...``.
     required: true
+
 outputs:
+
   scade-directory:
-    description: 'Installation directory of the requested version'
+    description: >
+      Installation directory of the requested version.
     value: ${{ steps.find-scade-dir.outputs.scade-dir }}
 
 author: 'ESEG'
 runs:
   using: composite
   steps:
-  - name: Pass Inputs to Shell
+
+  - name: "Pass Inputs to Shell"
     shell: cmd
     run: |
       :: Pass Inputs to Shell
       echo INPUT_SCADE_VERSION=${{ inputs.scade-version }}>> %GITHUB_ENV%
 
-  - name: Find SCADE_DIR
+  - name: "Find SCADE_DIR"
     id: find-scade-dir
     shell: cmd
     run: |
