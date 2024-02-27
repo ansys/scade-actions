@@ -99,6 +99,7 @@ master_doc = "index"
 # Generate section labels for up to four levels
 autosectionlabel_maxdepth = 2
 
+# TODO: remove this when library is public
 linkcheck_ignore = [
     r"https://github.com/ansys/scade-actions*",
 ]
@@ -348,26 +349,3 @@ for action_dir in public_actions:
     jinja_contexts[action_name]["examples"] = [
         [file.name, get_example_file_title(file)] for file in examples
     ]
-
-
-# Dynamically load the file contents for accepted licenses and ignored packages
-def load_file_lines_as_list(file_path):
-    """Loads the lines of a file in the form of a Python list.
-
-    Parameters
-    ----------
-    file_path : ~pathlib.Path
-        The ``Path`` instance representing the file location.
-
-    Returns
-    -------
-    list[str]
-        A list of strings representing the lines of the file.
-
-    Notes
-    -----
-    This function is expected to be used for loading the contents of TXT files.
-
-    """
-    with open(file_path) as accepted_licenses_file:
-        return list(accepted_licenses_file.read().split("\n"))
