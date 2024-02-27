@@ -26,6 +26,15 @@ repos:
   - id: trailing-whitespace
   - id: debug-statements
 
+- repo: https://github.com/ansys/pre-commit-hooks
+  rev: v0.2.9
+  hooks:
+    - id: add-license-headers
+      files: '(tests)/.*\.(py)|./.*\.(yml)'
+      args:
+      - --start_year=2024
+      exclude: '^(.github|doc)/.*'
+
 # Validate our github workflow files
 - repo: https://github.com/python-jsonschema/check-jsonschema
   rev: 0.28.0
