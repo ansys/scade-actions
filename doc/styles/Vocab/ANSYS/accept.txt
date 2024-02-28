@@ -6,3 +6,5 @@ GitHub
 pytest
 PyPI
 TXT
+(?!)scade
+(?!)python

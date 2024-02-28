@@ -3,7 +3,7 @@
 
 # You can set these variables from the command line. You can also
 # set the first two from the environment.
-SPHINXOPTS    ?=
+SPHINXOPTS    ?= -j auto -W
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = source
 BUILDDIR      = _build
@@ -27,4 +27,4 @@ clean:
 pdf:
 	@$(SPHINXBUILD) -M latex "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	cd $(BUILDDIR)/latex && latexmk -r latexmkrc -pdf *.tex -interaction=nonstopmode || true
-	(test -f $(BUILDDIR)/latex/*.pdf && echo pdf exists) || exit 1
+	qpdf --check $(BUILDDIR)/latex/ansysscadeactions.pdf && echo "File is OK" && exit 0 || echo "File is corrupt" && exit 1

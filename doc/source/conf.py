@@ -17,10 +17,6 @@ ACTIONS_PREFIXES = ("get-", "scade-", "create-", "tests-")
 ACTIONS_SUFFIXES = ""
 ACTIONS_INPUTS_FIELDS = ("description", "required", "type", "default")
 ACTIONS_OUTPUTS_FIELDS = ("description",)
-ACCEPTED_LICENSES = BASE_DIR / "check-licenses" / "accepted-licenses.txt"
-IGNORED_PACKAGES = BASE_DIR / "check-licenses" / "ignored-packages.txt"
-IGNORED_SAFETY = BASE_DIR / "check-vulnerabilities" / "ignored-safety.txt"
-
 # Project information
 project = "Ansys SCADE Actions"
 copyright = f"(c) 2023-{datetime.today().year} ANSYS, Inc. and/or its affiliates."
@@ -61,18 +57,12 @@ html_theme_options = {
     "use_edit_page_button": True,
     "additional_breadcrumbs": [
         ("PyAnsys", "https://docs.pyansys.com/"),
-        ("PyAnsys Developer’s Guide", "https://dev.docs.pyansys.com/"),
     ],
     "switcher": {
         "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
     },
-    "use_meilisearch": {
-        "api_key": os.getenv("MEILISEARCH_PUBLIC_API_KEY", ""),
-        "index_uids": {
-            f"actions-v{get_version_match(__version__).replace('.', '-')}": "Ansys-scade-actions",
-        },
-    },
+    "check_switcher": False,
 }
 
 # Specify Sphinx extensions to use
@@ -87,6 +77,9 @@ extensions = [
 
 # Specify the static path
 html_static_path = ["_static"]
+html_css_files = [
+    "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+]
 
 # Add any paths that contain templates, relative to this directory
 templates_path = ["_templates"]
@@ -100,7 +93,12 @@ master_doc = "index"
 # Generate section labels for up to four levels
 autosectionlabel_maxdepth = 2
 
+# TODO: remove this when library is public
+linkcheck_ignore = [
+    r"https://github.com/ansys/scade-actions*",
+]
 
+sd_fontawesome_latex = True
 # Auxiliary routines for automatic documentation generation
 
 
@@ -345,41 +343,3 @@ for action_dir in public_actions:
     jinja_contexts[action_name]["examples"] = [
         [file.name, get_example_file_title(file)] for file in examples
     ]
-
-
-# Dynamically load the file contents for accepted licenses and ignored packages
-def load_file_lines_as_list(file_path):
-    """Loads the lines of a file in the form of a Python list.
-
-    Parameters
-    ----------
-    file_path : ~pathlib.Path
-        The ``Path`` instance representing the file location.
-
-    Returns
-    -------
-    list[str]
-        A list of strings representing the lines of the file.
-
-    Notes
-    -----
-    This function is expected to be used for loading the contents of TXT files.
-
-    """
-    with open(file_path) as accepted_licenses_file:
-        return list(accepted_licenses_file.read().split("\n"))
-
-
-if False:
-    # TODO: should that be replicated this in this context?
-    # Check licenses
-    for var, file in zip(
-        ["accepted_licenses", "ignored_packages"], [ACCEPTED_LICENSES, IGNORED_PACKAGES]
-    ):
-        jinja_contexts["check-licenses"][var] = load_file_lines_as_list(file)
-
-    # Check vulnerabilities
-    jinja_contexts["check-vulnerabilities"]["ignored_safety"] = load_file_lines_as_list(
-        IGNORED_SAFETY
-    )
-    print(jinja_contexts["check-vulnerabilities"]["ignored_safety"])

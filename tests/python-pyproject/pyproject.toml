@@ -1,0 +1,14 @@
+[build-system]
+requires = ["flit_core >=3.2,<4"]
+build-backend = "flit_core.buildapi"
+
+[project]
+name="test_package"
+version="0.1.dev0"
+description ="Test purpose"
+
+[project.optional-dependencies]
+test = [
+    "pytest==7.1.2",
+    "pytest-cov==3.0.0"
+]

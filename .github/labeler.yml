@@ -1,2 +1,8 @@
 maintenance:
 - any-glob-to-any-file: ['.github/**/*', '.pre-commit-config.yaml', 'VERSION']
+testing:
+- any-glob-to-any-file: ['tests/**/*']
+documentation:
+- any-glob-to-any-file: ['doc/**/*']
+dependencies:
+- any-glob-to-any-file: ['requirements/**/*']
