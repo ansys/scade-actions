@@ -1,12 +1,12 @@
 Query actions
 =============
 
-The query actions allow for querying Ansys SCADE installations
+Query actions retrieve Ansys SCADE installation directories
 and Python environments.
 
 
-Get SCADE directory action
---------------------------
+Get SCADE installation directory
+--------------------------------
 
 .. jinja:: get-scade-dir
 
@@ -16,8 +16,8 @@ Get SCADE directory action
 
     {{ outputs_table }}
 
-    Examples
-    ++++++++
+    Example
+    +++++++
 
     {% for filename, title in examples %}
     .. dropdown:: {{ title }}
@@ -29,8 +29,8 @@ Get SCADE directory action
     {% endfor %}
 
 
-Get SCADE Python version
-------------------------
+Get SCADE Python environment
+----------------------------
 
 .. jinja:: get-scade-python
 
@@ -40,8 +40,8 @@ Get SCADE Python version
 
     {{ outputs_table }}
 
-    Examples
-    ++++++++
+    Example
+    +++++++
 
     {% for filename, title in examples %}
     .. dropdown:: {{ title }}

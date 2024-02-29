@@ -1,12 +1,14 @@
-Tests actions
-=============
+Test actions
+============
 
-The tests actions allow to setup Python environments for SCADE and
+Test actions set up Python environments for SCADE and
 run the test suite for a SCADE Python library.
 
 
-Create SCADE Python virtual environment action
-----------------------------------------------
+Create a SCADE Python virtual environment
+-----------------------------------------
+The ``create-scade-venv`` action creates a virtual Python environment
+in the target directory from a Python installation.
 
 .. jinja:: create-scade-venv
 
@@ -29,11 +31,17 @@ Create SCADE Python virtual environment action
     {% endfor %}
 
 
-Test library action
---------------------
-This action runs the test suite for a Python library and a given Python
-interpreter. This action accepts markers, options, and post arguments to be
-passed to pytest before executing the test session.
+Run the test suite for a Python library
+---------------------------------------
+The ``Run tests basic example`` action, which is derived from
+``ansys/scade-actions/tests-pytest@main``, can run the test suite for
+a Python library and either a given Python interpreter or given Ansys
+SCADE version. This action accepts markers, options, and post arguments
+to pass to `pytest <https://github.com/pytest-dev/pytest>`_ before
+executing the test session.
+
+Run the test suite for a given Python interpreter
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. jinja:: tests-pytest
 
@@ -43,8 +51,8 @@ passed to pytest before executing the test session.
 
     {{ outputs_table }}
 
-Examples
-++++++++
+Example
++++++++
 
 .. jinja:: tests-pytest
 
@@ -58,11 +66,8 @@ Examples
      {% endfor %}
 
 
-SCADE Test library action
--------------------------
-This action runs the test suite for a Python library and a given version of
-Ansys SCADE. This action accepts markers, options, and post arguments to be
-passed to pytest before executing the test session.
+Run the test suite for a given SCADE version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 .. jinja:: scade-tests-pytest
 
@@ -72,8 +77,8 @@ passed to pytest before executing the test session.
 
     {{ outputs_table }}
 
-Examples
-++++++++
+Example
++++++++
 
 .. jinja:: scade-tests-pytest
 

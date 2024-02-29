@@ -1,10 +1,13 @@
 Ansys
 ansys
+Actions
 CI
 dev
 GitHub
 pytest
 PyPI
+Python
+SCADE
 TXT
 (?!)scade
 (?!)python

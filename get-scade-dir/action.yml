@@ -21,11 +21,11 @@
 # SOFTWARE.
 
 # get-scade-dir.yml
-name: 'Retrieve the installation directory of an Ansys SCADE version'
+name: 'Get the installation directory of an Ansys SCADE version'
 
 description: >
-  A GitHub action that takes as input an Ansys SCADE version and
-  returns its installation directory.
+  The ``get-scade`` action takes an Ansys SCADE version as an input
+  and returns its installation directory.
 
 inputs:
 
