@@ -37,8 +37,7 @@ The ``Run tests basic example`` action, which is derived from
 ``ansys/scade-actions/tests-pytest@main``, can run the test suite for
 a Python library and either a given Python interpreter or given Ansys
 SCADE version. This action accepts markers, options, and post arguments
-to pass to `pytest <https://github.com/pytest-dev/pytest>`_ before
-executing the test session.
+to pass to ``pytest`` before executing the test session.
 
 Run the test suite for a given Python interpreter
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
