@@ -24,7 +24,7 @@
 name: 'Get the Python installation installed with Ansys SCADE'
 
 description: >
-  The ``scade-dir`` action takes an Ansys SCADE installation directory
+  The ``get-scade-python`` action takes an Ansys SCADE installation directory
   as an input and returns the name and path to the corresponding Python installation.
 
 inputs:

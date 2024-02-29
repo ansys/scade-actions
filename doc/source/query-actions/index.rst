@@ -29,8 +29,8 @@ Get SCADE installation directory
     {% endfor %}
 
 
-Get SCADE Python environment
-----------------------------
+Get corresponding Python environment
+------------------------------------
 
 .. jinja:: get-scade-python
 

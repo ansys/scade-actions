@@ -24,14 +24,14 @@
 name: 'Get the installation directory of an Ansys SCADE version'
 
 description: >
-  The ``get-scade`` action takes an Ansys SCADE version as an input
+  The ``get-scade-dir`` action takes an Ansys SCADE version as an input
   and returns its installation directory.
 
 inputs:
 
   scade-version:
     description: >
-      SCADE version: ``19.2, 20.1, ..., 23.1, ...``.
+      SCADE version in a format like ``19.2``, ``20.1``, and later.
     required: true
 
 outputs:
