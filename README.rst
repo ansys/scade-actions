@@ -1,4 +1,4 @@
-Ansys SCADE actions
+Ansys SCADE Actions
 ===================
 |ansys| |CI-CD| |MIT|
 
@@ -16,20 +16,20 @@ Ansys SCADE actions
 
 .. readme_common_begins
 
-A repository containing a collection of `GitHub Actions
-<https://docs.github.com/en/actions>`_ to be
-reused by projects in the Ansys SCADE ecosystem.
+Ansys SCADE Actions contains a collection of `GitHub Actions
+<https://docs.github.com/en/actions>`_ that projects in the Ansys
+SCADE ecosystem can use.
 
 .. readme_common_ends
 
-For more information on available actions and how to use them, see
-`actions.scade.docs.pyansys.com <https://actions.scade.docs.pyansys.com>`_ .
+Ansys SCADE Actions provides both query and test actions:
 
+- Query actions retrieve Ansys SCADE installation directories and
+  Python environments.
+- Test actions set up Python environments for SCADE and run the test suite
+  for a SCADE Python library. Tests are driven by an Ansys SCADE version,
+  such as ``23.1`` or ``24.1``, instead of a Python version, such as ``3.7``
+  or ``3.10``.
 
-Purpose
--------
-
-The Ansys SCADE actions prepare a SCADE environment for executing tests.
-
-They are driven by a Ansys SCADE version, such as ``23.1`` or ``24.1``,
-instead of a Python version, such as ``3.7`` or ``3.10``.
+For more information on available actions and how to use them, see the
+`Ansys SCADE Actions documentation <https://actions.scade.docs.pyansys.com>`_ .

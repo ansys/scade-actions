@@ -65,7 +65,7 @@ inputs:
 
   checkout:
     description: >
-      Whether to clone the repository in the CI/CD machine.
+      Whether to clone the repository on the CI/CD machine.
     default: 'true'
     required: false
 
@@ -74,13 +74,13 @@ runs:
   using: "composite"
   steps:
 
-    - name: "Retrieve SCADE installation directory"
+    - name: "Get SCADE installation directory"
       uses: ./get-scade-dir
       id: get-scade-dir
       with:
         scade-version: ${{ inputs.scade-version }}
 
-    - name: "Retrieve SCADE Python interpreter"
+    - name: "Get SCADE Python interpreter"
       uses: ./get-scade-python
       id: get-scade-python
       with:

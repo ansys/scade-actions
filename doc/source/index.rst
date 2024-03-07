@@ -1,12 +1,12 @@
-Ansys SCADE actions
-###################
+Ansys SCADE Actions documentation
+#################################
 
 .. include:: ../../README.rst
    :start-after: .. readme_common_begins
    :end-before: .. readme_common_ends
 
-For more information on available actions and how to use them,
-see each card below:
+For information on available actions and how to use them,
+see each of the following cards:
 
 .. grid:: 1 1 2 2
     :gutter: 2
@@ -15,15 +15,15 @@ see each card below:
        :link: query-actions/index
        :link-type: doc
 
-       Query actions allow to retrieve SCADE directories and
+       Retrieve SCADE installation directories and
        Python environments.
 
     .. grid-item-card:: :octicon:`tools` Tests actions
        :link: tests-actions/index
        :link-type: doc
 
-       Tests actions allow to setup Python environments for SCADE and
-       run the test suite.
+       Set up Python environments for SCADE and
+       run the test suite for a SCADE Python library.
 
 .. toctree::
    :hidden:

@@ -21,17 +21,17 @@
 # SOFTWARE.
 
 # get-scade-python
-name: 'Retrieve the Python installation installed with Ansys SCADE'
+name: 'Get the Python installation installed with Ansys SCADE'
 
 description: >
-  A GitHub action that takes as input an Ansys SCADE installation directory
-  and returns the name and path to the corresponding Python installation.
+  The ``get-scade-python`` action takes an Ansys SCADE installation directory
+  as an input and returns the name and path to the corresponding Python installation.
 
 inputs:
 
   scade-dir:
     description: >
-      Ansys SCADE Installation directory. for instance
+      Ansys SCADE installation directory. For example,
       ``'C:\Program Files\Ansys Inc\v231\SCADE'``.
     required: true
 
@@ -39,17 +39,17 @@ outputs:
 
   python-name:
     description: >
-      Name of the directory containing python.exe.
+      Name of the directory containing the ``python.exe`` file.
     value: ${{ steps.get.outputs.python-name }}
 
   python-dir:
     description: >
-      Directory containing python.exe.
+      Directory containing the ``python.exe`` file.
     value: ${{ steps.get.outputs.python-dir }}
 
   python-version:
     description: >
-      Version of python.exe, two digits.
+      Version of the ``python.exe`` file in the two-digit format.
     value: ${{ steps.get.outputs.python-version }}
 
 author: 'ESEG'

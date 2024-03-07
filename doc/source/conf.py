@@ -15,7 +15,7 @@ DOC_DIR = DOC_SOURCE_DIR.parent
 BASE_DIR = DOC_SOURCE_DIR.parent
 ACTIONS_PREFIXES = ("get-", "scade-", "create-", "tests-")
 ACTIONS_SUFFIXES = ""
-ACTIONS_INPUTS_FIELDS = ("description", "required", "type", "default")
+ACTIONS_INPUTS_FIELDS = ("description", "required", "default")
 ACTIONS_OUTPUTS_FIELDS = ("description",)
 # Project information
 project = "Ansys SCADE Actions"
