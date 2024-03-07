@@ -21,11 +21,14 @@
 # SOFTWARE.
 
 # action derived from ansys/actions/tests-pytest
-name: >
-  Tests pytest action
+name: 'Run the test suite for a given version of Ansys SCADE'
 
 description: >
-  Run a test suite using `pytest <https://docs.pytest.org/en/stable/>`_.
+  The ``scade-tests-pytest`` action runs the test suite for a Python library
+  and a given version of Ansys SCADE using
+  `pytest <https://docs.pytest.org/en/stable/>`_.
+  This action accepts markers, options, and post arguments to pass to
+  ``pytest`` before executing the test session.
 
 inputs:
 
