@@ -78,19 +78,19 @@ runs:
   steps:
 
     - name: "Get SCADE installation directory"
-      uses: ./get-scade-dir
+      uses: ansys/scade-actions/get-scade-dir@v1
       id: get-scade-dir
       with:
         scade-version: ${{ inputs.scade-version }}
 
     - name: "Get SCADE Python interpreter"
-      uses: ./get-scade-python
+      uses: ansys/scade-actions/get-scade-python@v1
       id: get-scade-python
       with:
         scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
 
     - name: "Create Python virtual environment"
-      uses: ./create-scade-venv
+      uses: ansys/scade-actions/create-scade-venv@v1
       id: create-scade-venv
       with:
         python-dir: ${{ steps.get-scade-python.outputs.python-dir }}
@@ -98,7 +98,7 @@ runs:
         target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
     - name: "Run the tests"
-      uses: ./tests-pytest
+      uses: ansys/scade-actions/tests-pytest@v1
       with:
         python-dir: ${{ steps.create-scade-venv.outputs.scripts-dir }}
         library-dir: ${{ inputs.library-dir }}
