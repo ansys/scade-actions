@@ -1,4 +1,4 @@
-Query actions
+Query Actions
 =============
 
 Query actions retrieve Ansys SCADE installation directories

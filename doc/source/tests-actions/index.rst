@@ -1,4 +1,4 @@
-Test actions
+Test Actions
 ============
 
 Test actions set up Python environments for SCADE and
