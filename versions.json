@@ -1,0 +1,12 @@
+[
+  {
+    "name": "dev",
+    "version": "dev",
+    "url": "https://actions.scade.docs.pyansys.com/version/dev/"
+  },
+  {
+    "name": "1.0 (stable)",
+    "version": "1.0",
+    "url": "https://actions.scade.docs.pyansys.com/version/stable/"
+  }
+]
