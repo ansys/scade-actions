@@ -70,7 +70,7 @@ def main(name: str):
     target_dir = (
         target_dir.replace("$(CG)", cg)
         .replace("$(NodeName)", node_name)
-        .replace("$(Configuration)", "configuration")
+        .replace("$(Configuration)", name)
     )
     # print the result
     print(target_dir)

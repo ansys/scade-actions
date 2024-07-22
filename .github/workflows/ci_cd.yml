@@ -193,6 +193,7 @@ jobs:
           checkout: false
 
       - name: "Log the target directories"
+        shell: cmd
         run: |
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
