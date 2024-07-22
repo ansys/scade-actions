@@ -165,6 +165,7 @@ jobs:
         scade-version: ['23.2']
       fail-fast: false
     steps:
+      - uses: actions/checkout@v4
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
         id: get-scade-dir
