@@ -20,6 +20,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import os
 from sys import stderr
 
 from scade.model.project.stdproject import get_roots as get_projects
@@ -71,6 +72,10 @@ def main(name: str):
         target_dir.replace("$(CG)", cg)
         .replace("$(NodeName)", node_name)
         .replace("$(Configuration)", name)
+    )
+    # make the directory absolute with respect to the project
+    target_dir = os.path.normpath(
+        os.path.join(os.path.dirname(project.pathname), target_dir)
     )
     # print the result as the definition of an environment variable
     print("target-directory=%s" % target_dir)
