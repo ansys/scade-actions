@@ -66,10 +66,10 @@ inputs:
 
 outputs:
 
-  target-dir:
+  target-directory:
     description: >
       Path of the target directory where the code is generated.
-    value: ${{ steps.get.outputs.target-dir }}
+    value: ${{ steps.get.outputs.target-directory }}
 
 runs:
   using: "composite"
@@ -81,15 +81,17 @@ runs:
 
     - name: "Retrieve target directory for the configuration"
       shell: cmd
+      id: get
       run: |
         :: get_target_dir.py echoes on stdout <computed directory>
         "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_target_dir.py" "main('${{ inputs.configuration }}')" > get_target_dir.log
         echo get_target_dir.log
         type get_target_dir.log
-        for /F %%d in (get_target_dir.log) do (echo target-dir=%%d>> %GITHUB_OUTPUT%)
+        for /F %%d in (get_target_dir.log) do (echo target-directory=%%d>> %GITHUB_OUTPUT%)
 
     - name: "Generate code"
       shell: cmd
+      id: code
       run: |
-        :: Check python
+        :: Call GenerateCode.bat
         call "${{ github.action_path }}\GenerateCode.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}" "${{ inputs.build }}"
