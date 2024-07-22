@@ -195,8 +195,8 @@ jobs:
       - name: "Log the target directories"
         shell: cmd
         run: |
-          echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
-          echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
+          echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-dir }}
+          echo Build target directory: ${{ steps.suite-code-build.outputs.target-dir }}
 
   doc-deploy-dev:
     name: "Deploy developers documentation"
