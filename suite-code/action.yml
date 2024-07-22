@@ -86,10 +86,7 @@ runs:
         "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_target_dir.py" "main('${{ inputs.configuration }}')" > get_target_dir.log
         echo get_target_dir.log
         type get_target_dir.log
-        echo value
-        for /F %%d in (get_target_dir.log) do echo -%%d-
-        echo set output
-        for /F %%d in (get_target_dir.log) do echo %%d >> %GITHUB_OUTPUT%
+        for /F %%d in (get_target_dir.log) do (echo target-dir=%%d>> %GITHUB_OUTPUT%)
 
     - name: "Generate code"
       shell: cmd
