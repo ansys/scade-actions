@@ -134,8 +134,8 @@ jobs:
           use-python-cache: false
           dependencies: "texlive-fonts-extra qpdf"
 
-  tests:
-    name: "Tests"
+  python-tests:
+    name: "Python Tests"
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
@@ -157,9 +157,41 @@ jobs:
           pytest-postargs: "tests/python-pyproject/tests -vv"
           checkout: false
 
+  suite-tests:
+    name: "Suite Tests"
+    runs-on: [self-hosted, 'SCADE']
+    strategy:
+      matrix:
+        scade-version: ['23.2']
+      fail-fast: false
+    steps:
+      - name: "Get SCADE installation directory"
+        uses: ./get-scade-dir
+        id: get-scade-dir
+        with:
+          scade-version: ${{ matrix.scade-version }}
+
+      - name: "Generate with suite-code"
+        uses: ./suite-code
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/suite-code/Model/Model.etp"
+          configuration: "Suite Code"
+          build: "false"
+          checkout: false
+
+      - name: "Build with suite-code"
+        uses: ./suite-code
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/suite-code/Model/Model.etp"
+          configuration: "Simulation"
+          build: "true"
+          checkout: false
+
   doc-deploy-dev:
     name: "Deploy developers documentation"
-    needs: [doc-build, tests]
+    needs: [python-tests, suite-tests, doc-build]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:

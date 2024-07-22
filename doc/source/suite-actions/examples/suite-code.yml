@@ -1,0 +1,10 @@
+suite-code:
+  name: "Generate code basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Generate code"
+      uses: ansys/scade-actions/suite-code@{{ version }}
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        project: 'Model\CruiseControl.etp'
+        configuration: 'KCG'

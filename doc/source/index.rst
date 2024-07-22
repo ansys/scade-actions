@@ -25,9 +25,16 @@ see each of the following cards:
        Set up Python environments for SCADE and
        run the test suite for a SCADE Python library.
 
+    .. grid-item-card:: :octicon:`terminal` SCADE Suite actions
+       :link: suite-actions/index
+       :link-type: doc
+
+       Execute SCADE Suite command line tools on models.
+
 .. toctree::
    :hidden:
    :maxdepth: 3
 
    query-actions/index
    tests-actions/index
+   suite-actions/index
