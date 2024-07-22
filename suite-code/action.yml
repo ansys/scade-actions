@@ -83,9 +83,9 @@ runs:
       shell: cmd
       run: |
         :: get_target_dir.py echoes on stdout target-dir=<computed directory>
-        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_target_dir.py" "main('${{ inputs.configuration }}')" > "${{ github.action_path }}\get_target_dir.log"
-        type "${{ github.action_path }}\get_target_dir.log"
-        for /F %%d in ("${{ github.action_path }}\get_target_dir.log") do echo %%d >> %GITHUB_OUTPUT%
+        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_target_dir.py" "main('${{ inputs.configuration }}')" > get_target_dir.log
+        type get_target_dir.log
+        for /F %%d in (get_target_dir.log) do echo %%d >> %GITHUB_OUTPUT%
 
     - name: "Generate code"
       shell: cmd

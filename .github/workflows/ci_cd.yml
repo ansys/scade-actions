@@ -173,7 +173,7 @@ jobs:
           scade-version: ${{ matrix.scade-version }}
 
       - name: "Generate with suite-code"
-        uses: .\suite-code
+        uses: ./suite-code
         id: suite-code-generate
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -183,7 +183,7 @@ jobs:
           checkout: false
 
       - name: "Build with suite-code"
-        uses: .\suite-code
+        uses: ./suite-code
         id: suite-code-build
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
