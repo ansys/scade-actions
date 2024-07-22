@@ -85,11 +85,6 @@ runs:
         :: get_target_dir.py echoes on stdout target-dir=<computed directory>
         "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
 
-    - name: "log output"
-      shell: cmd
-      run: |
-        echo target dir: "${{ outputs.target-dir }}"
-
     - name: "Generate code"
       shell: cmd
       run: |
