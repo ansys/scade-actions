@@ -136,6 +136,7 @@ jobs:
 
   python-tests:
     name: "Python Tests"
+    needs: [doc-build]
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
@@ -159,13 +160,13 @@ jobs:
 
   suite-tests:
     name: "Suite Tests"
+    needs: [doc-build]
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
         scade-version: ['23.2']
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
         id: get-scade-dir
@@ -200,7 +201,7 @@ jobs:
 
   doc-deploy-dev:
     name: "Deploy developers documentation"
-    needs: [python-tests, suite-tests, doc-build]
+    needs: [doc-build, python-tests, suite-tests]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:
