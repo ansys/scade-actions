@@ -72,7 +72,7 @@ def main(name: str):
         .replace("$(NodeName)", node_name)
         .replace("$(Configuration)", "configuration")
     )
-    # print the result as the definition of an environment variable
-    print("target-dir=%s" % target_dir)
+    # print the result
+    print(target_dir)
     # report a message on stderr, return status not reported by scade.exe -script
     print("Command completed.", file=stderr)
