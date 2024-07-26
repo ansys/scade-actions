@@ -160,7 +160,8 @@ jobs:
 
   suite-tests:
     name: "Suite Tests"
-    needs: [doc-build]
+    # needs: [doc-build]
+    needs: [labeler]
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:

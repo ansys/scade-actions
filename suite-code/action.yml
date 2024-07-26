@@ -94,7 +94,7 @@ runs:
         call "${{ github.action_path }}\GenerateCode.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}" "${{ inputs.build }}"
 
     - name: "Archive the generated code"
-      if: ${{ inputs.archive != '' }}
+      if: ${{ inputs.archive }}
       run: |
         :: zip generated code for delivery
         if (test-path ${{ inputs.archive }}) { del ${{ inputs.archive }} }
