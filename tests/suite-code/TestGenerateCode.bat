@@ -26,7 +26,7 @@ if errorlevel 1 (
 
 call ..\..\suite-code\GenerateCode.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/Model.etp" "Unknown" false
 if errorlevel 1 (
-    echo *code generation detected*
+    echo *code generation error detected*
 ) else (
     echo error: code generation error not detected
 )

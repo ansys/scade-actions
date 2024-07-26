@@ -181,7 +181,16 @@ jobs:
           project: "tests/suite-code/Model/Model.etp"
           configuration: "Suite Code"
           build: "false"
+          archive: "./kcg code.zip"
           checkout: false
+
+      - name: "Upload code archive to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: code
+          path: "./kcg code.zip"
+          retention-days: 7
+          if-no-files-found: error
 
       - name: "Build with suite-code"
         uses: ./suite-code

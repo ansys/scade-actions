@@ -6,8 +6,6 @@ rem %2: project
 rem %3: configuration
 rem %4: build: true or false
 
-set WORKING_DIR=%cd%
-
 set LOGFILE=%~dpn0.log
 
 :: check if there are 4 parameters
