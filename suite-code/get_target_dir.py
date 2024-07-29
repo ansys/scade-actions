@@ -45,10 +45,7 @@ def main(name: str):
     prop = "ROOTNODE"
     roots = project.get_tool_prop_def(tool, prop, "", configuration)
     # convert the path of the first operator to an identifier
-    # while moving the name from the last to the first position
-    tokens = roots[0].rstrip("/").split("::")
-    tokens = [tokens[-1]] + tokens[:-1]
-    node_name = "__".join(tokens)
+    node_name = roots[0].rstrip("/").replace(":", "_")
     # $(CG)
     # retrieve the code generator for the given configuration
     prop = "GENERATOR"
