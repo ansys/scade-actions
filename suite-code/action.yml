@@ -98,5 +98,5 @@ runs:
       if: ${{ inputs.archive }}
       run: |
         # zip generated code for delivery
-        if (test-path ${{ inputs.archive }}) { del ${{ inputs.archive }} }
+        if (test-path "${{ inputs.archive }}") { del "${{ inputs.archive }}" }
         Compress-Archive -Path "${{ steps.get.outputs.target-directory }}\*.*" -DestinationPath "${{ inputs.archive }}"
