@@ -161,14 +161,21 @@ jobs:
   suite-tests:
     name: "Suite Tests"
     # needs: [doc-build]
-    needs: [labeler]
+    # needs: [labeler]
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
         scade-version: ['23.2']
       fail-fast: false
     steps:
-      - uses: actions/checkout@v4
+      - name: "Check out the repository"
+        uses: actions/checkout@v4
+
+      - name: "Debug license"
+        shell: cmd
+        run: |
+          echo ANSYSLMD_LICENSE_FILE: %ANSYSLMD_LICENSE_FILE%
+
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
         id: get-scade-dir
