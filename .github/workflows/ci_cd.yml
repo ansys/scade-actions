@@ -196,8 +196,16 @@ jobs:
       - name: "Upload code archive to artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: code
+          name: 'code-archive'
           path: "./kcg code.zip"
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: "Upload code target directory to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "code-target-directory"
+          path: "${{ steps.suite-code-generate.outputs.target-directory }}/*.*"
           retention-days: 7
           if-no-files-found: error
 
