@@ -171,7 +171,7 @@ jobs:
       - name: "Check out the repository"
         uses: actions/checkout@v4
 
-      - name: "Debug license"
+      - name: "Debug license environment variable"
         shell: cmd
         run: |
           echo ANSYSLMD_LICENSE_FILE: %ANSYSLMD_LICENSE_FILE%
