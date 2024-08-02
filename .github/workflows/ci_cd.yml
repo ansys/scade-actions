@@ -9,7 +9,6 @@ on:
       - main
 
 env:
-  MAIN_SCADE_VERSION: '23.2'
   MAIN_PYTHON_VERSION: '3.10'
   DOCUMENTATION_CNAME: 'actions.scade.docs.pyansys.com'
   test-library-name: 'ansys-scade-actions'
