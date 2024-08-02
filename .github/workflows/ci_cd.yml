@@ -136,7 +136,6 @@ jobs:
   python-tests:
     # tests for python actions
     name: "Python Tests"
-    needs: [doc-build]
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
@@ -161,7 +160,8 @@ jobs:
 
   unit-tests:
     # tests for Python code included in actions
-    name: "Unit Tests"
+    # cannot reuse ./scade-tests-pytest: the tested scripts are not part of a Python package
+    name: "Run Python unit tests"
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
@@ -171,12 +171,58 @@ jobs:
       - name: "Install Git and clone project"
         uses: actions/checkout@v4
 
-      - name: "Run Python unit tests"
-        uses: ./scade-tests-pytest
+      - name: "Get SCADE installation directory"
+        uses: ./get-scade-dir
+        id: get-scade-dir
         with:
-          checkout: false
-          pytest-extra-args: "--ignore=tests/python-pyproject --ignore=tests/python-setup --basetemp=tmp --cov-report=term --cov-branch --cov-report=html:.cov/html --cov-report=xml:.cov/xml"
-          scade-version: ${{ matrix.scade-version }}
+          scade-version: ${{ inputs.scade-version }}
+
+      - name: "Get SCADE Python interpreter"
+        uses: ./get-scade-python
+        id: get-scade-python
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+
+      - name: "Pass Inputs to Shell"
+        shell: cmd
+        run: |
+          :: Pass inputs to the shell
+          echo INPUT_PYTHON_DIR=${{ steps.get-scade-python.outputs.python-dir }}>> %GITHUB_ENV%
+
+      - name: "Create Python virtual environment"
+        uses: ./create-scade-venv
+        id: create-scade-venv
+        with:
+          python-dir: ${{ steps.get-scade-python.outputs.python-dir }}
+          target-dir: '.venvs'
+          target-name: ${{ steps.get-scade-python.outputs.python-name }}
+
+      - name: "Check python"
+        shell: cmd
+        run: |
+          :: Check python
+          echo Activate the environment %INPUT_PYTHON_DIR%
+          call %INPUT_PYTHON_DIR%\activate.bat
+          python.exe --version
+          :: store the "exe for the next steps"
+          echo PYTHON_EXE=%INPUT_PYTHON_DIR%\python.exe>> %GITHUB_ENV%
+
+      - name: "Update pip"
+        shell: cmd
+        run: |
+          %PYTHON_EXE% -m pip install -U pip
+
+      - name: "Install test requirements"
+        shell: cmd
+        run: |
+          echo Installing test dependencies from requirements_tests.txt
+          %PYTHON_EXE% -m pip install -r requirements/requirements_tests.txt
+
+      - name: "Executing test suite"
+        shell: cmd
+        run: |
+          :: Run tests
+          %PYTHON_EXE% -m pytest --ignore=tests/python-pyproject --ignore=tests/python-setup --basetemp=tmp --cov-report=term --cov-branch --cov-report=html:.cov/html --cov-report=xml:.cov/xml
 
       # - name: "Upload coverage reports to Codecov"
       #   uses: codecov/codecov-action@v4
