@@ -21,23 +21,23 @@
 # SOFTWARE.
 
 import os
-from sys import stderr
+import sys
 
+from scade.model.project.stdproject import Project
 from scade.model.project.stdproject import get_roots as get_projects
 
 
-def main(name: str):
-    # there must be at least one project
-    project = get_projects()[0]
+def get_target_dir(project: Project, name: str) -> int:
     for configuration in project.configurations:
         if configuration.name == name:
             break
     else:
         # report a message on stderr, return status not reported by scade.exe -script
         print(
-            "%s: no such configuration for %s" % (name, project.pathname), file=stderr
+            "%s: no such configuration for %s" % (name, project.pathname),
+            file=sys.stderr,
         )
-        return
+        return 1
     # compute the macros usable to define the target directory
     tool = "GENERATOR"
     # $(NodeName)
@@ -56,8 +56,8 @@ def main(name: str):
     # C ACG --> ACG
     if cg == "C MCG":
         cg = "MCG"
-    elif cg == "C MCG":
-        cg = "MCG"
+    elif cg == "C ACG":
+        cg = "ACG"
     else:
         cg = "KCG66"
     # retrieve the target directory for the given configuration
@@ -77,4 +77,13 @@ def main(name: str):
     # print the result as the definition of an environment variable
     print("target-directory=%s" % target_dir)
     # report a message on stderr, return status not reported by scade.exe -script
-    print("Command completed.", file=stderr)
+    print("Command completed.", file=sys.stderr)
+    return 0
+
+
+def main(name: str):
+    # entry point with scade.exe -script
+    # there must be one and only one project
+    projects = get_projects()
+    assert len(projects) == 1
+    get_target_dir(projects[0], name)
