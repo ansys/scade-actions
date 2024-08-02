@@ -134,6 +134,7 @@ jobs:
           dependencies: "texlive-fonts-extra qpdf"
 
   python-tests:
+    # tests for python actions
     name: "Python Tests"
     needs: [doc-build]
     runs-on: [self-hosted, 'SCADE']
@@ -157,10 +158,35 @@ jobs:
           pytest-postargs: "tests/python-pyproject/tests -vv"
           checkout: false
 
+  unit-tests:
+    # tests for Python code included in actions
+    name: "Unit Tests"
+    runs-on: [self-hosted, 'SCADE']
+    needs: [smoke-tests]
+    strategy:
+      matrix:
+        scade-version: ['23.2']
+      fail-fast: false
+    steps:
+      - name: "Install Git and clone project"
+        uses: actions/checkout@v4
+
+      - uses: ./scade-tests-pytest
+        with:
+          checkout: false
+          pytest-extra-args: "--ignore=tests/python-pyproject --ignore=tests/python-setup --basetemp=tmp --cov-report=term --cov-branch --cov-report=html:.cov/html --cov-report=xml:.cov/xml"
+          scade-version: ${{ matrix.scade-version }}
+
+      # - name: "Upload coverage reports to Codecov"
+      #   uses: codecov/codecov-action@v4
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     slug: ansys/scade-actions
+      #     files: .cov/xml
+
   suite-tests:
+    # tests for SCADE Suite actions
     name: "Suite Tests"
-    # needs: [doc-build]
-    # needs: [labeler]
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
@@ -169,11 +195,6 @@ jobs:
     steps:
       - name: "Check out the repository"
         uses: actions/checkout@v4
-
-      - name: "Debug license environment variable"
-        shell: cmd
-        run: |
-          echo ANSYSLMD_LICENSE_FILE: %ANSYSLMD_LICENSE_FILE%
 
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
@@ -215,9 +236,18 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
+  tests:
+    name: "All Tests"
+    needs: [python-tests, unit-tests, suite-tests]
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Synchronization"
+        run: |
+          echo Tests completed
+
   doc-deploy-dev:
     name: "Deploy developers documentation"
-    needs: [doc-build, python-tests, suite-tests]
+    needs: [doc-build, tests]
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:
@@ -230,7 +260,7 @@ jobs:
     name: "Release to GitHub"
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
-    needs: [doc-build, python-tests, suite-tests]
+    needs: [doc-build, tests]
     steps:
 
     - name: "Download HTML documentation"
