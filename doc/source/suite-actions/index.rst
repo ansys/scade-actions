@@ -47,3 +47,5 @@ Create report
 
        .. literalinclude:: examples/{{ filename }}
           :language: yaml
+
+    {% endfor %}
