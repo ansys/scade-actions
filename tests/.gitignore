@@ -1,0 +1,9 @@
+*.err
+*.html
+*.htm
+*.ewo
+HtmlReport
+Model_img
+env.txt
+err.txt
+log.txt
