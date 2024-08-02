@@ -277,6 +277,23 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
+      - name: "Check custom rules with suite-rules"
+        uses: ./suite-rules
+        id: suite-rules
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/suite-rules/Model/Model.etp"
+          configuration: "RuleSuccess"
+          checkout: false
+
+      - name: "Upload Custom rules report artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "check-custom-rules"
+          path: "${{ steps.suite-rules.outputs.report }}"
+          retention-days: 7
+          if-no-files-found: error
+
   tests:
     name: "All Tests"
     needs: [python-tests, unit-tests, suite-tests]
