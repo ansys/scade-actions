@@ -26,3 +26,26 @@ Generate code
           :language: yaml
 
     {% endfor %}
+
+Acquire coverage
+----------------
+
+.. jinja:: suite-test
+
+    {{ description }}
+
+    {{ inputs_table }}
+
+    {{ outputs_table }}
+
+    Example
+    +++++++
+
+    {% for filename, title in examples %}
+    .. dropdown:: {{ title }}
+       :animate: fade-in
+
+       .. literalinclude:: examples/{{ filename }}
+          :language: yaml
+
+    {% endfor %}

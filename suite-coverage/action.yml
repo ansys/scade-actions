@@ -1,0 +1,95 @@
+# Copyright (C) 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# suite-coverage
+name: 'Run the model coverage of a SCADE Suite model'
+
+description: >
+  The ``suite-coverage`` action executes ``scade.exe -test -mc`` on a SCADE Test project
+  for a given configuration.
+
+inputs:
+
+  scade-dir:
+    description: >
+      Ansys SCADE installation directory.
+    required: true
+
+  test-project:
+    description: >
+      Path of the SCADE Test project.
+    required: true
+
+  configuration:
+    description: >
+      Configuration to use for generating the code.
+    required: true
+
+  results-project:
+    description: >
+      Path of the SCADE Test Results project.
+      When the project does not exist, it is created,
+      as well as its parent directories, before the tests
+      are executed.
+    required: true
+
+  # Optional inputs
+  cov-status:
+    description: >
+      Path of the coverage status to generate.
+    default: ''
+    required: false
+
+  checkout:
+    description: >
+      Whether to clone the repository on the CI/CD machine.
+    default: 'true'
+    required: false
+
+outputs:
+
+  results-directory:
+    description: >
+      Path of the directory containing the model coverage.
+    value: ${{ steps.get.outputs.results-directory }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: "Install Git and clone project"
+      uses: actions/checkout@v4
+      if: ${{ inputs.checkout == 'true' }}
+
+    - name: "Run the tests"
+      shell: cmd
+      id: code
+      run: |
+        :: Call AcquireCoverage.bat
+        call "${{ github.action_path }}\AcquireCoverage.bat" "${{ inputs.scade-dir }}" "${{ inputs.test-project }}" "${{ inputs.configuration }}" "${{ inputs.results-project }}" "${{ inputs.cov-status }}"
+
+    - name: "Retrieve results directory for the configuration"
+      shell: cmd
+      id: get
+      run: |
+        :: get_results_dir.py echoes on stdout results-directory=<computed directory>
+        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.results-project }}" "${{ github.action_path }}\get_coverage_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%

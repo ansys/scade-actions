@@ -1,0 +1,16 @@
+{
+  "criterion" : "ODC",
+  "model_input_files" : [
+    "D:/AnsysDev/Nobackup/PyAnsys/scade-actions/tests/suite-coverage/Model/O.xscade"
+  ],
+  "root_operators" : [ "O" ],
+  "operators" : [
+    {
+      "op_path" : "O",
+      "used" : true,
+      "imported" : false,
+      "instrumented" : true,
+      "monomorphic_instances" : [ { "mono_info" : "", "tra_file" : "O.tra" } ]
+    }
+  ]
+}

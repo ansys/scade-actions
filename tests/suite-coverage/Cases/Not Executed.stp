@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Procedure xmlns:test="http://www.esterel-technologies.com/ns/testenv/2" oid="CE1CDCFB-B8E4-4E46-9BA7-17755D855FE6" name="Not Executed" operator="O">
+	<testElements>
+		<Record oid="52B097EC-AFA5-4E78-A555-F074A3F31A89" name="Not O" description="Record1">
+			<scenarios>
+				<Scenario oid="45808BD6-E9A0-477E-8F5F-CC908853B2F4" persistAs="..\Cases\Not S.sss"/>
+			</scenarios>
+		</Record>
+	</testElements>
+</Procedure>
