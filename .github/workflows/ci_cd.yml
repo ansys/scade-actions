@@ -183,18 +183,12 @@ jobs:
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
 
-      - name: "Pass Inputs to Shell"
-        shell: cmd
-        run: |
-          :: Pass inputs to the shell
-          echo INPUT_PYTHON_DIR=${{ steps.get-scade-python.outputs.python-dir }}>> %GITHUB_ENV%
-
       - name: "Create Python virtual environment"
         uses: ./create-scade-venv
         id: create-scade-venv
         with:
           python-dir: ${{ steps.get-scade-python.outputs.python-dir }}
-          target-dir: '.venv'
+          target-dir: '.venvs'
           target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
       - name: "Check python"
@@ -202,10 +196,10 @@ jobs:
         run: |
           :: Check python
           echo Activate the virtual environment
-          call .venv\Scripts\activate.bat"
+          call ${{ steps.create-scade-venv.outputs.scripts-dir }}\activate.bat"
           python.exe --version
           :: store the "exe for the next steps"
-          echo PYTHON_EXE=.venv\Scripts\python.exe>> %GITHUB_ENV%
+          echo PYTHON_EXE=${{ steps.create-scade-venv.outputs.scripts-dir }}\python.exe>> %GITHUB_ENV%
 
       - name: "Update pip"
         shell: cmd
