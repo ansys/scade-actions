@@ -277,6 +277,25 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
+      - name: "Run the tests with suite-test"
+        uses: ./suite-test
+        id: suite-test
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          test-project: "tests/suite-test/Test/Test.etp"
+          results-project: "tests/suite-test/Results/Results.etp"
+          configuration: "Test Success"
+          junit-report: "junit-reports/Model.xml"
+          checkout: false
+
+      - name: "Upload JUnit report to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "code-target-directory"
+          path: "junit-reports/Model.xml"
+          retention-days: 7
+          if-no-files-found: error
+
   tests:
     name: "All Tests"
     needs: [python-tests, unit-tests, suite-tests]
