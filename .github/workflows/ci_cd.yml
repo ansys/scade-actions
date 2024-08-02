@@ -292,7 +292,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: "code-target-directory"
-          path: "junit-reports/Model.xml"
+          path: "junit-reports\\Model.xml"
           retention-days: 7
           if-no-files-found: error
 
