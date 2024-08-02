@@ -288,7 +288,7 @@ jobs:
           cov-status: "cov_status/Model.json"
           checkout: false
 
-      - name: "Upload JUnit report to artifacts"
+      - name: "Upload coverage status to artifacts"
         uses: actions/upload-artifact@v4
         with:
           name: "coverage-status"
