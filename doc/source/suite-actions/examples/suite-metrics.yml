@@ -1,0 +1,10 @@
+suite-metrics:
+  name: "Compute metrics basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Compute metrics"
+      uses: ansys/scade-actions/suite-metrics@{{ version }}
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        project: 'Model\CruiseControl.etp'
+        configuration: 'MetricRule'
