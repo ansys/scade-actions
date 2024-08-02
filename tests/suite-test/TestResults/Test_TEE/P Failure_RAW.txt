@@ -1,0 +1,4 @@
+{ANSYS(R) SCADE(R) Test(TM) - Environment for Host - Version 2024 R1 (build 20230802T113210)}{2024-07-31, 09:09:06}{D:\AnsysDev\Nobackup\PyAnsys\scade-actions\tests\suite-test\Model\Model.etp}{KCG}{D:\AnsysDev\Nobackup\PyAnsys\scade-actions\tests\suite-test\Cases\P Failure.stp}{F}{R Failure}{Record1}{{Failure.sss}}{
+{Failure.sss}{2}{0}{1}{F/o}{}{4}{4}{1}{0}{}
+{Failure.sss}{4}{0}{2}{F/o}{}{5}{4}{0}{0}{}
+{Failure.sss}{7}{0}{3}{F/o}{}{6}{6}{1}{0}{}}

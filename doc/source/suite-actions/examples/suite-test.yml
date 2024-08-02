@@ -1,0 +1,20 @@
+suite-test:
+  name: "Execute tests basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Checkout code"
+      uses: actions/checkout@v4
+
+    - name: "Execute tests"
+      uses: ansys/scade-actions/suite-test@{{ version }}
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        test-project: 'model\CruiseControl.etp'
+        results-project: 'results\ResultsCruiseControl.etp'
+        configuration: 'Test'
+        junit-report: 'junit-reports\CruiseControl.xml'
+
+    - name: "Publish test report"
+      uses: mikepenz/action-junit-report@v4
+      with:
+        report_paths: './junit-reports/CruiseControl.xml'

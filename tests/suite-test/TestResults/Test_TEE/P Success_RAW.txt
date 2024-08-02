@@ -1,0 +1,3 @@
+{ANSYS(R) SCADE(R) Test(TM) - Environment for Host - Version 2024 R1 (build 20230802T113210)}{2024-07-31, 09:09:04}{D:\AnsysDev\Nobackup\PyAnsys\scade-actions\tests\suite-test\Model\Model.etp}{KCG}{D:\AnsysDev\Nobackup\PyAnsys\scade-actions\tests\suite-test\Cases\P Success.stp}{F}{R Success}{Record1}{{Success.sss}}{
+{Success.sss}{2}{0}{1}{F/o}{}{4}{4}{1}{0}{}
+{Success.sss}{5}{0}{2}{F/o}{}{6}{6}{1}{0}{}}

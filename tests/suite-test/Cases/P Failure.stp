@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Procedure xmlns:test="http://www.esterel-technologies.com/ns/testenv/2" oid="4214686E-2F7C-4364-82BA-4138B68958D1" name="P Failure" operator="F">
+	<testElements>
+		<Record oid="E7D91E8E-25D7-47BD-86A6-77DF04556E43" name="R Failure" description="Record1">
+			<scenarios>
+				<Scenario oid="5101C792-1C58-48D4-9FE6-B5CF706A13E0" persistAs="Failure.sss"/>
+			</scenarios>
+		</Record>
+	</testElements>
+</Procedure>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Procedure xmlns:test="http://www.esterel-technologies.com/ns/testenv/2" oid="DA25C18D-49A6-45E1-8D55-8F2E3F9AD354" name="P Success" operator="F">
+	<testElements>
+		<Record oid="AAE9520E-BF4D-4962-83A8-7AD1765C2703" name="R Success" description="Record1">
+			<scenarios>
+				<Scenario oid="0467537E-8DFD-4EAC-B6E5-18D7725E767C" persistAs="Success.sss"/>
+			</scenarios>
+		</Record>
+	</testElements>
+</Procedure>
