@@ -74,7 +74,7 @@ runs:
         :: replace .etp with _metrics.htm
         set PROJECT=${{ inputs.project }}
         if "%PROJECT:~-4%" == ".etp" (
-          echo report=%PROJECT:~0,-4%_metrics.htm>> %GITHUB_OUTPUT%
+          echo report=%PROJECT:~0,-4%_metrics.xml>> %GITHUB_OUTPUT%
         ) else (
           echo %PROJECT%: Incorrect SCADE project
         )
