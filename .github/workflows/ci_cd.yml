@@ -150,6 +150,7 @@ jobs:
           library-dir: "tests/python-setup"
           pytest-postargs: "tests/python-setup/tests -vv"
           checkout: false
+
       - name: "Execute pyproject tests"
         uses: ./scade-tests-pytest
         with:
@@ -162,7 +163,6 @@ jobs:
     # tests for Python code included in actions
     name: "Unit Tests"
     runs-on: [self-hosted, 'SCADE']
-    needs: [smoke-tests]
     strategy:
       matrix:
         scade-version: ['23.2']
@@ -171,7 +171,8 @@ jobs:
       - name: "Install Git and clone project"
         uses: actions/checkout@v4
 
-      - uses: ./scade-tests-pytest
+      - name: "Run Python unit tests"
+        uses: ./scade-tests-pytest
         with:
           checkout: false
           pytest-extra-args: "--ignore=tests/python-pyproject --ignore=tests/python-setup --basetemp=tmp --cov-report=term --cov-branch --cov-report=html:.cov/html --cov-report=xml:.cov/xml"
