@@ -175,7 +175,7 @@ jobs:
         uses: ./get-scade-dir
         id: get-scade-dir
         with:
-          scade-version: ${{ inputs.scade-version }}
+          scade-version: ${{ matrix.scade-version }}
 
       - name: "Get SCADE Python interpreter"
         uses: ./get-scade-python
