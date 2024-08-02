@@ -27,14 +27,9 @@ if not exist "%2" (
     exit /B 1
 )
 set PROJECT=%~2
-rem TODO set PROJECT_PATH=%~d2
-rem TODO set PROJECT_NAME=%~n2
 
 :: retrieve the configuration
 set CONF=%~3
-
-:: check if KCG folder exists and delete it
-rem TODO if exist %PROJECT_PATH%KCG rmdir %PROJECT_PATH%KCG
 
 if "%4" == "true" (
     @echo Building code for %PROJECT% using the configuration %CONF%
@@ -51,7 +46,3 @@ type "%LOGFILE%"
 type "%LOGFILE%" | find "Command completed" > nul
 
 if %errorlevel% neq 0 exit /B 1
-
-:: zip generated code for delivery
-rem TODO if exist %PROJECT_PATH%%PROJECT_NAME%_generated_code.zip del %PROJECT_PATH%%PROJECT_NAME%_generated_code.zip
-rem TODO powershell -NoProfile -NoLogo -Command "Compress-Archive -Path %PROJECT_PATH%KCG\*.* -DestinationPath %PROJECT_PATH%%PROJECT_NAME%_generated_code.zip"

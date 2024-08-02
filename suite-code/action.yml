@@ -47,15 +47,9 @@ inputs:
   # Optional inputs
   build:
     description: >
-      Whether ``scade.exe`` -code shall be called with the option ``-sim``
+      Whether ``scade.exe -code`` shall be called with the option ``-sim``
       to build the generated code.
     default: 'false'
-    required: false
-
-  archive:
-    description: >
-      Path of the zip archive to contain the target directory.
-    default: ''
     required: false
 
   checkout:
@@ -92,11 +86,3 @@ runs:
       run: |
         :: Call GenerateCode.bat
         call "${{ github.action_path }}\GenerateCode.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}" "${{ inputs.build }}"
-
-    - name: "Archive the generated code"
-      shell: powershell
-      if: ${{ inputs.archive }}
-      run: |
-        # zip generated code for delivery
-        if (test-path "${{ inputs.archive }}") { del "${{ inputs.archive }}" }
-        Compress-Archive -Path "${{ steps.get.outputs.target-directory }}\*.*" -DestinationPath "${{ inputs.archive }}"
