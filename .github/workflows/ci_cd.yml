@@ -277,6 +277,23 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
+      - name: "Generate the documentation with suite-report"
+        uses: ./suite-report
+        id: suite-report
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/suite-report/Model/Model.etp"
+          configuration: "RTF"
+          checkout: false
+
+      - name: "Upload the document to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "report"
+          path: "${{ steps.suite-report.outputs.report }}"
+          retention-days: 7
+          if-no-files-found: error
+
   tests:
     name: "All Tests"
     needs: [python-tests, unit-tests, suite-tests]
