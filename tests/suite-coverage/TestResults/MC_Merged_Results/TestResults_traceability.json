@@ -1,0 +1,32 @@
+{
+  "criterion" : "OMCDC",
+  "model_input_files" : [
+    "D:/AnsysDev/Nobackup/PyAnsys/scade-actions/tests/suite-coverage/Model/O.xscade",
+    "D:/AnsysDev/Nobackup/PyAnsys/scade-actions/tests/suite-coverage/Model/K.xscade",
+    "D:/AnsysDev/Nobackup/PyAnsys/scade-actions/tests/suite-coverage/Model/C.xscade"
+  ],
+  "root_operators" : [ "O" ],
+  "operators" : [
+    {
+      "op_path" : "C",
+      "used" : true,
+      "imported" : false,
+      "instrumented" : true,
+      "monomorphic_instances" : [ { "mono_info" : "", "tra_file" : "C.tra" } ]
+    },
+    {
+      "op_path" : "O",
+      "used" : true,
+      "imported" : false,
+      "instrumented" : true,
+      "monomorphic_instances" : [ { "mono_info" : "", "tra_file" : "O.tra" } ]
+    },
+    {
+      "op_path" : "K",
+      "used" : true,
+      "imported" : false,
+      "instrumented" : false,
+      "monomorphic_instances" : [ { "mono_info" : "", "tra_file" : "K.tra" } ]
+    }
+  ]
+}

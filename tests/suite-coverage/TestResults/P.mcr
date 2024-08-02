@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ModelCoverageResult generationDate="2024-08-01 13:54:36" criterion="OMCDC">
+	<traceabilityFile>
+		<TraceabilityFile pathname="Test_MC\P\traceability.json"/>
+	</traceabilityFile>
+	<infoFile>
+		<InfoFile pathname="Test_MC\P\P_coverage.info">
+			<procedureFiles>..\Cases\P.stp</procedureFiles>
+		</InfoFile>
+	</infoFile>
+</ModelCoverageResult>

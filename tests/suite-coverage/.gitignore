@@ -1,0 +1,15 @@
+Model/DV_MC_KCG
+Model/KCG
+TestResults/DV_MC_Test
+TestResults/Test_MC
+TestResults/MC_Merged_Results/TestResults_report.txt
+Results/DV_MC_Test
+Results/Test_MC
+Results/MC_Merged_Results/Results_report.txt
+tmp
+*.mccache
+*mcorder
+*.skc
+*_mcsummary.html
+QTE_generated_files.txt
+mc_report_config.txt

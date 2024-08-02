@@ -1,0 +1,42 @@
+{
+  "generation_date" : "2024-07-31T17:40:58",
+  "static_info" : "D:\\AnsysDev\\Nobackup\\PyAnsys\\scade-actions\\tests\\suite-coverage\\Results\\MC_Merged_Results\\Results_traceability.json",
+  "justification_files" : [ ],
+  "test_information" : [
+    "+------------------+---------------------------------------------------------------------------------------------------------------+",
+    "| Acquisition date | 2024-07-31T17:40:56                                                                                           |",
+    "| Test file        | D:\\AnsysDev\\Nobackup\\PyAnsys\\scade-actions\\tests\\suite-coverage\\Cases\\P.stp                                   |",
+    "| Test operator    | O                                                                                                             |",
+    "| Coverage file    | D:\\AnsysDev\\Nobackup\\PyAnsys\\scade-actions\\tests\\suite-coverage\\Results\\Test_MC\\P\\P_coverage.info             |",
+    "+----+-------------+---------------------------------------------------------------------------------------------------------------+",
+    "| 01 | Record      | O                                                                                                             |",
+    "|    | Description | Record1                                                                                                       |",
+    "|    +-------------+---------------------------------------------------------------------------------------------------------------+",
+    "|    | Scenarios                                                                                                                   |",
+    "|    +----+------------------------------------------------------------------------------------------------------------------------+",
+    "|    | 01 | D:\\AnsysDev\\Nobackup\\PyAnsys\\scade-actions\\tests\\suite-coverage\\Cases\\Scenario.sss                                     |",
+    "+----+----+------------------------------------------------------------------------------------------------------------------------+",
+    ""
+  ],
+  "observations" : [
+    {
+      "op_path" : "O",
+      "c_op_name" : "O",
+      "mono_info" : "",
+      "status" : [
+        { "kind" : "T", "path" : "_L1=", "info" : "%(a)%", "stat" : "O" },
+        { "kind" : "F", "path" : "_L1=", "info" : "%(a)%", "stat" : "NO" },
+        { "kind" : "T", "path" : "_L2=", "info" : "%(b)%", "stat" : "O" },
+        { "kind" : "F", "path" : "_L2=", "info" : "%(b)%", "stat" : "NO" },
+        { "kind" : "T", "path" : "_L3=", "info" : "%(_L1 and _L2)%", "stat" : "O" },
+        { "kind" : "F", "path" : "_L3=", "info" : "%(_L1 and _L2)%", "stat" : "NO" },
+        { "kind" : "T", "path" : "_L3=-1", "info" : "%(_L1)% and _L2", "stat" : "O" },
+        { "kind" : "F", "path" : "_L3=-1", "info" : "%(_L1)% and _L2", "stat" : "NO" },
+        { "kind" : "T", "path" : "_L3=-2", "info" : "_L1 and %(_L2)%", "stat" : "O" },
+        { "kind" : "F", "path" : "_L3=-2", "info" : "_L1 and %(_L2)%", "stat" : "NO" },
+        { "kind" : "T", "path" : "o=", "info" : "%(_L3)%", "stat" : "O" },
+        { "kind" : "F", "path" : "o=", "info" : "%(_L3)%", "stat" : "NO" }
+      ]
+    }
+  ]
+}
