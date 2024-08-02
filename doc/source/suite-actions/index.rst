@@ -30,7 +30,7 @@ Generate code
 Acquire coverage
 ----------------
 
-.. jinja:: suite-test
+.. jinja:: suite-coverage
 
     {{ description }}
 
