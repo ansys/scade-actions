@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Procedure xmlns:test="http://www.esterel-technologies.com/ns/testenv/2" oid="A08AE8B4-1074-4D8B-A5EE-15FDAC4A074E" name="P Skipped" operator="F">
+	<testElements>
+		<Record oid="D1F785B7-F80B-4D93-8664-7270B91451DC" name="R Skipped" description="Record1">
+			<scenarios>
+				<Scenario oid="3DA37740-4017-4D6F-A390-91147B54BB1A" persistAs="Skipped.sss"/>
+			</scenarios>
+		</Record>
+	</testElements>
+</Procedure>
