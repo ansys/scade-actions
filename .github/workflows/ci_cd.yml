@@ -194,18 +194,18 @@ jobs:
         id: create-scade-venv
         with:
           python-dir: ${{ steps.get-scade-python.outputs.python-dir }}
-          target-dir: '.venvs'
+          target-dir: '.venv'
           target-name: ${{ steps.get-scade-python.outputs.python-name }}
 
       - name: "Check python"
         shell: cmd
         run: |
           :: Check python
-          echo Activate the environment %INPUT_PYTHON_DIR%
-          call %INPUT_PYTHON_DIR%\activate.bat
+          echo Activate the virtual environment
+          call .venv\Scripts\activate.bat"
           python.exe --version
           :: store the "exe for the next steps"
-          echo PYTHON_EXE=%INPUT_PYTHON_DIR%\python.exe>> %GITHUB_ENV%
+          echo PYTHON_EXE=.venv\Scripts\python.exe>> %GITHUB_ENV%
 
       - name: "Update pip"
         shell: cmd
