@@ -8,9 +8,9 @@ rem %4: build: true or false
 
 set LOGFILE=%~dpn0.log
 
-:: check if there are 4 parameters
-if ["%~4"]==[""] (
-    @echo Usage: %0 ^<SCADE directory^> ^<SCADE project^> ^<SCADE configuration^> ^<build^>
+:: check if there are 3 parameters
+if ["%~3"]==[""] (
+    @echo Usage: %0 ^<SCADE directory^> ^<SCADE project^> ^<SCADE configuration^>
     exit /B 1
 )
 
@@ -43,7 +43,3 @@ type "%LOGFILE%"
 type "%LOGFILE%" | find "report generated in:" > nul
 
 if %errorlevel% neq 0 exit /B 1
-
-:: zip generated code for delivery
-rem TODO if exist %PROJECT_PATH%%PROJECT_NAME%_generated_code.zip del %PROJECT_PATH%%PROJECT_NAME%_generated_code.zip
-rem TODO powershell -NoProfile -NoLogo -Command "Compress-Archive -Path %PROJECT_PATH%KCG\*.* -DestinationPath %PROJECT_PATH%%PROJECT_NAME%_generated_code.zip"
