@@ -1,25 +1,25 @@
 @echo off
 :: nominal check without error
-call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/Model.etp" "MetricRule" false
+call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/Model.etp" "MetricRule"
 if errorlevel 1 (
     echo unexpected checker error
 )
 :: check for errors
-call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\xSCADE" "Model/Model.etp" "MetricRule" false
+call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\xSCADE" "Model/Model.etp" "MetricRule"
 if errorlevel 1 (
     echo *wrong SCADE dir detected*
 ) else (
     echo error: wrong SCADE dir not detected
 )
 
-call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/xModel.etp" "MetricRule" false
+call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/xModel.etp" "MetricRule"
 if errorlevel 1 (
     echo *wrong project detected*
 ) else (
     echo error: wrong project not detected
 )
 
-call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/Model.etp" "Unknown" false
+call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Model/Model.etp" "Unknown"
 if errorlevel 1 (
     echo *checker error detected*
 ) else (
