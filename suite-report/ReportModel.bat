@@ -4,7 +4,6 @@ rem parameters:
 rem %1: SCADE installation directory, e.g. C:\Program Files\ANSYS Inc\v242\SCADE
 rem %2: project
 rem %3: configuration
-rem %4: build: true or false
 
 set LOGFILE=%~dpn0.log
 
