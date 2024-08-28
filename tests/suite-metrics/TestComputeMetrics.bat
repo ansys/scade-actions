@@ -25,3 +25,10 @@ if errorlevel 1 (
 ) else (
     echo error: checker error not detected
 )
+
+call ..\..\suite-metrics\ComputeMetrics.bat "c:\Program Files\ANSYS Inc\v242\xSCADE" "Model/Model.etp"
+if errorlevel 1 (
+    echo *missing parameter detected*
+) else (
+    echo error: missing parameter not detected
+)
