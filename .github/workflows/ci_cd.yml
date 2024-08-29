@@ -277,6 +277,23 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
+      - name: "Compute metrics with suite-metrics"
+        uses: ./suite-metrics
+        id: suite-metrics
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/suite-metrics/Model/Model.etp"
+          configuration: "MetricRule"
+          checkout: false
+
+      - name: "Upload metrics report artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "metrics"
+          path: "${{ steps.suite-metrics.outputs.report }}"
+          retention-days: 7
+          if-no-files-found: error
+
       - name: "Check custom rules with suite-rules"
         uses: ./suite-rules
         id: suite-rules
