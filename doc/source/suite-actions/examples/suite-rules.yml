@@ -1,0 +1,10 @@
+suite-rules:
+  name: "Check rules basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Check rules"
+      uses: ansys/scade-actions/suite-rules@{{ version }}
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        project: 'Model\CruiseControl.etp'
+        configuration: 'MetricRule'
