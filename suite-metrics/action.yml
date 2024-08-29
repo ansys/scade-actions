@@ -1,0 +1,87 @@
+# Copyright (C) 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# suite-metrics
+name: 'Compute custom metrics on a SCADE Suite model'
+
+description: >
+  The ``suite-metrics`` action executes ``scade.exe -metrics`` on a
+  SCADE Suite project for a given configuration.
+
+inputs:
+
+  scade-dir:
+    description: >
+      Ansys SCADE installation directory.
+    required: true
+
+  project:
+    description: >
+      Path of the SCADE Suite project.
+    required: true
+
+  configuration:
+    description: >
+      Configuration to use for checking the rules.
+    required: true
+
+  # Optional inputs
+
+  checkout:
+    description: >
+      Whether to clone the repository on the CI/CD machine.
+    default: 'true'
+    required: false
+
+outputs:
+
+  report:
+    description: >
+      Path of the produced report.
+    value: ${{ steps.get.outputs.report }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: "Install Git and clone project"
+      uses: actions/checkout@v4
+      if: ${{ inputs.checkout == 'true' }}
+
+    - name: "Retrieve metrics report"
+      shell: cmd
+      id: get
+      run: |
+        :: replace .etp with _metrics.htm
+        set PROJECT=${{ inputs.project }}
+        if "%PROJECT:~-4%" == ".etp" (
+          echo report=%PROJECT:~0,-4%_metrics.xml>> %GITHUB_OUTPUT%
+        ) else (
+          echo %PROJECT%: Incorrect SCADE project
+        )
+
+    - name: "Compute metrics"
+      shell: cmd
+      id: code
+      run: |
+        :: Call ComputeMetrics.bat
+        call "${{ github.action_path }}\ComputeMetrics.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"

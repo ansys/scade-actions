@@ -1,0 +1,12 @@
+{
+    "justifications": [
+        {
+            "rule": "ID_FAILURE",
+            "object_oid": "!ed/7d/440F/5D6C/66a0aac14369",
+            "object_path": "J/",
+            "violation": "Failure",
+            "author": "JH",
+            "text": "Justified"
+        }
+    ]
+}
