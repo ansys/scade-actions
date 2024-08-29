@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ResultFile xmlns:test="http://www.esterel-technologies.com/ns/testenv/2">
+	<rawFile>
+		<RawFile pathname="Test_TEE\P Success_RAW.txt" procedureOid="DA25C18D-49A6-45E1-8D55-8F2E3F9AD354"/>
+	</rawFile>
+</ResultFile>

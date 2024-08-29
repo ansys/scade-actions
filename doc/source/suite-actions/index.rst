@@ -49,6 +49,29 @@ Check rules
 
     {% endfor %}
 
+Compute metrics
+---------------
+
+.. jinja:: suite-metrics
+
+    {{ description }}
+
+    {{ inputs_table }}
+
+    {{ outputs_table }}
+
+    Example
+    +++++++
+
+    {% for filename, title in examples %}
+    .. dropdown:: {{ title }}
+       :animate: fade-in
+
+       .. literalinclude:: examples/{{ filename }}
+          :language: yaml
+
+    {% endfor %}
+
 Create report
 -------------
 
@@ -72,10 +95,10 @@ Create report
 
     {% endfor %}
 
-Generate code
+Execute tests
 -------------
 
-.. jinja:: suite-code
+.. jinja:: suite-test
 
     {{ description }}
 
@@ -95,10 +118,10 @@ Generate code
 
     {% endfor %}
 
-Compute metrics
----------------
+Generate code
+-------------
 
-.. jinja:: suite-metrics
+.. jinja:: suite-code
 
     {{ description }}
 
