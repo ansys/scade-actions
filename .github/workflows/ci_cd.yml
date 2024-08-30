@@ -277,6 +277,11 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
+      - name: "Debug environment"
+        shell: cmd
+        run: |
+          echo main GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY
+
       - name: "Acquire the model coverage with suite-coverage"
         uses: ./suite-coverage
         id: suite-coverage
