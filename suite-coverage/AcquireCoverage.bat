@@ -5,14 +5,15 @@ rem %1: SCADE installation directory, e.g. C:\Program Files\ANSYS Inc\v242\SCADE
 rem %2: project
 rem %3: configuration
 rem %4: results project
-rem %5: summary file
-rem %6: coverage file or empty
+rem optional parameters:
+rem -summary file
+rem -status file
 
 set LOGFILE=%~dpn0.log
 
-:: check if there are 4 parameters
-if ["%~5"]==[""] (
-    @echo Usage: %0 ^<SCADE directory^> ^<SCADE Test project^> ^<SCADE configuration^> ^<SCADE Test results project^> ^<coverage file^>
+:: check there are at least 4 parameters
+if ["%~4"]==[""] (
+    @echo Usage: %0 ^<SCADE directory^> ^<SCADE Test project^> ^<SCADE configuration^> ^<SCADE Test results project^> [-summary ^<coverage file^>] [-status ^<coverage file^>]
     exit /B 1
 )
 
@@ -40,13 +41,22 @@ set RESULT=%~4
 "%SCADE_EXE%" -test -mc "%PROJECT%" -conf "%CONF%" -result_project "%RESULT%"
 if errorlevel 1 exit /B 1
 
-if "%~6" == "" (
-    rem predefined file name in the results project's directory
-    set TESTS_RESULT=%~dpn4_mc.json
-) else (
-    set TESTS_RESULT=%~6
+set SCRIPT_ARGS=
+set SCRIPT_SEPARATOR=(
+if "%~5" == "-summary" (
+    set SCRIPT_ARGS=%SCRIPT_SEPARATOR%summary=r'%~6'
+    set SCRIPT_SEPARATOR=,
+    shift /5
+    shift /5
+)
+
+if "%~5" == "-status" (
+    set SCRIPT_ARGS=%SCRIPT_ARGS%%SCRIPT_SEPARATOR%output=r'%~6'
+    set SCRIPT_SEPARATOR=,
+    shift /5
+    shift /5
 )
 set SCRIPT=%~dp0mc_results.py
 :: gather coverage results and summary
-@echo "gather coverage results and summary for %RESULT% using %SCRIPT% to %TESTS_RESULT% and %~5
-"%SCADE_EXE%" -script "%RESULT%" "%SCRIPT%" "main(r'%TESTS_RESULT%', r'%~5')"
+@echo "gather coverage status and summary for %RESULT% using %SCRIPT%%SCRIPT_ARGS%)
+"%SCADE_EXE%" -script "%RESULT%" "%SCRIPT%" "main%SCRIPT_ARGS%)"

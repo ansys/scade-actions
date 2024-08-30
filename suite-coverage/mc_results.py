@@ -142,8 +142,10 @@ class McResults:
                 int(10000 * (total - not_observed) / total + 0.5) / 100
             )
 
-        self.dump_status()
-        self.dump_summary()
+        if self.output:
+            self.dump_status()
+        if self.summary:
+            self.dump_summary()
 
         return self.status
 
@@ -188,7 +190,7 @@ class McResults:
 
     def dump_summary(self):
         Path(self.summary).parent.mkdir(exist_ok=True)
-        with open(self.summary, "w") as f:
+        with open(self.summary, "a") as f:
             f.write("### Model coverage\n")
             f.write("\n")
             f.write("|Metric|Value\n")
@@ -200,7 +202,7 @@ class McResults:
             f.write("\n")
 
 
-def main(output: str, summary: str):
+def main(output: str = "", summary: str = ""):
     cls = McResults(output, summary)
     status = cls.main(get_projects(), get_test_applications())
     if status != cls.ERR_RE_RUN:
