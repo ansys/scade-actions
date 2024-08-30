@@ -60,10 +60,12 @@ class McResults:
         MCStatus.NOT_COVERABLE: "Not coverable",
     }
 
-    def __init__(self, output: str):
+    def __init__(self, output: str, summary: str):
         super().__init__()
         # output file
         self.output = output
+        # job summary file
+        self.summary = summary
         # results
         self.metadatas = {}
         # dictionary of procedures for fast access
@@ -93,7 +95,13 @@ class McResults:
                 # only a results project
                 # --> rerun with both test and results projects
                 test_path = (Path(projects[0].pathname).parent / test_path).resolve()
-                self.re_run(str(test_path), projects[0].pathname, __file__, self.output)
+                self.re_run(
+                    str(test_path),
+                    projects[0].pathname,
+                    __file__,
+                    self.output,
+                    self.summary,
+                )
                 return self.ERR_RE_RUN
         # get the name of the model for reporting
         model = projects[0].get_scalar_tool_prop_def("QTE", "SOURCE_MODEL", "", None)
@@ -134,19 +142,27 @@ class McResults:
                 int(10000 * (total - not_observed) / total + 0.5) / 100
             )
 
-        self.dump()
+        self.dump_status()
+        self.dump_summary()
 
         return self.status
 
-    def re_run(self, test: str, results: str, script: str, output: str):
+    def re_run(self, test: str, results: str, script: str, output: str, summary: str):
         # script run with scade.exe -script
         exe = Path(sys.executable).parent / "scade.exe"
-        cmd = [str(exe), "-script", test, results, script, "main(r'%s')" % output]
+        cmd = [
+            str(exe),
+            "-script",
+            test,
+            results,
+            script,
+            "main(r'%s', r'%s')" % (output, summary),
+        ]
         print("calling", " ".join(cmd))
         sys.stdout.flush()
         subprocess.run(cmd)
 
-    def dump(self):
+    def dump_status(self):
         """
         custom format example from https://docs.codecov.com/docs/codecov-custom-coverage-format
         {
@@ -170,9 +186,22 @@ class McResults:
         with open(self.output, "w") as f:
             json.dump(d, f, indent=4)
 
+    def dump_summary(self):
+        Path(self.summary).parent.mkdir(exist_ok=True)
+        with open(self.summary, "w") as f:
+            f.write("### Model coverage\n")
+            f.write("\n")
+            f.write("|Metric|Value\n")
+            f.write("|--|--\n")
+            for metric in ["Count", "Coverage %"]:
+                f.write("|{0}|{1}\n".format(metric, self.metadatas[metric]))
+            for metric in self.MCMETRICS.values():
+                f.write("|{0}|{1}\n".format(metric, self.metadatas[metric]))
+            f.write("\n")
 
-def main(output: str):
-    cls = McResults(output)
+
+def main(output: str, summary: str):
+    cls = McResults(output, summary)
     status = cls.main(get_projects(), get_test_applications())
     if status != cls.ERR_RE_RUN:
         for data, value in cls.metadatas.items():

@@ -59,6 +59,12 @@ inputs:
     default: ''
     required: false
 
+  summary:
+    description: >
+      Whether to add the status to the job summary.
+    default: 'true'
+    required: false
+
   checkout:
     description: >
       Whether to clone the repository on the CI/CD machine.
@@ -85,7 +91,14 @@ runs:
       id: code
       run: |
         :: Call AcquireCoverage.bat
-        call "${{ github.action_path }}\AcquireCoverage.bat" "${{ inputs.scade-dir }}" "${{ inputs.test-project }}" "${{ inputs.configuration }}" "${{ inputs.results-project }}" "${{ inputs.cov-status }}"
+        call "${{ github.action_path }}\AcquireCoverage.bat" "${{ inputs.scade-dir }}" "${{ inputs.test-project }}" "${{ inputs.configuration }}" "${{ inputs.results-project }}" "${{ github.action_path }}\summary.md" "${{ inputs.cov-status }}"
+
+    - name: "Summary"
+      shell: cmd
+      if: ${{ inputs.summary == 'true' }}
+      run: |
+        :: Append "${{ github.action_path }}\summary.md"
+        type "${{ github.action_path }}\summary.md" >> $GITHUB_STEP_SUMMARY
 
     - name: "Retrieve results directory for the configuration"
       shell: cmd
