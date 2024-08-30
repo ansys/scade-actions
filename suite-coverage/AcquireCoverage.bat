@@ -5,7 +5,7 @@ rem %1: SCADE installation directory, e.g. C:\Program Files\ANSYS Inc\v242\SCADE
 rem %2: project
 rem %3: configuration
 rem %4: results project
-rem optional parameters:
+rem optional parameters (order matters):
 rem -summary file
 rem -status file
 
@@ -42,7 +42,7 @@ set RESULT=%~4
 if errorlevel 1 exit /B 1
 
 set SCRIPT_ARGS=
-set SCRIPT_SEPARATOR=(
+set SCRIPT_SEPARATOR=
 if "%~5" == "-summary" (
     set SCRIPT_ARGS=%SCRIPT_SEPARATOR%summary=r'%~6'
     set SCRIPT_SEPARATOR=,
@@ -58,5 +58,5 @@ if "%~5" == "-status" (
 )
 set SCRIPT=%~dp0mc_results.py
 :: gather coverage results and summary
-@echo "gather coverage status and summary for %RESULT% using %SCRIPT%%SCRIPT_ARGS%)
-"%SCADE_EXE%" -script "%RESULT%" "%SCRIPT%" "main%SCRIPT_ARGS%)"
+@echo "gather coverage status and summary for %RESULT% using %SCRIPT%(%SCRIPT_ARGS%)
+"%SCADE_EXE%" -script "%RESULT%" "%SCRIPT%" "main(%SCRIPT_ARGS%)"

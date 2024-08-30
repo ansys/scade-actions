@@ -284,7 +284,7 @@ jobs:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
           test-project: "tests/suite-coverage/Test/Test.etp"
           results-project: "tests/suite-coverage/Results/Results.etp"
-          configuration: "Test Success"
+          configuration: "Test"
           cov-status: "cov_status/Model.json"
           checkout: false
 
