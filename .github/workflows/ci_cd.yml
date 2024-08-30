@@ -280,7 +280,7 @@ jobs:
       - name: "Debug environment"
         shell: cmd
         run: |
-          echo main GITHUB_STEP_SUMMARY=$GITHUB_STEP_SUMMARY
+          echo main GITHUB_STEP_SUMMARY=%GITHUB_STEP_SUMMARY%
 
       - name: "Acquire the model coverage with suite-coverage"
         uses: ./suite-coverage
