@@ -63,11 +63,12 @@ def test_project_applications(request) -> list[tuple[Project, TestApplication]]:
 
 # derive a class to redefine "run"
 class TestMcResults(McResults):
-    def re_run(self, test: str, results: str, script: str, output: str):
+    def re_run(self, test: str, results: str, script: str, output: str, summary: str):
         # can not run another instance, store the parameters for verification
         self.test = test
         self.results = results
         self.output = output
+        self.summary = summary
 
 
 @pytest.mark.parametrize(
@@ -86,7 +87,8 @@ def test_mc_results_nominal(test_project_applications, tmp_path):
     applications = [_[1] for _ in test_project_applications]
 
     output = tmp_path / "output.json"
-    cls = TestMcResults(str(output))
+    summary = tmp_path / "summary.md"
+    cls = TestMcResults(str(output), str(summary))
     status = cls.main(projects, applications)
     assert status == cls.ERR_OK
     assert output.exists()
@@ -102,7 +104,8 @@ def test_mc_results_robustness(test_project_applications, tmp_path):
     applications = [_[1] for _ in test_project_applications]
 
     output = tmp_path / "no_test.json"
-    cls = TestMcResults(str(output))
+    summary = tmp_path / "summary.md"
+    cls = TestMcResults(str(output), str(summary))
     status = cls.main(projects, applications)
     assert status == cls.ERR_NOT_TEST
     assert not output.exists()
@@ -118,7 +121,8 @@ def test_mc_results_re_run(test_project_applications, tmp_path):
     applications = [_[1] for _ in test_project_applications]
 
     output = tmp_path / "re_run.json"
-    cls = TestMcResults(str(output))
+    summary = tmp_path / "summary.md"
+    cls = TestMcResults(str(output), str(summary))
     status = cls.main(projects, applications)
     assert status == cls.ERR_RE_RUN
     assert not output.exists()
@@ -127,3 +131,4 @@ def test_mc_results_re_run(test_project_applications, tmp_path):
     )
     assert cls.results == projects[0].pathname
     assert cls.output == str(output)
+    assert cls.summary == str(summary)

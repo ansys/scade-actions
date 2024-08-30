@@ -1,11 +1,18 @@
 @echo off
 :: nominal
-call ..\..\suite-coverage\AcquireCoverage.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Test/Test.etp" "Test" tmp\Test\TestResults.etp
+call ..\..\suite-coverage\AcquireCoverage.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Test/Test.etp" "Test" tmp\Test\TestResults.etp -summary tmp\summary.md -status tmp\status.json
 if errorlevel 1 (
     echo failed to acquire coverage
 )
 
 :: check for errors
+call ..\..\suite-coverage\AcquireCoverage.bat "c:\Program Files\ANSYS Inc\v242\SCADE" "Test/Test.etp" "Test"
+if errorlevel 1 (
+    echo *missing parameter detected*
+) else (
+    echo error: missing parameter not detected
+)
+
 call ..\..\suite-coverage\AcquireCoverage.bat "c:\Program Files\ANSYS Inc\v242\xSCADE" "Test/Test.etp" "Test" tmp\TestResults.etp
 if errorlevel 1 (
     echo *wrong SCADE dir detected*
