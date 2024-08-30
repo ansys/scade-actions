@@ -92,9 +92,8 @@ runs:
       run: |
         :: Call AcquireCoverage.bat
         set MC_ARGS="${{ inputs.scade-dir }}" "${{ inputs.test-project }}" "${{ inputs.configuration }}" "${{ inputs.results-project }}"
-        if NOT "${{ inputs.cov-status }}" == "" set MC_ARGS=%MC_ARGS% -status "${{ inputs.cov-status }}"
         if "${{ inputs.summary }}" == "true" set MC_ARGS=%MC_ARGS% -summary %GITHUB_STEP_SUMMARY%
-        echo MC_ARGS=%MC_ARGS%
+        if NOT "${{ inputs.cov-status }}" == "" set MC_ARGS=%MC_ARGS% -status "${{ inputs.cov-status }}"
         call "${{ github.action_path }}\AcquireCoverage.bat" %MC_ARGS%
 
     - name: "Retrieve results directory for the configuration"
