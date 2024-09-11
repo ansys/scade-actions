@@ -277,13 +277,13 @@ jobs:
           echo Generation target directory: ${{ steps.suite-code-generate.outputs.target-directory }}
           echo Build target directory: ${{ steps.suite-code-build.outputs.target-directory }}
 
-      - name: "Acquire the model coverage with suite-coverage"
-        uses: ./suite-coverage
-        id: suite-coverage
+      - name: "Acquire the model coverage with test-coverage"
+        uses: ./test-coverage
+        id: test-coverage
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
-          test-project: "tests/suite-coverage/Test/Test.etp"
-          results-project: "tests/suite-coverage/Results/Results.etp"
+          test-project: "tests/test-coverage/Test/Test.etp"
+          results-project: "tests/test-coverage/Results/Results.etp"
           configuration: "Test"
           cov-status: "cov_status/Model.json"
           checkout: false
@@ -296,13 +296,13 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
-      - name: "Run the tests with suite-test"
-        uses: ./suite-test
-        id: suite-test
+      - name: "Run the tests with test-execute"
+        uses: ./test-execute
+        id: test-execute
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
-          test-project: "tests/suite-test/Test/Test.etp"
-          results-project: "tests/suite-test/Results/Results.etp"
+          test-project: "tests/test-execute/Test/Test.etp"
+          results-project: "tests/test-execute/Results/Results.etp"
           configuration: "Test Success"
           junit-report: "junit-reports/Model.xml"
           checkout: false
