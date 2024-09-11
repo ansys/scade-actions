@@ -1,9 +1,9 @@
-suite-coverage:
+test-coverage:
   name: "Acquire coverage basic example"
   runs-on: [self-hosted, 'SCADE']
   steps:
     - name: "Acquire coverage"
-      uses: ansys/scade-actions/suite-coverage@{{ version }}
+      uses: ansys/scade-actions/test-coverage@{{ version }}
       with:
         scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
         test-project: 'Model\CruiseControl.etp'

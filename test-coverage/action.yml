@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# suite-coverage
-name: 'Run the model coverage of a SCADE Suite model'
+# test-coverage
+name: 'Run the model coverage of a SCADE model'
 
 description: >
   The ``suite-coverage`` action executes ``scade.exe -test -mc`` on a SCADE Test project

@@ -20,8 +20,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# suite-test
-name: 'Run the tests of a SCADE Suite model'
+# test-execute
+name: 'Run the tests of a SCADE model'
 
 description: >
   The ``suite-test`` action executes ``scade.exe -test -tee`` on a SCADE Test project
