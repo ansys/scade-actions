@@ -35,7 +35,7 @@ from scade.model.project.stdproject import Project
 
 # add the path containing get_document.py
 script_dir = Path(__file__).parent
-sys.path.append(str(script_dir.parent.parent / "suite-test"))
+sys.path.append(str(script_dir.parent.parent / "test-execute"))
 
 from get_results_dir import get_results_dir  # noqa: E402
 
@@ -48,14 +48,14 @@ def test_project(request) -> Project:
 
 
 @pytest.mark.parametrize(
-    "test_project", ["tests/suite-test/Test/Test.etp"], indirect=True
+    "test_project", ["tests/test-execute/Test/Test.etp"], indirect=True
 )
 @pytest.mark.parametrize(
     "configuration, expected",
     [
-        ("Sibling", r"tests\suite-test\Sibling"),
-        ("Test Success", r"tests\suite-test\Test\Test Success"),
-        ("Test Failure", r"tests\suite-test\Test\Test Failure"),
+        ("Sibling", r"tests\test-execute\Sibling"),
+        ("Test Success", r"tests\test-execute\Test\Test Success"),
+        ("Test Failure", r"tests\test-execute\Test\Test Failure"),
     ],
 )
 def test_get_results_dir_nominal(test_project, configuration, expected, capsys):
@@ -71,7 +71,7 @@ def test_get_results_dir_nominal(test_project, configuration, expected, capsys):
 
 
 @pytest.mark.parametrize(
-    "test_project", ["tests/suite-test/Test/Test.etp"], indirect=True
+    "test_project", ["tests/test-execute/Test/Test.etp"], indirect=True
 )
 @pytest.mark.parametrize(
     "configuration, expected",

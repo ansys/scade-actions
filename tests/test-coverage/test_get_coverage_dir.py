@@ -35,7 +35,7 @@ from scade.model.project.stdproject import Project
 
 # add the path containing get_document.py
 script_dir = Path(__file__).parent
-sys.path.append(str(script_dir.parent.parent / "suite-coverage"))
+sys.path.append(str(script_dir.parent.parent / "test-coverage"))
 
 from get_coverage_dir import get_coverage_dir  # noqa: E402
 
@@ -48,13 +48,13 @@ def test_project(request) -> Project:
 
 
 @pytest.mark.parametrize(
-    "test_project", ["tests/suite-coverage/Test/Test.etp"], indirect=True
+    "test_project", ["tests/test-coverage/Test/Test.etp"], indirect=True
 )
 @pytest.mark.parametrize(
     "configuration, expected",
     [
-        ("Sibling", r"tests\suite-coverage\Sibling"),
-        ("Test", r"tests\suite-coverage\Test\Test"),
+        ("Sibling", r"tests\test-coverage\Sibling"),
+        ("Test", r"tests\test-coverage\Test\Test"),
     ],
 )
 def test_get_coverage_dir_nominal(test_project, configuration, expected, capsys):
@@ -70,7 +70,7 @@ def test_get_coverage_dir_nominal(test_project, configuration, expected, capsys)
 
 
 @pytest.mark.parametrize(
-    "test_project", ["tests/suite-coverage/Test/Test.etp"], indirect=True
+    "test_project", ["tests/test-coverage/Test/Test.etp"], indirect=True
 )
 @pytest.mark.parametrize(
     "configuration, expected",
