@@ -1,4 +1,4 @@
-suite-test:
+test-execute:
   name: "Execute tests basic example"
   runs-on: [self-hosted, 'SCADE']
   steps:
@@ -6,7 +6,7 @@ suite-test:
       uses: actions/checkout@v4
 
     - name: "Execute tests"
-      uses: ansys/scade-actions/suite-test@{{ version }}
+      uses: ansys/scade-actions/test-execute@{{ version }}
       with:
         scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
         test-project: 'model\CruiseControl.etp'

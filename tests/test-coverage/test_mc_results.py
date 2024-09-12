@@ -36,9 +36,9 @@ from scade.model.testenv import TestApplication
 
 # add the path containing tee_results.py
 script_dir = Path(__file__).parent
-sys.path.append(str(script_dir.parent.parent / "suite-test"))
+sys.path.append(str(script_dir.parent.parent / "test-coverage"))
 
-from tee_results import TeeResults  # noqa: E402
+from mc_results import McResults  # noqa: E402
 
 
 @pytest.fixture(scope="session")
@@ -57,50 +57,55 @@ def test_project_applications(request) -> list[tuple[Project, TestApplication]]:
             if suffix.lower() == ".stp":
                 # procedure
                 application.load_procedure_tcl(file_ref.pathname)
-            elif suffix.lower() == ".trf":
-                # procedure
-                application.load_result_file_tcl(file_ref.pathname)
         result.append((project, application))
     return result
 
 
 # derive a class to redefine "run"
-class TestTeeResults(TeeResults):
-    def re_run(self, test: str, results: str, script: str, output: str):
+class TestMcResults(McResults):
+    def re_run(self, test: str, results: str, script: str, output: str, summary: str):
         # can not run another instance, store the parameters for verification
         self.test = test
         self.results = results
         self.output = output
+        self.summary = summary
 
 
 @pytest.mark.parametrize(
     "test_project_applications",
     [
-        ["tests/suite-test/Test/Test.etp", "tests/suite-test/Results/Results.etp"],
-        ["tests/suite-test/TestResults/TestResults.etp"],
+        [
+            "tests/test-coverage/Test/Test.etp",
+            "tests/test-coverage/Results/Results.etp",
+        ],
+        ["tests/test-coverage/TestResults/TestResults.etp"],
     ],
     indirect=True,
 )
-def test_tee_results_nominal(test_project_applications, tmp_path):
+def test_mc_results_nominal(test_project_applications, tmp_path):
     projects = [_[0] for _ in test_project_applications]
     applications = [_[1] for _ in test_project_applications]
 
-    output = tmp_path / "junit-reports" / "output.xml"
-    cls = TestTeeResults(str(output))
+    output = tmp_path / "output.json"
+    summary = tmp_path / "summary.md"
+    cls = TestMcResults(str(output), str(summary))
     status = cls.main(projects, applications)
-    print("status", status)
+    assert status == cls.ERR_OK
     assert output.exists()
 
 
 @pytest.mark.parametrize(
-    "test_project_applications", [["tests/suite-test/Model/Model.etp"]], indirect=True
+    "test_project_applications",
+    [["tests/test-coverage/Model/Model.etp"]],
+    indirect=True,
 )
-def test_tee_results_robustness(test_project_applications, tmp_path):
+def test_mc_results_robustness(test_project_applications, tmp_path):
     projects = [_[0] for _ in test_project_applications]
     applications = [_[1] for _ in test_project_applications]
 
-    output = tmp_path / "no_test.xml"
-    cls = TestTeeResults(str(output))
+    output = tmp_path / "no_test.json"
+    summary = tmp_path / "summary.md"
+    cls = TestMcResults(str(output), str(summary))
     status = cls.main(projects, applications)
     assert status == cls.ERR_NOT_TEST
     assert not output.exists()
@@ -108,18 +113,22 @@ def test_tee_results_robustness(test_project_applications, tmp_path):
 
 @pytest.mark.parametrize(
     "test_project_applications",
-    [["tests/suite-test/Results/Results.etp"]],
+    [["tests/test-coverage/Results/Results.etp"]],
     indirect=True,
 )
-def test_tee_results_re_run(test_project_applications, tmp_path):
+def test_mc_results_re_run(test_project_applications, tmp_path):
     projects = [_[0] for _ in test_project_applications]
     applications = [_[1] for _ in test_project_applications]
 
-    output = tmp_path / "re_run.xml"
-    cls = TestTeeResults(str(output))
+    output = tmp_path / "re_run.json"
+    summary = tmp_path / "summary.md"
+    cls = TestMcResults(str(output), str(summary))
     status = cls.main(projects, applications)
     assert status == cls.ERR_RE_RUN
     assert not output.exists()
-    assert Path(cls.test).resolve() == Path("tests/suite-test/Test/Test.etp").resolve()
+    assert (
+        Path(cls.test).resolve() == Path("tests/test-coverage/Test/Test.etp").resolve()
+    )
     assert cls.results == projects[0].pathname
     assert cls.output == str(output)
+    assert cls.summary == str(summary)
