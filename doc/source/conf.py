@@ -6,7 +6,7 @@ from datetime import datetime
 
 import jinja2
 import yaml
-from ansys_sphinx_theme import ansys_favicon, get_version_match, pyansys_logo_black
+from ansys_sphinx_theme import ansys_favicon, get_version_match
 from tabulate import tabulate as Table
 
 # Constants used for generating documentation
@@ -39,7 +39,6 @@ actions_version = (
 )
 
 # Use the default pyansys logo
-html_logo = pyansys_logo_black
 html_theme = "ansys_sphinx_theme"
 html_favicon = ansys_favicon
 html_short_title = html_title = project  # necessary for proper breadcrumb title
@@ -62,6 +61,7 @@ html_theme_options = {
         "json_url": f"https://{cname}/versions.json",
         "version_match": get_version_match(__version__),
     },
+    "logo": "pyansys",
 }
 
 # Specify Sphinx extensions to use
@@ -97,8 +97,7 @@ linkcheck_ignore = [
     r"https://github.com/ansys/scade-actions*",
 ]
 
-sd_fontawesome_latex = True
-# Auxiliary routines for automatic documentation generation
+suppress_warnings = ["design.fa-build"]
 
 
 def is_valid_action_dir(path):
