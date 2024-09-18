@@ -4,10 +4,10 @@ SCADE Display Actions
 
 Execute SCADE Display command line tools on models.
 
-Generate code
--------------
+Generate configuration
+----------------------
 
-.. jinja:: display-code
+.. jinja:: display-generate
 
     {{ description }}
 

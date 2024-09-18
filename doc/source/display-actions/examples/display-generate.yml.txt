@@ -2,8 +2,8 @@ suite-code:
   name: "Generate code basic example"
   runs-on: [self-hosted, 'SCADE']
   steps:
-    - name: "Generate code"
-      uses: ansys/scade-actions/display-code@{{ version }}
+    - name: "Generate configuration"
+      uses: ansys/scade-actions/display-generate@{{ version }}
       id: generate-code
       with:
         scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'

@@ -256,7 +256,7 @@ jobs:
       - name: "Upload code target directory to artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "code-target-directory"
+          name: "suite-code-target-directory"
           path: "${{ steps.suite-code-generate.outputs.target-directory }}/*.*"
           retention-days: 7
           if-no-files-found: error
@@ -415,6 +415,42 @@ jobs:
         with:
           name: "scade-display-report"
           path: "${{ steps.display-report.outputs.report }}"
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: "Generate code with display-generate"
+        uses: ./display-generate
+        id: display-generate-code
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/display-generate/Model/Model.etp"
+          configuration: "Code"
+          build: "false"
+          checkout: false
+
+      - name: "Upload code target directory to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "sdy-code-target-directory"
+          path: "${{ steps.display-generate-code.outputs.target-directory }}/*.*"
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: "Generate standalone with display-generate"
+        uses: ./display-generate
+        id: display-generate-standalone
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/display-generate/Model/Model.etp"
+          configuration: "Windows"
+          build: "false"
+          checkout: false
+
+      - name: "Upload standalone target directory to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "sdy-standalone-target-directory"
+          path: "${{ steps.display-generate-standalone.outputs.target-directory }}/*.*"
           retention-days: 7
           if-no-files-found: error
 
