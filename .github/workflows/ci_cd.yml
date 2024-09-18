@@ -413,7 +413,7 @@ jobs:
       - name: "Upload the document to artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "report"
+          name: "scade display report"
           path: "${{ steps.display-report.outputs.report }}"
           retention-days: 7
           if-no-files-found: error
