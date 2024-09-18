@@ -1,0 +1,19 @@
+suite-code:
+  name: "Generate code basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Generate code"
+      uses: ansys/scade-actions/display-code@{{ version }}
+      id: generate-code
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        project: 'Model\Model.etp'
+        configuration: 'Code'
+
+    - name: "Upload generated code to artifacts"
+      uses: actions/upload-artifact@v4
+      with:
+        name: "generated-code"
+        path: {{ "${{ steps.generate-code.outputs.target-directory }}/*.*" }}
+        retention-days: 7
+        if-no-files-found: error
