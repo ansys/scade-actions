@@ -73,7 +73,7 @@ runs:
       id: get
       run: |
         :: get_target_dir.py echoes on stdout target-directory=<computed directory>
-        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_sdy_ target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
+        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_sdy_target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
 
     - name: "Generate configuration"
       shell: cmd

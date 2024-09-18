@@ -425,7 +425,6 @@ jobs:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
           project: "tests/display-generate/Model/Model.etp"
           configuration: "Code"
-          build: "false"
           checkout: false
 
       - name: "Upload code target directory to artifacts"
@@ -443,7 +442,6 @@ jobs:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
           project: "tests/display-generate/Model/Model.etp"
           configuration: "Windows"
-          build: "false"
           checkout: false
 
       - name: "Upload standalone target directory to artifacts"
