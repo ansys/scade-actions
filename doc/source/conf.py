@@ -68,7 +68,7 @@ html_theme_options = {
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.autosummary",
-    "sphinx.ext.autosectionlabel",
+    # "sphinx.ext.autosectionlabel",
     "sphinx_copybutton",
     "sphinx_jinja",
     "sphinx_design",
@@ -90,7 +90,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # Generate section labels for up to four levels
-autosectionlabel_maxdepth = 2
+# autosectionlabel_maxdepth = 2
 
 # TODO: remove this when library is public
 linkcheck_ignore = [
