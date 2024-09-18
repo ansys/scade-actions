@@ -23,11 +23,13 @@
 # display-generate
 name: 'Generate the configuration from a SCADE Display model'
 
-description: >
+description: |
   The ``display-generate`` action executes ``ScadeDisplayConsole.exe batch generate`` on a SCADE Display project
   for a given configuration.
-  | Using a configuration type 'Code', the code will be generated.
-  | Using a configuration type 'Windows', a standalone executable will be produced.
+
+  Using a configuration type 'Code', the code will be generated.
+
+  Using a configuration type 'Windows', a standalone executable will be produced.
 
 inputs:
 
@@ -43,7 +45,7 @@ inputs:
 
   configuration:
     description: >
-      Configuration to use for generating.
+      Configuration to use for generation.
     required: true
 
   # Optional inputs
@@ -72,7 +74,7 @@ runs:
       shell: cmd
       id: get
       run: |
-        :: get_target_dir.py echoes on stdout target-directory=<computed directory>
+        :: get_sdy_target_dir.py echoes on stdout target-directory=<computed directory>
         "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_sdy_target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
 
     - name: "Generate configuration"
