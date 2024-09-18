@@ -10,7 +10,7 @@ set LOGFILE=%~dpn0.log
 
 :: check if there are 3 parameters
 if ["%~3"]==[""] (
-    @echo Usage: %0 ^<SCADE directory^> ^<SCADE Display project^> ^<SCADE Display configuration^> [-source ^<ModelName^>] [-outdir ^<OutputDir^>]
+    @echo Usage: %0 ^<SCADE directory^> ^<SCADE Display project^> ^<SCADE Display configuration^>
     exit /B 1
 )
 
@@ -34,10 +34,4 @@ rem TODO set PROJECT_NAME=%~n2
 set CONF=%~3
 
 @echo Report model for %PROJECT% using the configuration %CONF%
-"%SCADE_DISPLAY_CONSOLE_EXE%" batch report "%PROJECT%" -conf "%CONF%" > "%LOGFILE%" 2>&1
-
-:: display the command output
-type "%LOGFILE%"
-
-
-if %errorlevel% neq 0 exit /B 1
+"%SCADE_DISPLAY_CONSOLE_EXE%" batch report "%PROJECT%" -conf "%CONF%"
