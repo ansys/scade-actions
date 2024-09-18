@@ -60,14 +60,6 @@ inputs:
     default: ''
     required: false
 
-  basedir:
-    description: >
-      <BaseDir> optional sub-directory path for the generation (if defined, the
-      report is generated in <OutputDir>/<BaseDir>; otherwise, report is generated in
-      <OutputDir>)
-    default: ''
-    required: false
-
   checkout:
     description: >
       Whether to clone the repository on the CI/CD machine.
