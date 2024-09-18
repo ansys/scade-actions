@@ -37,6 +37,12 @@ see each of the following cards:
 
        Execute SCADE Test command line tools on models.
 
+    .. grid-item-card:: :octicon:`terminal` SCADE Display actions
+       :link: display-actions/index
+       :link-type: doc
+
+       Execute SCADE Display command line tools on models.
+
 .. toctree::
    :hidden:
    :maxdepth: 3
@@ -45,3 +51,4 @@ see each of the following cards:
    tests-actions/index
    suite-actions/index
    test-actions/index
+   display-actions/index

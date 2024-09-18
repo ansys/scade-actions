@@ -1,0 +1,10 @@
+display-report:
+  name: "Create report"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Create report"
+      uses: ansys/scade-actions/display-report@{{ version }}
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        project: 'Model\Model.etp'
+        configuration: 'RTF'
