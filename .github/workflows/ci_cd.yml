@@ -420,7 +420,7 @@ jobs:
 
   tests:
     name: "All Tests"
-    needs: [display_tests, python-tests, unit-tests, suite-tests]
+    needs: [display-tests, python-tests, unit-tests, suite-tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Synchronization"
