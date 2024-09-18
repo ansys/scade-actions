@@ -4,6 +4,29 @@ SCADE Display Actions
 
 Execute SCADE Display command line tools on models.
 
+Generate configuration
+----------------------
+
+.. jinja:: display-generate
+
+    {{ description }}
+
+    {{ inputs_table }}
+
+    {{ outputs_table }}
+
+    Example
+    +++++++
+
+    {% for filename, title in examples %}
+    .. dropdown:: {{ title }}
+       :animate: fade-in
+
+       .. literalinclude:: examples/{{ filename }}
+          :language: yaml
+
+    {% endfor %}
+
 Create report
 -------------
 
