@@ -83,4 +83,4 @@ runs:
       shell: cmd
       run: |
         :: Call ReportModel.bat
-        call "${{ github.action_path }}\ReportModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
+        call "${{ github.action_path }}\SdyReportModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
