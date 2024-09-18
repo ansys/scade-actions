@@ -256,7 +256,7 @@ jobs:
       - name: "Upload code target directory to artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "suite-code-target-directory"
+          name: "scade-suite-code-target-directory"
           path: "${{ steps.suite-code-generate.outputs.target-directory }}/*.*"
           retention-days: 7
           if-no-files-found: error
@@ -430,7 +430,7 @@ jobs:
       - name: "Upload code target directory to artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "sdy-code-target-directory"
+          name: "scade-display-code-target-directory"
           path: "${{ steps.display-generate-code.outputs.target-directory }}/*.*"
           retention-days: 7
           if-no-files-found: error
@@ -447,7 +447,7 @@ jobs:
       - name: "Upload standalone target directory to artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "sdy-standalone-target-directory"
+          name: "scade-display-standalone-target-directory"
           path: "${{ steps.display-generate-standalone.outputs.target-directory }}/*.*"
           retention-days: 7
           if-no-files-found: error
