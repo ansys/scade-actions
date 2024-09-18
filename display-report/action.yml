@@ -45,21 +45,6 @@ inputs:
     required: true
 
   # Optional inputs
-
-  source:
-    description: >
-      <ModelName> optional source of the configuration generation (if not
-      specified, the source is the one defined in the reporter configuration settings)
-    default: ''
-    required: false
-
-  outdir:
-    description: >
-      <OutputDir> optional output directory path for generated report (if not
-      defined, the output directory is the one defined in the reporter configuration settings)
-    default: ''
-    required: false
-
   checkout:
     description: >
       Whether to clone the repository on the CI/CD machine.

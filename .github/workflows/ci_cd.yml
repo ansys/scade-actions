@@ -383,6 +383,41 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  display-tests:
+    # tests for SCADE Display actions
+    name: "Display Tests"
+    runs-on: [self-hosted, 'SCADE']
+    strategy:
+      matrix:
+        scade-version: ['24.2']
+      fail-fast: false
+    steps:
+      - name: "Check out the repository"
+        uses: actions/checkout@v4
+
+      - name: "Get SCADE installation directory"
+        uses: ./get-scade-dir
+        id: get-scade-dir
+        with:
+          scade-version: ${{ matrix.scade-version }}
+
+      - name: "Generate the documentation with display-report"
+        uses: ./display-report
+        id: display-report
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/display-report/Model/Model.etp"
+          configuration: "RTF"
+          checkout: false
+
+      - name: "Upload the document to artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "report"
+          path: "${{ steps.display-report.outputs.report }}"
+          retention-days: 7
+          if-no-files-found: error
+
   tests:
     name: "All Tests"
     needs: [display_tests, python-tests, unit-tests, suite-tests]
