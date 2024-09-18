@@ -25,19 +25,19 @@ see each of the following cards:
        Set up Python environments for SCADE and
        run the test suite for a SCADE Python library.
 
-    .. grid-item-card:: :octicon:`terminal` SCADE Suite actions
+    .. grid-item-card:: :octicon:`cpu` SCADE Suite actions
        :link: suite-actions/index
        :link-type: doc
 
        Execute SCADE Suite command line tools on models.
 
-    .. grid-item-card:: :octicon:`terminal` SCADE Test actions
+    .. grid-item-card:: :octicon:`checklist` SCADE Test actions
        :link: test-actions/index
        :link-type: doc
 
        Execute SCADE Test command line tools on models.
 
-    .. grid-item-card:: :octicon:`terminal` SCADE Display actions
+    .. grid-item-card:: :octicon:`device-desktop` SCADE Display actions
        :link: display-actions/index
        :link-type: doc
 
