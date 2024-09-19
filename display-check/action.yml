@@ -45,10 +45,14 @@ inputs:
     required: true
 
   format:
+    type: choice
     description: >
       Format of the generated report 'TXT' or 'CSV'
+    options:
+      - TXT
+      - CSV
     default: 'TXT'
-    required: true
+    required: false
 
   # Optional inputs
 
@@ -79,12 +83,13 @@ runs:
       run: |
         ::
         set FORMAT=${{ inputs.format }}
+        set SPECIFICATION=${{ inputs.specification}}
+        :: Remove the .sgfx extension from SPECIFICATION
+        for %%i in (%SPECIFICATION%) do set NAME_ONLY=%%~ni
         if "%FORMAT%"=="TXT" (
-          echo report=design-checker-report.txt >> %GITHUB_OUTPUT%
+          echo report=design-checker-report-%NAME_ONLY%.txt >> %GITHUB_OUTPUT%
         ) else if "%FORMAT%"=="CSV" (
-          echo report=design-checker-report.csv >> %GITHUB_OUTPUT%
-        ) else (
-          echo Unsupported format >&2
+          echo report=design-checker-report-%NAME_ONLY%.csv >> %GITHUB_OUTPUT%
         )
 
     - name: "Check model"

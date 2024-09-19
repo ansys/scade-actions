@@ -41,15 +41,22 @@ if /I "%FORMAT%"=="TXT" (
     exit /b 1
 )
 
-"%SCADE_DISPLAY_CONSOLE_EXE%" batch check"%FORMAT%" "%PROJECT%" -source "%SPECIFICATION%" -out design-checker-report"%EXTENSION%"
+
+:: Remove the .sgfx extension from SPECIFICATION
+for %%i in (%SPECIFICATION%) do set NAME_ONLY=%%~ni
+
+:: Create DESIGN_CHECKER_REPORT by appending the EXTENSION
+set DESIGN_CHECKER_REPORT=design-checker-report-%NAME_ONLY%%EXTENSION%
+
+"%SCADE_DISPLAY_CONSOLE_EXE%" batch check"%FORMAT%" "%PROJECT%" -source "%SPECIFICATION%" -out %DESIGN_CHECKER_REPORT%
 
 if /I "%FORMAT%"=="TXT" (
     :: check for the correct completion of the command
-    type design-checker-report"%EXTENSION%" | find "No problems found" > nul
+    type %DESIGN_CHECKER_REPORT% | find "No problems found" > nul
 
 ) else if /I "%FORMAT%"=="CSV" (
     :: count nb of lines
-    for /f %%a in ('type design-checker-report"%EXTENSION%" ^| find /c /v ""') do set lines=%%a
+    for /f %%a in ('type %DESIGN_CHECKER_REPORT% ^| find /c /v ""') do set lines=%%a
     :: check if nb of lines superior to 1
     if !lines! gtr 1 (
         exit /b 1
