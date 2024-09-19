@@ -67,13 +67,6 @@ inputs:
     default: 'true'
     required: false
 
-outputs:
-
-  report:
-    description: >
-      Path of the produced report.
-    value: ${{ steps.get.outputs.report }}
-
 runs:
   using: "composite"
   steps:
@@ -87,7 +80,7 @@ runs:
       id: get
       run: |
         :: retrieve the generated report
-        set CHECK_REPORT = ${{ inputs.output }}
+        set CHECK_REPORT=${{ inputs.output }}
         if exist "%CHECK_REPORT%" (
           echo report=%CHECK_REPORT% >> %GITHUB_OUTPUT%
         ) else (
