@@ -81,7 +81,7 @@ runs:
       run: |
         :: retrieve the generated report
         set CHECK_REPORT=${{ inputs.output }}
-        if exist "%CHECK_REPORT%" (
+        if exist %CHECK_REPORT% (
           echo report=%CHECK_REPORT% >> %GITHUB_OUTPUT%
         ) else (
           exit /b 1
