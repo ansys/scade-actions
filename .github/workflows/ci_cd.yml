@@ -361,7 +361,7 @@ jobs:
       - name: "Upload Checker report artifacts"
         uses: actions/upload-artifact@v4
         with:
-          name: "check-report"
+          name: "scade-suite-check-report"
           path: "${{ steps.suite-check.outputs.report }}"
           retention-days: 7
           if-no-files-found: error
@@ -449,6 +449,25 @@ jobs:
         with:
           name: "scade-display-standalone-target-directory"
           path: "${{ steps.display-generate-standalone.outputs.target-directory }}/*.*"
+          retention-days: 7
+          if-no-files-found: error
+
+      - name: "Check with display-check"
+        uses: ./display-check
+        id: display-check
+        with:
+          scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+          project: "tests/display-check/Model/Model.etp"
+          specification: "specification.sgfx"
+          format: 'TXT'
+          output: 'design-checker-report-specification.txt'
+          checkout: false
+
+      - name: "Upload Checker report artifacts"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "scade-display-check-report"
+          path: 'design-checker-report-specification.txt'
           retention-days: 7
           if-no-files-found: error
 

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?dom version="19.0" ?>
+
+<specification>
+    <IDE>
+        <project path="Model.etp"/>
+        <ratio horizontal="1" vertical="1"/>
+    </IDE>
+    <symbology>
+        <dimension height="256" width="256"/>
+    </symbology>
+    <children>
+        <layer oid="26657af8-63ba-495d-a0b0-d9ec12b1ac3a">
+            <pathFromRoot value=""/>
+            <declaration/>
+            <properties name="symbology_layer2">
+                <visible>
+                    <init>true</init>
+                </visible>
+                <origin>
+                    <x>
+                        <init>0.0</init>
+                    </x>
+                    <y>
+                        <init>0.0</init>
+                    </y>
+                </origin>
+                <id>
+                    <init>1</init>
+                </id>
+                <ratio horizontal="1" vertical="1"/>
+            </properties>
+            <children>
+                <container oid="54021671-dd8c-4d74-a4f3-8e9de6f1a8d8">
+                    <pathFromRoot value="0"/>
+                    <properties name="group">
+                        <visible>
+                            <init>true</init>
+                        </visible>
+                        <origin>
+                            <x>
+                                <init>0.0</init>
+                            </x>
+                            <y>
+                                <init>0.0</init>
+                            </y>
+                        </origin>
+                        <priority>
+                            <init>-1</init>
+                        </priority>
+                        <scale>
+                            <x>
+                                <init>1.0</init>
+                            </x>
+                            <y>
+                                <init>1.0</init>
+                            </y>
+                        </scale>
+                        <rotate>
+                            <angle>
+                                <init>0.0</init>
+                            </angle>
+                        </rotate>
+                        <orientation clockwise="false"/>
+                        <static editorLinked="true" generateStaticSequence="true" maxX="6.0" maxY="72.0" minX="-63.0" minY="-19.0">
+                            <init>false</init>
+                        </static>
+                    </properties>
+                    <children>
+                        <line oid="e2c9fe1b-9618-4e0a-bd8d-5b15abc2e871">
+                            <pathFromRoot value="0,0"/>
+                            <properties name="line">
+                                <visible>
+                                    <init>true</init>
+                                </visible>
+                                <points>
+                                    <point>
+                                        <x>
+                                            <init>-49.0</init>
+                                        </x>
+                                        <y>
+                                            <init>66.0</init>
+                                        </y>
+                                    </point>
+                                    <point>
+                                        <x>
+                                            <init>0.0</init>
+                                        </x>
+                                        <y>
+                                            <init>32.0</init>
+                                        </y>
+                                    </point>
+                                </points>
+                                <lineWidth>
+                                    <init>0</init>
+                                </lineWidth>
+                                <lineStipple>
+                                    <init>0</init>
+                                </lineStipple>
+                                <lineCap>
+                                    <init>round</init>
+                                </lineCap>
+                                <haloing>
+                                    <init>false</init>
+                                </haloing>
+                                <haloColor>
+                                    <init>-1</init>
+                                </haloColor>
+                                <outlineColor>
+                                    <init>48</init>
+                                </outlineColor>
+                                <outlineOpacity>
+                                    <init>255</init>
+                                </outlineOpacity>
+                            </properties>
+                        </line>
+                        <line oid="55973928-dca1-433b-9699-511be1f560fe">
+                            <pathFromRoot value="1,0"/>
+                            <properties name="line">
+                                <visible>
+                                    <init>true</init>
+                                </visible>
+                                <points>
+                                    <point>
+                                        <x>
+                                            <init>-57.0</init>
+                                        </x>
+                                        <y>
+                                            <init>21.0</init>
+                                        </y>
+                                    </point>
+                                    <point>
+                                        <x>
+                                            <init>-8.0</init>
+                                        </x>
+                                        <y>
+                                            <init>-13.0</init>
+                                        </y>
+                                    </point>
+                                </points>
+                                <lineWidth>
+                                    <init>0</init>
+                                </lineWidth>
+                                <lineStipple>
+                                    <init>0</init>
+                                </lineStipple>
+                                <lineCap>
+                                    <init>square</init>
+                                </lineCap>
+                                <haloing>
+                                    <init>false</init>
+                                </haloing>
+                                <haloColor>
+                                    <init>-1</init>
+                                </haloColor>
+                                <outlineColor>
+                                    <init>48</init>
+                                </outlineColor>
+                                <outlineOpacity>
+                                    <init>255</init>
+                                </outlineOpacity>
+                            </properties>
+                        </line>
+                    </children>
+                </container>
+            </children>
+        </layer>
+    </children>
+</specification>
+
+<!-- crc32 : 770018860 -->
+
