@@ -75,21 +75,11 @@ runs:
       uses: actions/checkout@v4
       if: ${{ inputs.checkout == 'true' }}
 
-    - name: "Retrieve checker report"
-      shell: cmd
-      id: get
-      run: |
-        :: retrieve the generated report
-        set CHECK_REPORT=${{ inputs.output }}
-        if exist %CHECK_REPORT% (
-          echo report=%CHECK_REPORT% >> %GITHUB_OUTPUT%
-        ) else (
-          exit /b 1
-        )
-
     - name: "Check model"
       shell: cmd
       id: code
       run: |
         :: Call CheckSdyModel.bat
         call "${{ github.action_path }}\CheckSdyModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.specification }}" "${{ inputs.format }}" "${{ inputs.output }}"
+
+
