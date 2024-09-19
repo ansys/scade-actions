@@ -78,13 +78,14 @@ runs:
       id: get
       run: |
         ::
-        if [[ "${{ inputs.format }}" == "TXT" ]]; then
-          echo "report=design-checker-report.txt" >> $GITHUB_OUTPUT
-        elif [[ "${{ inputs.format }}" == "CSV" ]]; then
-          echo "report=design-checker-report.csv" >> $GITHUB_OUTPUT
-        else
-          echo "Unsupported format" >&2
-        fi
+        set FORMAT=${{ inputs.format }}
+        if "%FORMAT%"=="TXT" (
+          echo report=design-checker-report.txt >> %GITHUB_OUTPUT%
+        ) else if "%FORMAT%"=="CSV" (
+          echo report=design-checker-report.csv >> %GITHUB_OUTPUT%
+        ) else (
+          echo Unsupported format >&2
+        )
 
     - name: "Check model"
       shell: cmd
