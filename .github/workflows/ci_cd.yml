@@ -468,7 +468,6 @@ jobs:
         with:
           name: "scade-display-check-report"
           path: 'design-checker-report-specification.txt'
-          # path: "${{ steps.display-check.inputs.output }}"
           retention-days: 7
           if-no-files-found: error
 
