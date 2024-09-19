@@ -459,7 +459,7 @@ jobs:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
           project: "tests/display-check/Model/Model.etp"
           specification: "specification.sgfx"
-          format: 'CSV'
+          format: 'TXT'
           checkout: false
 
       - name: "Upload Checker report artifacts"
