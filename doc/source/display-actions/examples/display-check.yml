@@ -1,0 +1,11 @@
+display-check:
+  name: "Check model basic example"
+  runs-on: [self-hosted, 'SCADE']
+  steps:
+    - name: "Check model"
+      uses: ansys/scade-actions/display-check@{{ version }}
+      with:
+        scade-dir: 'C:\Program Files\Ansys Inc\v242\SCADE'
+        project: 'Model\Model.etp'
+        specification: 'specification.sgfx'
+        format: 'CSV'

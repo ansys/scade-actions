@@ -1,0 +1,94 @@
+# Copyright (C) 2024 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+# display-check
+name: 'Check a SCADE Display model'
+
+description: >
+  The ``display-check`` action executes ``ScadeDisplayConsole.exe batch checkTXT`` or  ``ScadeDisplayConsole.exe batch checkCSV`` on a SCADE Display project
+  for a given specification.
+
+inputs:
+
+  scade-dir:
+    description: >
+      Ansys SCADE installation directory.
+    required: true
+
+  project:
+    description: >
+      Path of the SCADE Display project.
+    required: true
+
+  specification:
+    description: >
+      Set the name of the specification to check
+    required: true
+
+  format:
+    description: >
+      Format of the generated report 'TXT' or 'CSV'
+    default: 'TXT'
+    required: true
+
+  # Optional inputs
+
+  checkout:
+    description: >
+      Whether to clone the repository on the CI/CD machine.
+    default: 'true'
+    required: false
+
+outputs:
+
+  report:
+    description: >
+      Path of the produced report.
+    value: ${{ steps.get.outputs.report }}
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: "Install Git and clone project"
+      uses: actions/checkout@v4
+      if: ${{ inputs.checkout == 'true' }}
+
+    - name: "Retrieve checker report"
+      shell: cmd
+      id: get
+      run: |
+        ::
+        if [[ "${{ inputs.format }}" == "TXT" ]]; then
+          echo "report=design-checker-report.txt" >> $GITHUB_OUTPUT
+        elif [[ "${{ inputs.format }}" == "CSV" ]]; then
+          echo "report=design-checker-report.csv" >> $GITHUB_OUTPUT
+        else
+          echo "Unsupported format" >&2
+        fi
+
+    - name: "Check model"
+      shell: cmd
+      id: code
+      run: |
+        :: Call CheckSdyModel.bat
+        call "${{ github.action_path }}\CheckSdyModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.specification }}" "${{ inputs.format }}"

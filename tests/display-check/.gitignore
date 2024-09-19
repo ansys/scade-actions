@@ -1,0 +1,5 @@
+*.dll
+*.ewo
+design-checker-report.csv
+design-checker-report.txt
+*.log
