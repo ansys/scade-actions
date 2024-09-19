@@ -44,6 +44,11 @@ inputs:
       Set the name of the specification to check
     required: true
 
+  output:
+    description: >
+      Set the path to the generated report file
+    required: true
+
   format:
     type: choice
     description: >
@@ -81,15 +86,12 @@ runs:
       shell: cmd
       id: get
       run: |
-        ::
-        set FORMAT=${{ inputs.format }}
-        set SPECIFICATION=${{ inputs.specification}}
-        :: Remove the .sgfx extension from SPECIFICATION
-        for %%i in (%SPECIFICATION%) do set NAME_ONLY=%%~ni
-        if "%FORMAT%"=="TXT" (
-          echo report=design-checker-report-%NAME_ONLY%.txt >> %GITHUB_OUTPUT%
-        ) else if "%FORMAT%"=="CSV" (
-          echo report=design-checker-report-%NAME_ONLY%.csv >> %GITHUB_OUTPUT%
+        :: retrieve the generated report
+        set CHECK_REPORT = ${{ inputs.output }}
+        if exist "%CHECK_REPORT%" (
+          echo report=%CHECK_REPORT% >> %GITHUB_OUTPUT%
+        ) else (
+          exit /b 1
         )
 
     - name: "Check model"
@@ -97,4 +99,4 @@ runs:
       id: code
       run: |
         :: Call CheckSdyModel.bat
-        call "${{ github.action_path }}\CheckSdyModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.specification }}" "${{ inputs.format }}"
+        call "${{ github.action_path }}\CheckSdyModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.specification }}" "${{ inputs.format }}" "${{ inputs.output }}"

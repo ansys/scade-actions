@@ -9,3 +9,4 @@ display-check:
         project: 'Model\Model.etp'
         specification: 'specification.sgfx'
         format: 'CSV'
+        output: 'design-checker-report-specification.csv'

@@ -5,10 +5,11 @@ rem %1: SCADE installation directory, e.g. C:\Program Files\ANSYS Inc\v242\SCADE
 rem %2: project
 rem %3: specification
 rem %4: format
+rem %5: output
 
 :: check if there are 4 parameters
-if ["%~4"]==[""] (
-    @echo Usage: %0 ^<SCADE directory^> ^<SCADE project^> ^<SCADE specification^> ^<format^>
+if ["%~5"]==[""] (
+    @echo Usage: %0 ^<SCADE directory^> ^<SCADE project^> ^<SCADE specification^> ^<format^> ^<output^>
     exit /B 1
 )
 
@@ -26,37 +27,20 @@ if not exist "%2" (
 )
 set PROJECT=%~2
 
-:: retrieve the specification and format
+:: retrieve the specification / format / output
 set SPECIFICATION=%~3
 set FORMAT=%~4
+set OUTPUT=%~5
 
-:: set extension
-@echo Check%FORMAT% model for %PROJECT% using the specification %SPECIFICATION%
-if /I "%FORMAT%"=="TXT" (
-    set EXTENSION=.txt
-) else if /I "%FORMAT%"=="CSV" (
-    set EXTENSION=.csv
-) else (
-    echo Unknown format: %FORMAT%
-    exit /b 1
-)
-
-
-:: Remove the .sgfx extension from SPECIFICATION
-for %%i in (%SPECIFICATION%) do set NAME_ONLY=%%~ni
-
-:: Create DESIGN_CHECKER_REPORT by appending the EXTENSION
-set DESIGN_CHECKER_REPORT=design-checker-report-%NAME_ONLY%%EXTENSION%
-
-"%SCADE_DISPLAY_CONSOLE_EXE%" batch check"%FORMAT%" "%PROJECT%" -source "%SPECIFICATION%" -out %DESIGN_CHECKER_REPORT%
+"%SCADE_DISPLAY_CONSOLE_EXE%" batch check"%FORMAT%" "%PROJECT%" -source "%SPECIFICATION%" -out %OUTPUT%
 
 if /I "%FORMAT%"=="TXT" (
     :: check for the correct completion of the command
-    type %DESIGN_CHECKER_REPORT% | find "No problems found" > nul
+    type %OUTPUT% | find "No problems found" > nul
 
 ) else if /I "%FORMAT%"=="CSV" (
     :: count nb of lines
-    for /f %%a in ('type %DESIGN_CHECKER_REPORT% ^| find /c /v ""') do set lines=%%a
+    for /f %%a in ('type %OUTPUT% ^| find /c /v ""') do set lines=%%a
     :: check if nb of lines superior to 1
     if !lines! gtr 1 (
         exit /b 1
