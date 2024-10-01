@@ -84,12 +84,12 @@ jobs:
     needs: labeler
     steps:
       - name: "Check commit style"
-        uses: ansys/actions/commit-style@v7
+        uses: ansys/actions/commit-style@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: "Check branch naming convention"
-        uses: ansys/actions/branch-name-style@v7
+        uses: ansys/actions/branch-name-style@v8
 
   code-style:
     name: "Code style"
@@ -97,7 +97,7 @@ jobs:
     needs: commit-and-branch-style
     steps:
       - name: "Run code style checks"
-        uses: ansys/actions/code-style@v7
+        uses: ansys/actions/code-style@v8
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           use-python-cache: false
@@ -116,7 +116,7 @@ jobs:
     needs: commit-and-branch-style
     steps:
       - name: "Run documentation style checks"
-        uses: ansys/actions/doc-style@v7
+        uses: ansys/actions/doc-style@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -126,7 +126,7 @@ jobs:
     needs: doc-style
     steps:
       - name: "Build documentation"
-        uses: ansys/actions/doc-build@v7
+        uses: ansys/actions/doc-build@v8
         with:
           skip-install: true
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
@@ -486,7 +486,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:
-      - uses: ansys/actions/doc-deploy-dev@v7
+      - uses: ansys/actions/doc-deploy-dev@v8
         with:
             cname: ${{ env.DOCUMENTATION_CNAME }}
             token: ${{ secrets.GITHUB_TOKEN }}
@@ -540,7 +540,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: release
     steps:
-      - uses: ansys/actions/doc-deploy-stable@v7
+      - uses: ansys/actions/doc-deploy-stable@v8
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
