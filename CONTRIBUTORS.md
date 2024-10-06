@@ -1,6 +1,6 @@
 # Contributors
 ## Project Lead
 
-* Jean Henry
+* [Jean Henry](https://github.com/ansjhenry)
 
 ## Individual Contributors
