@@ -78,23 +78,20 @@ jobs:
             - [maintenance](https://github.com/ansys/scade-actions/pulls?q=label%3Amaintenance+)
             - [release](https://github.com/ansys/scade-actions/pulls?q=label%3Arelease+)
 
-  commit-and-branch-style:
-    name: "Commit and branch style"
+  pr-style:
+    name: "PR style"
     runs-on: ubuntu-latest
     needs: labeler
     steps:
-      - name: "Check commit style"
-        uses: ansys/actions/commit-style@v8
+      - name: "Check pr title"
+        uses: ansys/actions/check-pr-title@v8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: "Check branch naming convention"
-        uses: ansys/actions/branch-name-style@v8
 
   code-style:
     name: "Code style"
     runs-on: ubuntu-latest
-    needs: commit-and-branch-style
+    needs: pr-style
     steps:
       - name: "Run code style checks"
         uses: ansys/actions/code-style@v8
