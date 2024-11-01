@@ -1,4 +1,4 @@
-ansys-sphinx-theme==1.1.1
+ansys-sphinx-theme==1.2.0
 pyyaml==6.0.2
 Sphinx==8.0.2
 sphinx-copybutton==0.5.2
