@@ -31,7 +31,7 @@ set PROJECT=%~2
 :: retrieve the configuration
 set CONF=%~3
 
-if "%4" == "true" (
+if "%~4" == "true" (
     @echo Building code for %PROJECT% using the configuration %CONF%
     "%SCADE_EXE%" -code "%PROJECT%" -conf "%CONF%" -sim > "%LOGFILE%" 2>&1
 ) else (
