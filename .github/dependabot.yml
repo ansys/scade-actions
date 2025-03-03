@@ -2,6 +2,8 @@ version: 2
 updates:
   - package-ecosystem: "pip"
     directory: "/requirements"
+      ignore:
+        - dependency-name: "sphinx"
     schedule:
       interval: "monthly"
     commit-message:
