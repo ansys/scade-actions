@@ -1,0 +1,6 @@
+User-agent: *
+
+Disallow: /version/2.0
+Disallow: /version/1.0
+
+Sitemap: https://actions.scade.docs.pyansys.com/sitemap.xml
