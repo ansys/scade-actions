@@ -71,7 +71,7 @@ runs:
       shell: cmd
       id: get
       run: |
-        :: replace .etp with _metrics.htm
+        :: replace .etp with _metrics.xml
         set PROJECT=${{ inputs.project }}
         if "%PROJECT:~-4%" == ".etp" (
           echo report=%PROJECT:~0,-4%_metrics.xml>> %GITHUB_OUTPUT%
