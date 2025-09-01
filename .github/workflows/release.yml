@@ -10,6 +10,9 @@ jobs:
   automate-tagging:
     name: "Perform rolling release"
     runs-on: ubuntu-latest
+    env:
+      REF_NAME: ${{ github.ref_name }}
+      BASE_REF: ${{ github.event.base_ref }}
     steps:
     - name: "Checkout repository"
       uses: actions/checkout@v4
@@ -23,12 +26,12 @@ jobs:
       run: |
         if [[ ${{ github.ref_name }} =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           # Split the tag into its components
-          IFS='.' read -ra PARTS <<< "${{ github.ref_name }}"
+          IFS='.' read -ra PARTS <<< "$REF_NAME"
           echo "X=${PARTS[0]}" >> $GITHUB_ENV
           echo "Y=${PARTS[1]}" >> $GITHUB_ENV
           echo "Z=${PARTS[2]}" >> $GITHUB_ENV
         else
-          echo "Invalid tag format. Expected vX.Y.Z but got ${{ github.ref_name }}"
+          echo "Invalid tag format. Expected vX.Y.Z but got $REF_NAME"
           exit 1
         fi
 
@@ -37,8 +40,8 @@ jobs:
         # Remove leading "v" from env.X
         X_NO_V="${X:1}"
         # Check if the tag was created in the proper branch
-        if [[ "${{ github.event.base_ref }}" != "refs/heads/release/${X_NO_V}.${{ env.Y }}" ]]; then
-          echo "Tag ${{ github.ref_name }} was created in the wrong branch. Expected branch name release/${X_NO_V}.${{ env.Y }}"
+        if [[ "$BASE_REF" != "refs/heads/release/${X_NO_V}.${{ env.Y }}" ]]; then
+          echo "Tag $REF_NAME was created in the wrong branch. Expected branch name release/${X_NO_V}.${{ env.Y }}"
           exit 1
         fi
 
