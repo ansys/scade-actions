@@ -1,0 +1,83 @@
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>734ba9f9-0822-4099-b257-40bc1b088124</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
+    <StartupFile>tests\suite-report\test_get_document.py</StartupFile>
+    <SearchPath>
+    </SearchPath>
+    <WorkingDirectory>.</WorkingDirectory>
+    <OutputPath>.</OutputPath>
+    <Name>Actions</Name>
+    <RootNamespace>Actions</RootNamespace>
+    <InterpreterId>MSBuild|.venv|$(MSBuildProjectFullPath)</InterpreterId>
+    <TestFramework>pytest</TestFramework>
+    <UnitTestPattern>test*.py</UnitTestPattern>
+    <UnitTestRootDirectory>.</UnitTestRootDirectory>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+    <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
+  </PropertyGroup>
+  <ItemGroup>
+    <Interpreter Include=".venv\">
+      <Id>.venv</Id>
+      <Version>3.10</Version>
+      <Description>.venv (Python 3.10 (64-bit))</Description>
+      <InterpreterPath>Scripts\python.exe</InterpreterPath>
+      <WindowsInterpreterPath>Scripts\pythonw.exe</WindowsInterpreterPath>
+      <PathEnvironmentVariable>PYTHONPATH</PathEnvironmentVariable>
+      <Architecture>X64</Architecture>
+    </Interpreter>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="suite-code\" />
+    <Folder Include="test-coverage\" />
+    <Folder Include="suite-report\" />
+    <Folder Include="test-execute\" />
+    <Folder Include="tests\" />
+    <Folder Include="tests\suite-code\" />
+    <Folder Include="tests\test-coverage\" />
+    <Folder Include="tests\suite-diff\" />
+    <Folder Include="tests\suite-report\" />
+    <Folder Include="tests\test-execute\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="suite-code\get_target_dir.py" />
+    <Compile Include="test-coverage\get_coverage_dir.py" />
+    <Compile Include="test-coverage\mcr.py" />
+    <Compile Include="test-coverage\mc_results.py" />
+    <Compile Include="suite-report\get_document.py" />
+    <Compile Include="test-execute\get_results_dir.py" />
+    <Compile Include="test-execute\tee_results.py" />
+    <Compile Include="tests\suite-code\test_get_target_dir.py" />
+    <Compile Include="tests\test-coverage\test_get_coverage_dir.py" />
+    <Compile Include="tests\test-coverage\test_mc_results.py" />
+    <Compile Include="tests\suite-report\test_get_document.py" />
+    <Compile Include="tests\test-execute\test_get_results_dir.py" />
+    <Compile Include="tests\test-execute\test_tee_results.py" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="suite-code\action.yml" />
+    <Content Include="test-coverage\action.yml" />
+    <Content Include="suite-report\action.yml" />
+    <Content Include="tests\.gitignore" />
+    <Content Include="tests\suite-code\CallTestGetTargetDir.bat" />
+    <Content Include="tests\suite-code\TestGenerateCode.bat" />
+    <Content Include="tests\suite-code\TestGetTargetDir.bat" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
+  <!-- Uncomment the CoreCompile target to enable the Build command in
+       Visual Studio and specify your pre- and post-build commands in
+       the BeforeBuild and AfterBuild targets below. -->
+  <!--<Target Name="CoreCompile" />-->
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+</Project>
