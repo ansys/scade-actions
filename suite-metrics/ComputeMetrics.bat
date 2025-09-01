@@ -30,8 +30,17 @@ set CONF=%~3
 
 @echo Compute metrics for %PROJECT% using the configuration %CONF%
 "%SCADE_EXE%" -metrics "%PROJECT%" -conf "%CONF%"
-if errorlevel 1 (
+
+@REM if errorlevel 1 (
+@REM     exit /B 1
+@REM )
+
+set PROJECT=%PROJECT:/=\%
+
+if exist "%PROJECT:.etp=_metrics.xml%" (
+    exit /B 0
+) else (
+    @echo Error: %PROJECT:.etp=_metrics.xml% does not exist
     exit /B 1
 )
 
-exit /B 0

@@ -32,13 +32,13 @@ set LOGFILE=%~dpn0.log
 
 @echo Check rules for %PROJECT% using the configuration %CONF%
 "%SCADE_EXE%" -rules_checker "%PROJECT%" -conf "%CONF%"
-if errorlevel 1 (
-    exit /B 1
-)
-:: check for errors, from the report's overall status line
-:: ensure Windows path syntax
+
+
+:: check for the correct completion of the command (wrong error code returned by SCADE)
 set PROJECT=%PROJECT:/=\%
 type "%PROJECT:.etp=_rules.htm%" | find "Overall Results:" > "%LOGFILE%"
+if %errorlevel% neq 0 exit /B 1
+
 for /F "tokens=7" %%i in (%LOGFILE%) do (
     if %%i NEQ 0 exit /B 1
 )
