@@ -26,7 +26,7 @@ jobs:
       contents: read
       pull-requests: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: micnncim/action-label-syncer@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -166,7 +166,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Install Git and clone project"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
@@ -232,7 +232,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Check out the repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
@@ -390,7 +390,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Check out the repository"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: "Get SCADE installation directory"
         uses: ./get-scade-dir
