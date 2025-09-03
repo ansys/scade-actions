@@ -139,6 +139,9 @@ jobs:
         scade-version: ['23.2']
       fail-fast: false
     steps:
+      - name: "Install git and clone project"
+        uses: actions/checkout@v5
+
       - name: "Execute setup.py tests"
         uses: ./scade-tests-pytest
         with:
