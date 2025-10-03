@@ -386,7 +386,7 @@ jobs:
     runs-on: [self-hosted, 'SCADE']
     strategy:
       matrix:
-        scade-version: ['24.2']
+        scade-version: ['25.2']
       fail-fast: false
     steps:
       - name: "Check out the repository"
