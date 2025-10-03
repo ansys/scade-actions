@@ -1,0 +1,6 @@
+Model/specification_ScadeOneCosimulation
+Model/specification_Exe
+log.txt
+env.txt
+err.txt
+*.dll

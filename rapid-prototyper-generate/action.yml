@@ -20,17 +20,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-# display-generate
-name: 'Generate the configuration from a SCADE Display model'
+# rapid-prototyper-generate
+name: 'Generate the configuration from a SCADE Rapid Prototyper model'
 
 description: |
-  The ``display-generate`` action executes ``ScadeDisplayConsole.exe batch generate`` on a SCADE Display project
+  The ``rapid-prototyper-generate`` action executes ``ScadeRPConsole.exe batch generate`` on a SCADE Rapid Prototyper project
   for a given configuration.
 
   The produced artifact depends on the configuration's type:
 
 
-  * ``Code``: generated code.
+  * ``Scade One Co-simulation``: Scade One project.
   * ``Windows``: standalone executable.
   * ``FMU``: FMU.
 
@@ -43,7 +43,7 @@ inputs:
 
   project:
     description: >
-      Path of the SCADE Display project.
+      Path of the SCADE Rapid Prototyper project.
     required: true
 
   configuration:
@@ -77,12 +77,12 @@ runs:
       shell: cmd
       id: get
       run: |
-        :: get_sdy_target_dir.py echoes on stdout target-directory=<computed directory>
-        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_sdy_target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
+        :: get_rp_target_dir.py echoes on stdout target-directory=<computed directory>
+        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_rp_target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
 
     - name: "Generate configuration"
       shell: cmd
       id: generate
       run: |
         :: Call SdyGenerate.bat
-        call "${{ github.action_path }}\SdyGenerate.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
+        call "${{ github.action_path }}\RPGenerate.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
