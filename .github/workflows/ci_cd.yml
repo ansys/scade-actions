@@ -499,7 +499,7 @@ jobs:
                 uses: actions/upload-artifact@v4
                 with:
                   name: "scade-rapid-prototyper-scade-one-target-directory"
-                  path: "${{ steps.rapid-prototyper-generate-scade-one.outputs.target-directory }}/*.*"
+                  path: "${{ steps.rapid-prototyper-generate-scade-one.outputs.target-directory }}"
                   retention-days: 7
                   if-no-files-found: error
 

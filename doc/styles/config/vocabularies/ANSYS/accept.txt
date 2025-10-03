@@ -8,6 +8,9 @@ pytest
 PyPI
 Python
 SCADE
+Scade
+Prototyper
+prototyper
 TXT
 (?!)scade
 (?!)python
