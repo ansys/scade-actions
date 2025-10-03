@@ -89,6 +89,12 @@ runs:
             "scade-version": ${{ inputs.scade-version }}
           }
 
+    - name: "Debug uses' output"
+      shell: cmd
+      id: debut-output
+      run: |
+        echo steps.get-scade-dir.outputs= :${{ steps.get-scade-dir.outputs }}:
+
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
