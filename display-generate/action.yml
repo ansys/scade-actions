@@ -27,9 +27,12 @@ description: |
   The ``display-generate`` action executes ``ScadeDisplayConsole.exe batch generate`` on a SCADE Display project
   for a given configuration.
 
-  Using a configuration type 'Code', the code will be generated.
+  The produced artifact depends on the configuration's type:
 
-  Using a configuration type 'Windows', a standalone executable will be produced.
+
+  * ``Code``: generated code.
+  * ``Windows``: standalone executable.
+  * ``FMU``: FMU.
 
 inputs:
 

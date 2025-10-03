@@ -27,11 +27,12 @@ description: |
   The ``rapid-prototyper-generate`` action executes ``ScadeRPConsole.exe batch generate`` on a SCADE Rapid Prototyper project
   for a given configuration.
 
-  Using a configuration type 'Scade One Co-simulation', the Scade One project  will be generated.
+  The produced artifact depends on the configuration's type:
 
-  Using a configuration type 'Windows', a standalone executable will be produced.
 
-  Using a configuration type 'FMU', a FMU will be produced.
+  * ``Scade One Co-simulation``: Scade One project.
+  * ``Windows``: standalone executable.
+  * ``FMU``: FMU.
 
 inputs:
 
