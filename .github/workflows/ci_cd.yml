@@ -468,6 +468,58 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  rapid-prototyper-tests:
+            # tests for SCADE Rapid Prototyper actions
+            name: "Rapid Prototyper Tests"
+            runs-on: [self-hosted, 'SCADE']
+            strategy:
+              matrix:
+                scade-version: ['25.2']
+              fail-fast: false
+            steps:
+              - name: "Check out the repository"
+                uses: actions/checkout@v5
+
+              - name: "Get SCADE installation directory"
+                uses: ./get-scade-dir
+                id: get-scade-dir
+                with:
+                  scade-version: ${{ matrix.scade-version }}
+
+              - name: "Generate Scade One project with rapid-prototyper-generate"
+                uses: ./rapid-prototyper-generate
+                id: rapid-prototyper-generate-scade-one
+                with:
+                  scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+                  project: "tests/rapid-prototyper-generate/Model/Model.etp"
+                  configuration: "ScadeOneCosimulation"
+                  checkout: false
+
+              - name: "Upload code target directory to artifacts"
+                uses: actions/upload-artifact@v4
+                with:
+                  name: "scade-rapid-prototyper-scade-one-target-directory"
+                  path: "${{ steps.rapid-prototyper-generate-scade-one.outputs.target-directory }}/*.*"
+                  retention-days: 7
+                  if-no-files-found: error
+
+              - name: "Generate standalone with rapid-prototyper-generate"
+                uses: ./rapid-prototyper-generate
+                id: rapid-prototyper-generate-standalone
+                with:
+                  scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
+                  project: "tests/rapid-prototyper-generate/Model/Model.etp"
+                  configuration: "Windows"
+                  checkout: false
+
+              - name: "Upload standalone target directory to artifacts"
+                uses: actions/upload-artifact@v4
+                with:
+                  name: "scade-rapid-prototyper-standalone-target-directory"
+                  path: "${{ steps.rapid-prototyper-generate-standalone.outputs.target-directory }}/*.*"
+                  retention-days: 7
+                  if-no-files-found: error
+
   tests:
     name: "All Tests"
     needs: [display-tests, python-tests, unit-tests, suite-tests]

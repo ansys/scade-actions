@@ -37,11 +37,17 @@ see each of the following cards:
 
        Execute SCADE Test command line tools on models.
 
-    .. grid-item-card:: :octicon:`device-desktop` SCADE Display actions
+    .. grid-item-card:: :octicon:`devices` SCADE Display actions
        :link: display-actions/index
        :link-type: doc
 
        Execute SCADE Display command line tools on models.
+
+    .. grid-item-card:: :octicon:`device-desktop` SCADE Rapid Prototyper actions
+       :link: rapid-prototyper-actions/index
+       :link-type: doc
+
+       Execute SCADE Rapid Prototyper command line tools on models.
 
 .. toctree::
    :hidden:
@@ -52,3 +58,4 @@ see each of the following cards:
    suite-actions/index
    test-actions/index
    display-actions/index
+   rapid-prototyper-actions/index
