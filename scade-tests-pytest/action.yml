@@ -98,7 +98,7 @@ runs:
         uses: ansys/scade-actions/get-scade-python@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "scade-dir": ${{ fromJSON(steps.get-scade-dir.outputs)['scade-directory'] }}
+            "scade-dir": ${{ fromJSON(steps.get-scade-dir.outputs.outputs)['scade-directory'] }}
           }
 
     - name: "Create Python virtual environment"
@@ -110,9 +110,9 @@ runs:
         uses: ansys/scade-actions/create-scade-venv@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": ${{ fromJSON(steps.get-scade-python.outputs)['python-dir'] }},
+            "python-dir": ${{ fromJSON(steps.get-scade-python.outputs.outputs)['python-dir'] }},
             "target-dir": ".venvs",
-            "target-name": ${{ fromJSON(steps.get-scade-python.outputs)['python-name'] }}
+            "target-name": ${{ fromJSON(steps.get-scade-python.outputs.outputs)['python-name'] }}
           }
 
     - name: "Run the tests"
@@ -123,7 +123,7 @@ runs:
         uses: ansys/scade-actions/tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": ${{ fromJSON(steps.create-scade-venv.outputs)['scripts-dir'] }},
+            "python-dir": ${{ fromJSON(steps.create-scade-venv.outputs.outputs)['scripts-dir'] }},
             "library-dir": ${{ inputs.library-dir }},
             "pytest-markers": ${{ inputs.pytest-markers }},
             "pytest-extra-args": ${{ inputs.pytest-extra-args }},
