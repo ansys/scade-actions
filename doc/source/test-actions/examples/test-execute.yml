@@ -3,7 +3,7 @@ test-execute:
   runs-on: [self-hosted, 'SCADE']
   steps:
     - name: "Checkout code"
-      uses: actions/checkout@v4
+      uses: actions/checkout@v5
 
     - name: "Execute tests"
       uses: ansys/scade-actions/test-execute@{{ version }}
