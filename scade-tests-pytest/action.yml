@@ -90,11 +90,13 @@ runs:
           }
 
     - name: "Escape scade-directory"
-      shell: sh
-      id: escape-scade-directory
+      shell: cmd
       run: |
-        var="${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}"
-        echo ESC_SCADE_DIRECTORY=${var//\\/\\\\}>> $GITHUB_ENV
+        echo set OUT_SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}>> %GITHUB_ENV%
+
+    - shell: sh
+      run: |
+        echo ESC_SCADE_DIRECTORY=${OUT_SCADE_DIRECTORY//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
@@ -108,12 +110,15 @@ runs:
             "scade-dir": "$ESC_SCADE_DIRECTORY"
           }
 
-    - name: "Escape python-directory"
-      shell: sh
-      id: escape-python-directory
+    - name: "Escape python-dir"
+      shell: cmd
       run: |
-        var="${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}"
-        echo ESC_PYTHON_DIRECTORY=${var//\\/\\\\}>> $GITHUB_ENV
+        echo set OUT_PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}>> %GITHUB_ENV%
+
+    - shell: sh
+      run: |
+        var=""
+        echo ESC_PYTHON_DIR=${OUT_PYTHON_DIR//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
@@ -124,24 +129,28 @@ runs:
         uses: ansys/scade-actions/create-scade-venv@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": "$ESC_PYTHON_DIRECTORY",
+            "python-dir": "$ESC_PYTHON_DIR",
             "target-dir": ".venvs",
             "target-name": "${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}"
           }
 
     - name: "Escape scripts-dir"
-      shell: sh
-      id: escape-scripts-dir
+      shell: cmd
       run: |
-        var="${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}"
-        echo ESC_SCRIPTS_DIR=${var//\\/\\\\}>> $GITHUB_ENV
+        echo set OUT_SCRIPTS_DIR=${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}>> %GITHUB_ENV%
+
+    - shell: sh
+      run: |
+        echo ESC_SCRIPTS_DIR=${OUT_SCRIPTS_DIR//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Escape library-dir"
-      shell: sh
-      id: escape-library-dir
+      shell: cmd
       run: |
-        var="${{ inputs.library-dir }}"
-        echo ESC_LIBRARY_DIR=${var//\\/\\\\}>> $GITHUB_ENV
+        echo set OUT_LIBRARY_DIR=${{ inputs.library-dir }}>> %GITHUB_ENV%
+
+    - shell: sh
+      run: |
+        echo ESC_LIBRARY_DIR=${OUT_LIBRARY_DIR//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Run the tests"
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
