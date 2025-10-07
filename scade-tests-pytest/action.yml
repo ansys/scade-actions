@@ -89,6 +89,12 @@ runs:
             "scade-version": ${{ inputs.scade-version }}
           }
 
+    - name: "Escape scade-directory"
+      shell: sh
+      id: escape-scade-directory
+      run: |
+        echo ESC_SCADE_DIRECTORY=${${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}//\\/\\\\}>> $GITHUB_ENV
+
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
@@ -98,7 +104,7 @@ runs:
         uses: ansys/scade-actions/get-scade-python@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "scade-dir": "${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}"
+            "scade-dir": "$ESC_SCADE_DIRECTORY"
           }
 
     - name: "Create Python virtual environment"
