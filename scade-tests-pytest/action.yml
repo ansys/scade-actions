@@ -89,14 +89,11 @@ runs:
             "scade-version": ${{ inputs.scade-version }}
           }
 
-    - name: "Escape scade-directory"
-      shell: cmd
+    - name: "Set and escape scade-directory"
+      shell: sh
       run: |
-        echo OUT_SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}>> %GITHUB_ENV%
-
-    - shell: sh
-      run: |
-        echo ESC_SCADE_DIRECTORY=${OUT_SCADE_DIRECTORY//\\/\\\\}>> $GITHUB_ENV
+        SCADE_DIR='${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}'
+        echo "ESC_SCADE_DIRECTORY=${SCADE_DIR//\\/\\\\}" >> $GITHUB_ENV
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
@@ -110,14 +107,11 @@ runs:
             "scade-dir": "${{ env.ESC_SCADE_DIRECTORY }}"
           }
 
-    - name: "Escape python-dir"
-      shell: cmd
+    - name: "Set and escape python-dir"
+      shell: sh
       run: |
-        echo OUT_PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}>> %GITHUB_ENV%
-
-    - shell: sh
-      run: |
-        echo ESC_PYTHON_DIR=${OUT_PYTHON_DIR//\\/\\\\}>> $GITHUB_ENV
+        PYTHON_DIR='${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}'
+        echo "ESC_PYTHON_DIR=${PYTHON_DIR//\\/\\\\}" >> $GITHUB_ENV
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
@@ -133,23 +127,17 @@ runs:
             "target-name": "${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}"
           }
 
-    - name: "Escape scripts-dir"
-      shell: cmd
+    - name: "Set and escape scripts-dir"
+      shell: sh
       run: |
-        echo OUT_SCRIPTS_DIR=${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}>> %GITHUB_ENV%
+        SCRIPTS_DIR='${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}'
+        echo "ESC_SCRIPTS_DIR=${SCRIPTS_DIR//\\/\\\\}" >> $GITHUB_ENV
 
-    - shell: sh
+    - name: "Set and escape library-dir"
+      shell: sh
       run: |
-        echo ESC_SCRIPTS_DIR=${OUT_SCRIPTS_DIR//\\/\\\\}>> $GITHUB_ENV
-
-    - name: "Escape library-dir"
-      shell: cmd
-      run: |
-        echo OUT_LIBRARY_DIR=${{ inputs.library-dir }}>> %GITHUB_ENV%
-
-    - shell: sh
-      run: |
-        echo ESC_LIBRARY_DIR=${OUT_LIBRARY_DIR//\\/\\\\}>> $GITHUB_ENV
+        LIBRARY_DIR='${{ inputs.library-dir }}'
+        echo "ESC_LIBRARY_DIR=${LIBRARY_DIR//\\/\\\\}" >> $GITHUB_ENV
 
     - name: "Run the tests"
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
