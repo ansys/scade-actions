@@ -93,7 +93,7 @@ runs:
       shell: sh
       id: escape-scade-directory
       run: |
-        $var=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}
+        var="${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}"
         echo ESC_SCADE_DIRECTORY=${var//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Get SCADE Python interpreter"
@@ -112,7 +112,7 @@ runs:
       shell: sh
       id: escape-python-directory
       run: |
-        $var=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}
+        var="${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}"
         echo ESC_PYTHON_DIRECTORY=${var//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Create Python virtual environment"
@@ -133,14 +133,14 @@ runs:
       shell: sh
       id: escape-scripts-dir
       run: |
-        $var=${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}
+        var="${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}"
         echo ESC_SCRIPTS_DIR=${var//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Escape library-dir"
       shell: sh
       id: escape-library-dir
       run: |
-        $var=${{ inputs.library-dir }}
+        var="${{ inputs.library-dir }}"
         echo ESC_LIBRARY_DIR=${var//\\/\\\\}>> $GITHUB_ENV
 
     - name: "Run the tests"
