@@ -89,11 +89,11 @@ runs:
             "scade-version": ${{ inputs.scade-version }}
           }
 
-    - name: "Set and escape scade-directory"
-      shell: sh
-      run: |
-        SCADE_DIR='${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}'
-        echo "ESC_SCADE_DIRECTORY=${SCADE_DIR//\\/\\\\}" >> $GITHUB_ENV
+    # - name: "Set and escape scade-directory"
+    #   shell: sh
+    #   run: |
+    #     SCADE_DIR='${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}'
+    #     echo "ESC_SCADE_DIRECTORY=${SCADE_DIR//\\/\\\\}" >> $GITHUB_ENV
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
@@ -102,9 +102,13 @@ runs:
         action_ref: ${{ github.action_ref }}
       with:
         uses: ansys/scade-actions/get-scade-python@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
+        # with: |
+        #   {
+        #     "scade-dir": "${{ env.ESC_SCADE_DIRECTORY }}"
+        #   }
         with: |
           {
-            "scade-dir": "${{ env.ESC_SCADE_DIRECTORY }}"
+            "scade-dir": "${{ toJSON(fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory) }}"
           }
 
     - name: "Set and escape python-dir"
