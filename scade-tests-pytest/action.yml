@@ -110,7 +110,7 @@ runs:
         uses: ansys/scade-actions/create-scade-venv@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": ${{ toJSON(fromJSON(steps.get-scade-python.outputs.outputs).python-dir) }}
+            "python-dir": ${{ toJSON(fromJSON(steps.get-scade-python.outputs.outputs).python-dir) }},
             "target-dir": ".venvs",
             "target-name": "${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}"
           }
