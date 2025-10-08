@@ -1,0 +1,65 @@
+# Copyright (C) 2024 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+- name: bug
+  description: Something isn't working
+  color: d42a34
+
+- name: dependencies
+  description: Related with project dependencies
+  color: ffc0cb
+
+- name: documentation
+  description: Improvements or additions to documentation
+  color: 0677ba
+
+- name: enhancement
+  description: New features or code improvements
+  color: FFD827
+
+- name: good first issue
+  description: Easy to solve for newcomers
+  color: 62ca50
+
+- name: maintenance
+  description: Package and maintenance related
+  color: f78c37
+
+- name: release
+  description: Anything related to an incoming release
+  color: ffffff
+
+- name: examples
+  description: Examples and tutorials
+  color: 6c5271
+
+- name: testing
+  description: Anything related to tests
+  color: BFE4D6
+
+- name: ci
+  description: Pipelines maintenance related
+  color: a9a9a9
+
+- name: 'deploy-pr-doc'
+  description: Deploy pull request documentation
+  color: 00ff00

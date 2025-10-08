@@ -1,0 +1,747 @@
+# Copyright (C) 2024 - 2025 ANSYS, Inc. and/or its affiliates.
+# SPDX-License-Identifier: MIT
+#
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+
+name: GitHub CI for SCADE Python extensions
+on:
+  workflow_call:
+    inputs:
+      # workflow inputs
+      documentation-cname:
+        description: >
+          Documentation's CNAME.
+        required: true
+        type: string
+
+      library-name:
+        description: >
+          Name of the library, for example ansys-scade-apitools.
+        required: true
+        type: string
+
+      repository-name:
+        description: >
+          Name of the repository, for example ansys/scade-apitools.
+        required: true
+        type: string
+
+      # optional workflow inputs
+      main-python-version:
+        description: >
+          Python version used for the workflow, unless specified otherwise.
+        required: false
+        type: string
+        default: "3.12"
+
+      # action inputs
+      build-wheelhouse-versions:
+        description: >
+          List of python versions, expressed as a JSON list.
+        required: false
+        type: string
+        default: "['3.10']"
+
+      scade-tests-versions:
+        description: >
+          List of Ansys SCADE versions, expressed as a JSON list.
+        required: false
+        type: string
+        default: "['25.1']"
+
+      python-tests-os:
+        description: >
+          List of OS versions, expressed as a JSON list.
+        required: false
+        type: string
+        default: "['ubuntu-latest']"
+
+      python-tests-versions:
+        description: >
+          List of Python versions, expressed as a JSON list.
+        required: false
+        type: string
+        default: "['3.10']"
+
+      # repository nature
+      is-public:
+        description: >
+          Whether the repository is public.
+        required: false
+        type: boolean
+        default: false
+
+      # steps inhibitors: set the corresponding input to true skip the step's content
+      # note: the steps are usually not removed from the workflow to simplify the dependencies
+      skip-labeler:
+        description: >
+          Whether to skip the labeler step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-changelog-fragment:
+        description: >
+          Whether to skip the changelog-fragment step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-pr-name:
+        description: >
+          Whether to skip the pr-name step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-code-style:
+        description: >
+          Whether to skip the code-style step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-doc-style:
+        description: >
+          Whether to skip the doc-style step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-update-changelog:
+        description: >
+          Whether to skip the update-changelog step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-build-wheelhouse:
+        description: >
+          Whether to skip the build-wheelhouse step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-scade-tests:
+        description: >
+          Whether to skip the scade-tests step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-python-tests:
+        description: >
+          Whether to skip the python-tests step's content.
+        required: false
+        type: boolean
+        default: true
+
+      skip-doc-build:
+        description: >
+          Whether to skip the doc-build step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-doc-deploy-pr:
+        description: >
+          Whether to skip the doc-deploy-pr step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-build-library:
+        description: >
+          Whether to skip the build-library step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-release:
+        description: >
+          Whether to skip the release step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-doc-deploy-dev:
+        description: >
+          Whether to skip the doc-deploy-dev step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-doc-deploy-stable:
+        description: >
+          Whether to skip the doc-deploy-stable step's content.
+        required: false
+        type: boolean
+        default: false
+
+      skip-check-vulnerabilities:
+        description: >
+          Whether to skip the check-vulnerabilities step's content.
+        required: false
+        type: boolean
+        default: false
+
+      # unit tests or debug
+      dry-test:
+        description: >
+          stub all jobs
+        required: false
+        type: boolean
+        default: false
+
+    outputs:
+      to-release:
+        description: >
+          ``true`` if the release action should be executed at the end of the workflow,
+          otherwise false.
+
+          Note: the returned value is always ``false`` for private repositories.
+        value: ${{ jobs.release.outputs.to-release }}
+
+
+    # should be inherited
+    secrets:
+      # GITHUB_TOKEN:
+      #   required: true
+      PYANSYS_CI_BOT_TOKEN:
+        required: true
+      PYANSYS_CI_BOT_USERNAME:
+        required: true
+      PYANSYS_CI_BOT_EMAIL:
+        required: true
+      # TODO: secret not always defined
+      # CODECOV_TOKEN:
+      #   required: true
+      PYANSYS_PYPI_PRIVATE_PAT:
+        required: false
+
+jobs:
+
+  pr-name:
+    name: "Check PR title"
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && github.event.action != 'closed' && !inputs.skip-pr-name
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - name: "Check PR title"
+        uses: ansys/actions/check-pr-title@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  labeler:
+    name: "Labels"
+    needs: [pr-name]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-labeler
+      }}
+    permissions:
+      contents: read
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: actions/checkout@v5
+        if: ${{ !inputs.dry-test }}
+
+      - name: "Update labels"
+        if: ${{ !inputs.dry-test }}
+        # use internal wrapping action to provide a default configuration file
+        uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+        env:
+          action_ref: ${{ github.action_ref }}
+        with:
+          uses: ansys-internal/scade-ext-workflow/_label-syncer@${{ github.repository == 'ansys-internal/scade-ext-workflow' && github.sha || env.action_ref }}
+          with: |
+            {
+              "repo-token": "${{ secrets.GITHUB_TOKEN }}"
+            }
+
+      - name: "Label pull-request"
+        if: ${{ !inputs.dry-test }}
+        # use internal wrapping action to provide a default configuration file
+        uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+        env:
+          action_ref: ${{ github.action_ref }}
+        with:
+          uses: ansys-internal/scade-ext-workflow/_labeler@${{ github.repository == 'ansys-internal/scade-ext-workflow' && github.sha || env.action_ref }}
+          with: |
+            {
+              "repo-token": "${{ secrets.GITHUB_TOKEN }}"
+            }
+
+  changelog-fragment:
+    name: "Create changelog fragment"
+    needs: [labeler]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.labeler.result == 'success' || inputs.skip-labeler) &&
+      github.event.action != 'closed' &&
+      !inputs.skip-changelog-fragment
+      }}
+    permissions:
+      contents: write
+      pull-requests: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-changelog@v10
+        if: ${{ github.event_name == 'pull_request' && !inputs.dry-test }}
+        with:
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          use-conventional-commits: true
+          use-default-towncrier-config: true
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+
+  code-style:
+    name: "Code style"
+    needs: [pr-name]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-code-style
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/code-style@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          python-version: ${{ inputs.main-python-version }}
+
+  doc-style:
+    name: "Documentation style"
+    needs: [pr-name]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-doc-style
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-style@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  check-vulnerabilities:
+    name: "Check vulnerabilities"
+    needs: [pr-name]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-check-vulnerabilities &&
+      inputs.is-public
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/check-vulnerabilities@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          python-version: ${{ inputs.main-python-version }}
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          python-package-name: ${{ inputs.library-name }}
+          dev-mode: ${{ github.ref != 'refs/heads/main' }}
+
+  update-changelog:
+    name: "Update CHANGELOG (on release)"
+    if: ${{
+      github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-update-changelog
+      }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-deploy-changelog@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+          python-version: ${{ inputs.main-python-version }}
+
+  build-wheelhouse:
+    name: "Build wheelhouse for supported Python version"
+    runs-on: ${{ matrix.os }}
+    needs: [code-style]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.code-style.result == 'success' || inputs.skip-code-style) &&
+      github.event.action != 'closed' &&
+      !inputs.skip-build-wheelhouse
+      }}
+    permissions:
+      contents: read
+      id-token: write
+      attestations: write
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest]
+        python-version: ${{ fromJSON(inputs.build-wheelhouse-versions) }}
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/build-wheelhouse@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          library-name: ${{ inputs.library-name }}
+          operating-system: ${{ matrix.os }}
+          python-version: ${{ matrix.python-version }}
+          attest-provenance: true
+
+  python-tests:
+    name: "Unit tests"
+    runs-on: ${{ matrix.os }}
+    needs: [build-wheelhouse]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
+      github.event.action != 'closed' &&
+      !inputs.skip-python-tests
+      }}
+    strategy:
+       matrix:
+           os: ${{ fromJSON(inputs.python-tests-os) }}
+           python-version: ${{ fromJSON(inputs.python-tests-versions) }}
+       fail-fast: false
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - name: "Run pytest"
+        if: ${{ !inputs.dry-test }}
+        uses: ansys/actions/tests-pytest@v10
+        with:
+          python-version: ${{ matrix.python-version }}
+
+  scade-tests:
+    name: "Unit tests"
+    runs-on: [self-hosted, 'SCADE']
+    needs: [build-wheelhouse]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
+      github.event.action != 'closed' &&
+      !inputs.skip-scade-tests
+      }}
+    strategy:
+      matrix:
+        os: [windows-latest]
+        scade-version: ${{ fromJSON(inputs.scade-tests-versions) }}
+      fail-fast: false
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - name: "Install Git and clone project"
+        if: ${{ !inputs.dry-test }}
+        uses: actions/checkout@v5
+
+      - name: "Run tests"
+        if: ${{ !inputs.dry-test }}
+        uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+        env:
+          action_ref: ${{ github.action_ref }}
+        with:
+          uses: ansys/scade-actions/scade-tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
+          with: |
+            {
+              "checkout": false,
+              "scade-version": "${{ matrix.scade-version }}"
+            }
+
+      # TODO: secret not always defined
+      # - name: "Upload coverage reports to Codecov"
+      #   if: ${{ inputs.is-public }}
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #     slug: ansys/${{ inputs.repository-name }}
+      #     files: .cov/xml
+
+  doc-build:
+    name: "Build documentation"
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    needs: [doc-style]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() && (needs.doc-style.result == 'success' || inputs.skip-doc-style) &&
+      github.event.action != 'closed' &&
+      !inputs.skip-doc-build
+      }}
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-build@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          python-version: ${{ inputs.main-python-version }}
+
+  doc-deploy-pr:
+    name: "Deploy PR documentation"
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    needs: doc-build
+    # run when the PR is closed i.e. when doc-build job is skipped
+    # also run only when appropriate label is added
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() &&
+      (needs.doc-build.result == 'success' || needs.doc-build.result == 'skipped') &&
+      contains(github.event.pull_request.labels.*.name, 'deploy-pr-doc') &&
+      !inputs.skip-doc-deploy-pr
+      }}
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-deploy-pr@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          cname: ${{ inputs.documentation-cname }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+          maximum-pr-doc-deployments: 5
+
+  build-library:
+    name: "Build library"
+    runs-on: ubuntu-latest
+    needs: [python-tests, scade-tests, doc-build, check-vulnerabilities]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() &&
+      (needs.python-tests.result == 'success' || inputs.skip-python-tests) &&
+      (needs.scade-tests.result == 'success' || inputs.skip-scade-tests) &&
+      (needs.doc-build.result == 'success' || inputs.skip-doc-build) &&
+      (needs.check-vulnerabilities.result == 'success' || needs.check-vulnerabilities.result == 'skipped') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-build-library
+      }}
+    permissions:
+      attestations: write
+      contents: read
+      id-token: write
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/build-library@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          library-name: ${{ inputs.library-name }}
+          python-version: ${{ inputs.main-python-version }}
+          attest-provenance: true
+
+  release:
+    name: "Release project"
+    runs-on: ubuntu-latest
+    needs: [build-library, update-changelog]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() &&
+      (needs.build-library.result == 'success' || inputs.skip-build-library) &&
+      (needs.update-changelog.result == 'success' || inputs.skip-update-changelog) &&
+      github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-release
+      }}
+    permissions:
+      id-token: write
+      contents: write
+    outputs:
+      to-release: ${{ steps.to-release.outputs.to-release }}
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - name: "Release to private PyPI"
+        uses: ansys/actions/release-pypi-private@v10
+        if: ${{ !inputs.is-public && !inputs.dry-test }}
+        with:
+          library-name: ${{ inputs.library-name }}
+          twine-username: "__token__"
+          twine-token: ${{ secrets.PYANSYS_PYPI_PRIVATE_PAT }}
+
+      - name: "Pre-release to PyPI"
+        if: ${{ inputs.is-public && !inputs.dry-test }}
+        id: to-release
+        shell: bash
+        run: |
+          echo to-release=true>> %GITHUB_OUTPUT%
+
+      # to be inserted in the calling process
+      # - name: "Download the library artifacts from build-library step"
+      #   uses: actions/download-artifact@v5
+      #   if: ${{ inputs.is-public && !inputs.dry-test }}
+      #   with:
+      #     name: ${{ inputs.library-name }}-artifacts
+      #     path: ${{ inputs.library-name }}-artifacts
+
+      # - name: "Upload artifacts to PyPI using trusted publisher"
+      #   uses: pypa/gh-action-pypi-publish@v1.13.0
+      #   if: ${{ inputs.is-public && !inputs.dry-test }}
+      #   with:
+      #     repository-url: "https://upload.pypi.org/legacy/"
+      #     print-hash: true
+      #     packages-dir: ${{ inputs.library-name }}-artifacts
+      #     skip-existing: false
+
+      - name: "Release to GitHub"
+        if: ${{ !inputs.dry-test }}
+        uses: ansys/actions/release-github@v10
+        with:
+          library-name: ${{ inputs.library-name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+  doc-deploy-dev:
+    name: "Deploy development documentation"
+    # Deploy development only when merging or pushing to the 'main' branch
+    runs-on: ubuntu-latest
+    needs: [build-library]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() &&
+      (needs.build-library.result == 'success' || inputs.skip-build-library) &&
+      github.event_name == 'push' && !contains(github.ref, 'refs/tags') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-doc-deploy-dev
+      }}
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-deploy-dev@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          cname: ${{ inputs.documentation-cname }}
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+
+  doc-deploy-stable:
+    name: "Deploy stable documentation"
+    # Deploy release documentation when creating a new tag
+    runs-on: ubuntu-latest
+    needs: [release]
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() &&
+      (needs.release.result == 'success' || inputs.skip-release) &&
+      github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
+      github.event.action != 'closed' &&
+      !inputs.skip-doc-deploy-stable
+      }}
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/doc-deploy-stable@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          cname: ${{ inputs.documentation-cname }}
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          bot-user: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+          bot-email: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
