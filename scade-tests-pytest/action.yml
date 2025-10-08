@@ -108,7 +108,7 @@ runs:
         #   }
         with: |
           {
-            "scade-dir": "${{ toJSON(fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory) }}"
+            "scade-dir": ${{ toJSON(fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory) }}
           }
 
     - name: "Set and escape python-dir"
