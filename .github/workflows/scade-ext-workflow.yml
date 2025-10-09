@@ -543,6 +543,8 @@ jobs:
             {
               "checkout": false,
               "scade-version": "${{ matrix.scade-version }}"
+              "library-dir": ${{ toJSON(inputs.library-dir) }},
+              "pytest-postargs": ${{ toJSON(inputs.pytest-postargs) }},
             }
 
       # TODO: secret not always defined
