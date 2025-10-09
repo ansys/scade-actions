@@ -88,6 +88,21 @@ on:
         type: boolean
         default: false
 
+      # unit tests
+      library-dir:
+        description: >
+          Directory of the library to test.
+        default: "."
+        type: string
+        required: false
+
+      pytest-postargs:
+        description: >
+          Directory of the test suite and the level of verbosity.
+        default: "tests -vv"
+        type: string
+        required: false
+
       # steps inhibitors: set the corresponding input to true skip the step's content
       # note: the steps are usually not removed from the workflow to simplify the dependencies
       skip-labeler:

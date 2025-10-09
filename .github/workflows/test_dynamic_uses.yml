@@ -43,7 +43,7 @@ concurrency:
 
 jobs:
 
-  test-skip-scade-ext-workflow:
+  test-dynamic-uses:
     uses: ./.github/workflows/scade-ext-workflow.yml
     permissions:
       attestations: write
@@ -55,7 +55,10 @@ jobs:
       library-name: 'not-applicable'
       repository-name: 'not-applicable'
       is-public: false
-      # skip all steps
+      # unit test specific inputs
+      library-dir: "tests/python-pyproject"
+      pytest-postargs: "tests/python-pyproject/tests -vv"
+      # skip all steps but scade-tests
       skip-labeler: true
       skip-changelog-fragment: true
       skip-pr-name: true
@@ -64,7 +67,7 @@ jobs:
       skip-check-vulnerabilities: true
       skip-update-changelog: true
       skip-build-wheelhouse: true
-      skip-scade-tests: true
+      # skip-scade-tests: true
       skip-python-tests: true
       skip-doc-build: true
       skip-doc-deploy-pr: true

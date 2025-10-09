@@ -43,7 +43,7 @@ concurrency:
 
 jobs:
 
-  test-skip-scade-ext-workflow:
+  test-dry-scade-ext-workflow:
     uses: ./.github/workflows/scade-ext-workflow.yml
     permissions:
       attestations: write
@@ -55,23 +55,9 @@ jobs:
       library-name: 'not-applicable'
       repository-name: 'not-applicable'
       is-public: false
-      # skip all steps
-      skip-labeler: true
-      skip-changelog-fragment: true
-      skip-pr-name: true
-      skip-code-style: true
-      skip-doc-style: true
-      skip-check-vulnerabilities: true
-      skip-update-changelog: true
-      skip-build-wheelhouse: true
-      skip-scade-tests: true
-      skip-python-tests: true
-      skip-doc-build: true
-      skip-doc-deploy-pr: true
-      skip-build-library: true
-      skip-release: true
-      skip-doc-deploy-dev: true
-      skip-doc-deploy-stable: true
+      # all steps are activated but stubbed
+      skip-python-tests: false  # default is true
+      dry-test: true
       # strategies
       build-wheelhouse-versions: "['3.10']"
       python-tests-versions: "['3.10', '3.12']"
