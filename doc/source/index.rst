@@ -8,7 +8,7 @@ Ansys SCADE Actions documentation
 For information on available actions and how to use them,
 see each of the following cards:
 
-.. grid:: 1 1 2 2
+.. grid:: 1 1 2 3
     :gutter: 2
 
     .. grid-item-card:: :octicon:`search` Query actions
@@ -49,6 +49,12 @@ see each of the following cards:
 
        Execute SCADE Rapid Prototyper command line tools on models.
 
+    .. grid-item-card:: :material-regular:`work;1.25em` Reusable workflows
+       :link: workflows/index
+       :link-type: doc
+
+       Reuse generic workflows.
+
 .. toctree::
    :hidden:
    :maxdepth: 3
@@ -59,3 +65,4 @@ see each of the following cards:
    test-actions/index
    display-actions/index
    rapid-prototyper-actions/index
+   workflows/index
