@@ -86,7 +86,7 @@ runs:
         uses: ansys/scade-actions/get-scade-dir@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "scade-version": ${{ toJSON(inputs.scade-version) }}
+            "scade-version": ${{ inputs.scade-version }}
           }
 
     - name: "Get SCADE Python interpreter"
@@ -124,9 +124,9 @@ runs:
         with: |
           {
             "python-dir": ${{ toJSON(fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir) }},
-            "library-dir": ${{ toJSON(inputs.library-dir) }},
-            "pytest-markers": ${{ toJSON(inputs.pytest-markers) }},
-            "pytest-extra-args": ${{ toJSON(inputs.pytest-extra-args) }},
-            "pytest-postargs": ${{ toJSON(inputs.pytest-postargs) }},
-            "checkout": ${{ toJSON(inputs.checkout) }}
+            "library-dir": ${{ inputs.library-dir }},
+            "pytest-markers": ${{ inputs.pytest-markers }},
+            "pytest-extra-args": ${{ inputs.pytest-extra-args }},
+            "pytest-postargs": ${{ inputs.pytest-postargs }},
+            "checkout": ${{ inputs.checkout }}
           }
