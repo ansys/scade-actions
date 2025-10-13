@@ -92,10 +92,8 @@ runs:
     # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set scade-directory"
       shell: cmd
-      env:
-        SCADE_DIRECTORY: ${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}
       run: |
-        echo "SCADE_DIRECTORY=%SCADE_DIRECTORY%" >> %GITHUB_ENV%
+        echo "SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}" >> %GITHUB_ENV%
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
@@ -111,17 +109,13 @@ runs:
 
     - name: "Set python-dir"
       shell: cmd
-      env:
-        PYTHON_DIR: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}
       run: |
-        echo "PYTHON_DIR=%PYTHON_DIR%"" >> %GITHUB_ENV%
+        echo "PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}" >> %GITHUB_ENV%
 
     - name: "Set python-name"
       shell: cmd
-      env:
-        PYTHON_NAME: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}
       run: |
-        echo "PYTHON_NAME=%PYTHON_NAME%" >> %GITHUB_ENV%
+        echo "PYTHON_NAME=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}" >> %GITHUB_ENV%
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
@@ -139,8 +133,6 @@ runs:
 
     - name: "Set scripts-dir"
       shell: cmd
-      env:
-        SCRIPTS_DIR: ${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}
       run: |
         echo "SCRIPTS_DIR=%SCRIPTS_DIR%" >> %GITHUB_ENV%
 
