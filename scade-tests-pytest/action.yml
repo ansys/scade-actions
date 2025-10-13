@@ -119,7 +119,7 @@ runs:
     - name: "Set python-name"
       shell: cmd
       env:
-        PYTHON_NAME={{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}
+        PYTHON_NAME: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}
       run: |
         echo "PYTHON_NAME=%PYTHON_NAME%" >> %GITHUB_ENV%
 
