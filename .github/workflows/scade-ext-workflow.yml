@@ -64,7 +64,7 @@ on:
           List of Ansys SCADE versions, expressed as a JSON list.
         required: false
         type: string
-        default: "['25.1']"
+        default: "['25.2']"
 
       python-tests-os:
         description: >
