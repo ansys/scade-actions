@@ -93,7 +93,7 @@ runs:
     - name: "Set scade-directory"
       shell: cmd
       run: |
-        echo "SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}" >> %GITHUB_ENV%
+        echo SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }} >> %GITHUB_ENV%
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
@@ -110,12 +110,12 @@ runs:
     - name: "Set python-dir"
       shell: cmd
       run: |
-        echo "PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}" >> %GITHUB_ENV%
+        echo PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }} >> %GITHUB_ENV%
 
     - name: "Set python-name"
       shell: cmd
       run: |
-        echo "PYTHON_NAME=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}" >> %GITHUB_ENV%
+        echo PYTHON_NAME=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }} >> %GITHUB_ENV%
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
@@ -134,7 +134,7 @@ runs:
     - name: "Set scripts-dir"
       shell: cmd
       run: |
-        echo "SCRIPTS_DIR=%SCRIPTS_DIR%" >> %GITHUB_ENV%
+        echo SCRIPTS_DIR=${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }} >> %GITHUB_ENV%
 
     - name: "Run the tests"
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
@@ -144,7 +144,7 @@ runs:
         uses: ansys/scade-actions/tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": ${{ toJSON(env.ESC_SCRIPTS_DIR) }},
+            "python-dir": ${{ toJSON(env.SCRIPTS_DIR) }},
             "library-dir": ${{ toJSON(inputs.library-dir) }},
             "pytest-markers": ${{ toJSON(inputs.pytest-markers) }},
             "pytest-extra-args": ${{ toJSON(inputs.pytest-extra-args) }},
