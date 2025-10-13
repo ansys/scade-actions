@@ -89,11 +89,13 @@ runs:
             "scade-version": ${{ inputs.scade-version }}
           }
 
-    - name: "Set and escape scade-directory"
-      shell: sh
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
+    - name: "Set scade-directory"
+      shell: cmd
+      env:
+        SCADE_DIRECTORY: ${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}
       run: |
-        SCADE_DIR='${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}'
-        echo "ESC_SCADE_DIRECTORY=${SCADE_DIR//\\/\\\\}" >> $GITHUB_ENV
+        echo "SCADE_DIRECTORY=%SCADE_DIRECTORY%" >> %GITHUB_ENV%
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
@@ -102,26 +104,24 @@ runs:
         action_ref: ${{ github.action_ref }}
       with:
         uses: ansys/scade-actions/get-scade-python@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
-        # with: |
-        #   {
-        #     "scade-dir": ${{ toJSON(fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory) }}
-        #   }
         with: |
           {
-            "scade-dir": "${{ env.ESC_SCADE_DIRECTORY }}"
+            "scade-dir": ${{ toJSON(env.SCADE_DIRECTORY) }}
           }
 
-    - name: "Set and escape python-dir"
-      shell: sh
+    - name: "Set python-dir"
+      shell: cmd
+      env:
+        PYTHON_DIR: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}
       run: |
-        PYTHON_DIR='${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}'
-        echo "ESC_PYTHON_DIR=${PYTHON_DIR//\\/\\\\}" >> $GITHUB_ENV
+        echo "PYTHON_DIR=%PYTHON_DIR%"" >> %GITHUB_ENV%
 
     - name: "Set python-name"
-      shell: sh
+      shell: cmd
+      env:
+        PYTHON_NAME={{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}
       run: |
-        PYTHON_NAME='${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}'
-        echo "PYTHON_NAME=$PYTHON_NAME" >> $GITHUB_ENV
+        echo "PYTHON_NAME=%PYTHON_NAME%" >> %GITHUB_ENV%
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
@@ -130,24 +130,19 @@ runs:
         action_ref: ${{ github.action_ref }}
       with:
         uses: ansys/scade-actions/create-scade-venv@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
-        # with: |
-        #   {
-        #     "python-dir": ${{ toJSON(fromJSON(steps.get-scade-python.outputs.outputs).python-dir) }},
-        #     "target-dir": ".venvs",
-        #     "target-name": "${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}"
-        #   }
         with: |
           {
-            "python-dir": "${{ env.ESC_PYTHON_DIR }}",
+            "python-dir": ${{ toJSON(env.PYTHON_DIR) }},
             "target-dir": ".venvs",
             "target-name": "${{ env.PYTHON_NAME }}"
           }
 
-    - name: "Set and escape scripts-dir"
-      shell: sh
+    - name: "Set scripts-dir"
+      shell: cmd
+      env:
+        SCRIPTS_DIR: ${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}
       run: |
-        SCRIPTS_DIR='${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}'
-        echo "ESC_SCRIPTS_DIR=${SCRIPTS_DIR//\\/\\\\}" >> $GITHUB_ENV
+        echo "SCRIPTS_DIR=%SCRIPTS_DIR%" >> %GITHUB_ENV%
 
     - name: "Run the tests"
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
@@ -155,21 +150,12 @@ runs:
         action_ref: ${{ github.action_ref }}
       with:
         uses: ansys/scade-actions/tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
-        # with: |
-        #   {
-        #     "python-dir": ${{ toJSON(fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir) }},
-        #     "library-dir": ${{ inputs.library-dir }},
-        #     "pytest-markers": ${{ inputs.pytest-markers }},
-        #     "pytest-extra-args": ${{ inputs.pytest-extra-args }},
-        #     "pytest-postargs": ${{ inputs.pytest-postargs }},
-        #     "checkout": ${{ inputs.checkout }}
-        #   }
         with: |
           {
-            "python-dir": "${{ env.ESC_SCRIPTS_DIR }}",
-            "library-dir": ${{ inputs.library-dir }},
-            "pytest-markers": ${{ inputs.pytest-markers }},
-            "pytest-extra-args": ${{ inputs.pytest-extra-args }},
-            "pytest-postargs": ${{ inputs.pytest-postargs }},
+            "python-dir": ${{ toJSON(env.ESC_SCRIPTS_DIR) }},
+            "library-dir": ${{ toJSON(inputs.library-dir) }},
+            "pytest-markers": ${{ toJSON(inputs.pytest-markers) }},
+            "pytest-extra-args": ${{ toJSON(inputs.pytest-extra-args) }},
+            "pytest-postargs": ${{ toJSON(inputs.pytest-postargs) }},
             "checkout": ${{ inputs.checkout }}
           }
