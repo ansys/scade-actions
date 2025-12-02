@@ -300,7 +300,7 @@ jobs:
         env:
           action_ref: ${{ github.action_ref }}
         with:
-          uses: ansys-internal/scade-ext-workflow/_label-syncer@${{ github.repository == 'ansys-internal/scade-ext-workflow' && github.sha || env.action_ref }}
+          uses: ansys/scade-actions/_label-syncer@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
           with: |
             {
               "repo-token": "${{ secrets.GITHUB_TOKEN }}"
@@ -313,7 +313,7 @@ jobs:
         env:
           action_ref: ${{ github.action_ref }}
         with:
-          uses: ansys-internal/scade-ext-workflow/_labeler@${{ github.repository == 'ansys-internal/scade-ext-workflow' && github.sha || env.action_ref }}
+          uses: ansys/scade-actions/_labeler@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
           with: |
             {
               "repo-token": "${{ secrets.GITHUB_TOKEN }}"
