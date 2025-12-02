@@ -1,4 +1,4 @@
 ansys.scade.apitools
 # something wrong with test discovery with pytest 8.1.0 and above
-pytest==8.4.2
+pytest==9.0.1
 pytest-cov==7.0.0
