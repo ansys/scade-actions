@@ -521,7 +521,7 @@ jobs:
 
       - name: "Install Git and clone project"
         if: ${{ !inputs.dry-test }}
-        uses: actions/checkout@v5
+        uses: actions/checkout@v6
 
       - name: "Run tests"
         if: ${{ !inputs.dry-test }}
