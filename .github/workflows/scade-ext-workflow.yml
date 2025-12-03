@@ -256,7 +256,7 @@ jobs:
   pr-name:
     name: "Check PR title"
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && github.event.action != 'closed' && !inputs.skip-pr-name
+    if: github.event_name == 'pull_request' && !inputs.skip-pr-name
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -276,7 +276,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
-      github.event.action != 'closed' &&
       !inputs.skip-labeler
       }}
     permissions:
@@ -325,7 +324,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.labeler.result == 'success' || inputs.skip-labeler) &&
-      github.event.action != 'closed' &&
       !inputs.skip-changelog-fragment
       }}
     permissions:
@@ -354,7 +352,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
-      github.event.action != 'closed' &&
       !inputs.skip-code-style
       }}
     runs-on: ubuntu-latest
@@ -376,7 +373,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
-      github.event.action != 'closed' &&
       !inputs.skip-doc-style
       }}
     runs-on: ubuntu-latest
@@ -398,7 +394,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
-      github.event.action != 'closed' &&
       !inputs.skip-check-vulnerabilities &&
       inputs.is-public
       }}
@@ -422,7 +417,6 @@ jobs:
     name: "Update CHANGELOG (on release)"
     if: ${{
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
-      github.event.action != 'closed' &&
       !inputs.skip-update-changelog
       }}
     runs-on: ubuntu-latest
@@ -451,7 +445,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.code-style.result == 'success' || inputs.skip-code-style) &&
-      github.event.action != 'closed' &&
       !inputs.skip-build-wheelhouse
       }}
     permissions:
@@ -485,7 +478,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
-      github.event.action != 'closed' &&
       !inputs.skip-python-tests
       }}
     strategy:
@@ -513,7 +505,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
-      github.event.action != 'closed' &&
       !inputs.skip-scade-tests
       }}
     strategy:
@@ -564,7 +555,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() && (needs.doc-style.result == 'success' || inputs.skip-doc-style) &&
-      github.event.action != 'closed' &&
       !inputs.skip-doc-build
       }}
     steps:
@@ -591,7 +581,6 @@ jobs:
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
       !cancelled() &&
-      (needs.doc-build.result == 'success' || needs.doc-build.result == 'skipped') &&
       contains(github.event.pull_request.labels.*.name, 'deploy-pr-doc') &&
       !inputs.skip-doc-deploy-pr
       }}
@@ -622,7 +611,6 @@ jobs:
       (needs.scade-tests.result == 'success' || inputs.skip-scade-tests) &&
       (needs.doc-build.result == 'success' || inputs.skip-doc-build) &&
       (needs.check-vulnerabilities.result == 'success' || needs.check-vulnerabilities.result == 'skipped') &&
-      github.event.action != 'closed' &&
       !inputs.skip-build-library
       }}
     permissions:
@@ -653,7 +641,6 @@ jobs:
       (needs.build-library.result == 'success' || inputs.skip-build-library) &&
       (needs.update-changelog.result == 'success' || inputs.skip-update-changelog) &&
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
-      github.event.action != 'closed' &&
       !inputs.skip-release
       }}
     permissions:
@@ -717,7 +704,6 @@ jobs:
       !cancelled() &&
       (needs.build-library.result == 'success' || inputs.skip-build-library) &&
       github.event_name == 'push' && !contains(github.ref, 'refs/tags') &&
-      github.event.action != 'closed' &&
       !inputs.skip-doc-deploy-dev
       }}
     steps:
@@ -745,7 +731,6 @@ jobs:
       !cancelled() &&
       (needs.release.result == 'success' || inputs.skip-release) &&
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
-      github.event.action != 'closed' &&
       !inputs.skip-doc-deploy-stable
       }}
     steps:
