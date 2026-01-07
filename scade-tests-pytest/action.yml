@@ -1,4 +1,4 @@
-# Copyright (C) 2024 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2024 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -77,11 +77,19 @@ runs:
   using: "composite"
   steps:
 
+    - name: "Set action-ref"
+      id: action-ref
+      env:
+        action_ref: ${{ github.action_ref }}
+      shell: cmd
+      run: |
+        echo action_ref=${{ action_ref }}>> %GITHUB_OUTPUT%
+
     - name: "Get SCADE installation directory"
       id: get-scade-dir
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/get-scade-dir@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
@@ -99,7 +107,7 @@ runs:
       id: get-scade-python
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/get-scade-python@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
@@ -121,7 +129,7 @@ runs:
       id: create-scade-venv
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/create-scade-venv@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
@@ -139,7 +147,7 @@ runs:
     - name: "Run the tests"
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
