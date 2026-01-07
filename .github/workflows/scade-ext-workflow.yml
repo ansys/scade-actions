@@ -519,6 +519,14 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
+      - name: "Set action-ref"
+        id: action-ref
+        env:
+          action_ref: ${{ github.action_ref }}
+        shell: cmd
+        run: |
+          echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+
       - name: "Install Git and clone project"
         if: ${{ !inputs.dry-test }}
         uses: actions/checkout@v6
@@ -527,7 +535,7 @@ jobs:
         if: ${{ !inputs.dry-test }}
         uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
         env:
-          action_ref: ${{ github.action_ref }}
+          action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
           uses: ansys/scade-actions/scade-tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
           with: |
