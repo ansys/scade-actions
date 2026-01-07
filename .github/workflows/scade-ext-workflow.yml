@@ -519,13 +519,13 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - name: "Set action-ref"
-        id: action-ref
+      - name: "Set workflow-ref"
+        id: workflow-ref
         env:
-          action_ref: ${{ github.action_ref }}
+          workflow_ref: ${{ github.workflow_ref }}
         shell: cmd
         run: |
-          echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+          echo workflow_ref=${{ env.workflow_ref }}>> %GITHUB_OUTPUT%
 
       - name: "Install Git and clone project"
         if: ${{ !inputs.dry-test }}
@@ -535,7 +535,7 @@ jobs:
         if: ${{ !inputs.dry-test }}
         uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
         env:
-          action_ref: ${{ steps.action-ref.outputs.action_ref }}
+          action_ref: ${{ steps.workflow-ref.outputs.workflow_ref }}
         with:
           uses: ansys/scade-actions/scade-tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
           with: |
