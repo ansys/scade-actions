@@ -289,6 +289,17 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
+      - name: "Set action-ref"
+        id: action-ref
+        env:
+          # no equivalent to github.action_ref for callable workflows
+          # cf. https://github.com/orgs/community/discussions/31054
+          # as a workaround, use hard-coded reference instead, that must be updated for new releases
+          action_ref: "<scade-actions-release-tag>"
+        shell: cmd
+        run: |
+          echo action_ref=${{ env.action_ref }} >> ${GITHUB_OUTPUT}
+
       - uses: actions/checkout@v5
         if: ${{ !inputs.dry-test }}
 
@@ -297,7 +308,7 @@ jobs:
         # use internal wrapping action to provide a default configuration file
         uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
         env:
-          action_ref: ${{ github.action_ref }}
+          action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
           uses: ansys/scade-actions/_label-syncer@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
           with: |
@@ -310,7 +321,7 @@ jobs:
         # use internal wrapping action to provide a default configuration file
         uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
         env:
-          action_ref: ${{ github.action_ref }}
+          action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
           uses: ansys/scade-actions/_labeler@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
           with: |
@@ -525,7 +536,7 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "feat/extensions-workflow"
+          action_ref: "<scade-actions-release-tag>"
         shell: cmd
         run: |
           echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%

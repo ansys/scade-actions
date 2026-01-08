@@ -74,7 +74,7 @@ Outputs
    * - **Name**
      - **Description**
    * - to-release
-     - Returns ``true`` if the public release action runs at the end of the workflow; otherwise, it returns ``false``.
+     - Returns ``true`` if the public release action should be executed at the end of the workflow; otherwise, it returns ``false``.
 
        **Note:** The returned value is always ``false`` for private repositories.
 
@@ -137,7 +137,7 @@ Example
 .. code:: yaml
 
    dry-test:
-     uses: ansys-internal/scade-ext-workflow/.github/workflows/ci_cd_python_extensions.yml@main
+     uses: ansys/scade-actions/.github/workflows/ci_cd_python_extensions.yml@main
      permissions:
        attestations: write
        contents: write
