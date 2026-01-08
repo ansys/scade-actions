@@ -83,7 +83,7 @@ runs:
         # github.action_ref not usable in callable workflows: as a workaround,
         # use hard-coded reference instead, that must be updated for new releases
         # action_ref: ${{ github.action_ref }}
-        action_ref: "<scade-actions-release-tag>"
+        action_ref: "scade-actions-release-tag"
       shell: cmd
       run: |
         echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
