@@ -522,7 +522,11 @@ jobs:
       - name: "Set action-ref"
         id: action-ref
         env:
-          action_ref: ${{ github.action_ref }}
+          # no equivalent to github.action_ref for callable workflows
+          # cf. https://github.com/orgs/community/discussions/31054
+          # use hard-coded reference instead
+          # action_ref: ${{ github.action_ref }}
+          action_ref: "feat/extensions-workflow"
         shell: cmd
         run: |
           echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
