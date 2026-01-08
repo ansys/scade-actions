@@ -1,4 +1,4 @@
-# Copyright (C) 2024 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2024 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -77,11 +77,22 @@ runs:
   using: "composite"
   steps:
 
+    - name: "Set action-ref"
+      id: action-ref
+      env:
+        # github.action_ref not usable in callable workflows: as a workaround,
+        # use hard-coded reference instead, that must be updated for new releases
+        # action_ref: ${{ github.action_ref }}
+        action_ref: "scade-actions-release-tag"
+      shell: cmd
+      run: |
+        echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+
     - name: "Get SCADE installation directory"
       id: get-scade-dir
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/get-scade-dir@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
@@ -89,44 +100,65 @@ runs:
             "scade-version": ${{ inputs.scade-version }}
           }
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
+    - name: "Set scade-directory"
+      shell: cmd
+      run: |
+        echo SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}>> %GITHUB_ENV%
+
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/get-scade-python@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "scade-dir": ${{ toJSON(fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory) }}
+            "scade-dir": ${{ toJSON(env.SCADE_DIRECTORY) }}
           }
+
+    - name: "Set python-dir"
+      shell: cmd
+      run: |
+        echo PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}>> %GITHUB_ENV%
+
+    - name: "Set python-name"
+      shell: cmd
+      run: |
+        echo PYTHON_NAME=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}>> %GITHUB_ENV%
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/create-scade-venv@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": ${{ toJSON(fromJSON(steps.get-scade-python.outputs.outputs).python-dir) }},
+            "python-dir": ${{ toJSON(env.PYTHON_DIR) }},
             "target-dir": ".venvs",
-            "target-name": "${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}"
+            "target-name": "${{ env.PYTHON_NAME }}"
           }
+
+    - name: "Set scripts-dir"
+      shell: cmd
+      run: |
+        echo SCRIPTS_DIR=${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}>> %GITHUB_ENV%
 
     - name: "Run the tests"
       uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
       env:
-        action_ref: ${{ github.action_ref }}
+        action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
         uses: ansys/scade-actions/tests-pytest@${{ github.repository == 'ansys/scade-actions' && github.sha || env.action_ref }}
         with: |
           {
-            "python-dir": ${{ toJSON(fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir) }},
+            "python-dir": ${{ toJSON(env.SCRIPTS_DIR) }},
             "library-dir": ${{ toJSON(inputs.library-dir) }},
-            "pytest-markers": ${{ inputs.pytest-markers }},
-            "pytest-extra-args": ${{ inputs.pytest-extra-args }},
-            "pytest-postargs": ${{ inputs.pytest-postargs }},
+            "pytest-markers": ${{ toJSON(inputs.pytest-markers) }},
+            "pytest-extra-args": ${{ toJSON(inputs.pytest-extra-args) }},
+            "pytest-postargs": ${{ toJSON(inputs.pytest-postargs) }},
             "checkout": ${{ inputs.checkout }}
           }

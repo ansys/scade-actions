@@ -1,4 +1,4 @@
-# Copyright (C) 2024 - 2025 ANSYS, Inc. and/or its affiliates.
+# Copyright (C) 2024 - 2026 ANSYS, Inc. and/or its affiliates.
 # SPDX-License-Identifier: MIT
 #
 #
@@ -109,7 +109,7 @@ runs:
       shell: cmd
       run: |
         :: Check if requirements_tests.txt file exists
-        if exist {{ inputs.library-dir }}/requirements/requirements_tests.txt (
+        if exist ${{ inputs.library-dir }}/requirements/requirements_tests.txt (
           echo Installing test dependencies from requirements_tests.txt
           %PYTHON_EXE% -m pip install -r %GITHUB_WORKSPACE%\${{ inputs.library-dir }}/requirements/requirements_tests.txt
         ) else (

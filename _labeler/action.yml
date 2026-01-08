@@ -20,15 +20,42 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from setuptools import find_packages, setup
+# _labeler
+name: 'Wrapping action for actions/labeler'
 
-setup(
-    name="test_package",
-    version="0.1.dev0",
-    url="https://github.com/test-package-for-scade-actions.git",
-    author="ESEG",
-    author_email="test@unknown.com",
-    description="Test purpose",
-    packages=find_packages(where="./src"),
-    package_dir={"": "src"},
-)
+description: >
+  The ``_labeler`` action executes ``actions/labeler`` action with a default
+  ``labeler.yml`` configuration file if not present in the repository's
+  ``./.github`` directory.
+
+  The default configuration file is located in the action's directory.
+
+inputs:
+
+  repo-token:
+    required: false
+    type: string
+
+runs:
+  using: "composite"
+  steps:
+
+    - name: "Get labels file"
+      shell: bash
+      # outputs labeler_yml_path
+      id: get
+      run: |
+        if [ -f "${{ github.workspace }}/.github/labeler.yml" ]
+        then
+          echo using existing ${{ github.workspace }}/.github/labeler.yml
+          echo "labeler_yml_path=${{ github.workspace }}/.github/labeler.yml">> "$GITHUB_OUTPUT"
+        else
+          echo using default ${{ github.action_path }}/labeler.yml
+          echo "labeler_yml_path=${{ github.action_path }}/labeler.yml">> "$GITHUB_OUTPUT"
+        fi
+
+    - name: "Call labeler action"
+      uses: actions/labeler@v6.0.1
+      with:
+        repo-token: ${{ inputs.repo-token }}
+        configuration-path: ${{ steps.get.outputs.labeler_yml_path }}

@@ -20,15 +20,35 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from setuptools import find_packages, setup
+ci:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ['.github/workflows/**']
 
-setup(
-    name="test_package",
-    version="0.1.dev0",
-    url="https://github.com/test-package-for-scade-actions.git",
-    author="ESEG",
-    author_email="test@unknown.com",
-    description="Test purpose",
-    packages=find_packages(where="./src"),
-    package_dir={"": "src"},
-)
+documentation:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ['doc/source/**/*.rst', 'README.rst']
+
+maintenance:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ['.github/**/*', 'pyproject.toml']
+
+examples:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ['examples/**']
+
+testing:
+  - any:
+      - changed-files:
+          - any-glob-to-any-file: ['tests/**']
+
+# HACK: the label is declared with the only purpose of avoiding the
+# GitHub labeler bot from removing it. This is a known issue reported in the
+# official action/labeler repo https://github.com/actions/labeler/issues/763
+'deploy-pr-doc':
+  - all:
+      - changed-files:
+          - all-globs-to-all-files: ['THIS-NEVER-MATCHES-A-FILE']

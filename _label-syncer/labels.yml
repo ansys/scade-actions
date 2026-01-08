@@ -20,15 +20,46 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from setuptools import find_packages, setup
+- name: bug
+  description: Something isn't working
+  color: d42a34
 
-setup(
-    name="test_package",
-    version="0.1.dev0",
-    url="https://github.com/test-package-for-scade-actions.git",
-    author="ESEG",
-    author_email="test@unknown.com",
-    description="Test purpose",
-    packages=find_packages(where="./src"),
-    package_dir={"": "src"},
-)
+- name: dependencies
+  description: Related with project dependencies
+  color: ffc0cb
+
+- name: documentation
+  description: Improvements or additions to documentation
+  color: 0677ba
+
+- name: enhancement
+  description: New features or code improvements
+  color: FFD827
+
+- name: good first issue
+  description: Easy to solve for newcomers
+  color: 62ca50
+
+- name: maintenance
+  description: Package and maintenance related
+  color: f78c37
+
+- name: release
+  description: Anything related to an incoming release
+  color: ffffff
+
+- name: examples
+  description: Examples and tutorials
+  color: 6c5271
+
+- name: testing
+  description: Anything related to tests
+  color: BFE4D6
+
+- name: ci
+  description: Pipelines maintenance related
+  color: a9a9a9
+
+- name: 'deploy-pr-doc'
+  description: Deploy pull request documentation
+  color: 00ff00
