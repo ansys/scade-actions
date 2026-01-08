@@ -86,7 +86,7 @@ runs:
         action_ref: "<scade-actions-release-tag>"
       shell: cmd
       run: |
-        echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+        echo "action_ref=${{ env.action_ref }}" >> %GITHUB_OUTPUT%
 
     - name: "Get SCADE installation directory"
       id: get-scade-dir
