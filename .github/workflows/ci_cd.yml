@@ -254,7 +254,7 @@ jobs:
           checkout: false
 
       - name: "Upload code target directory to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-suite-code-target-directory"
           path: "${{ steps.suite-code-generate.outputs.target-directory }}/*.*"
@@ -289,7 +289,7 @@ jobs:
           checkout: false
 
       - name: "Upload coverage status to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "coverage-status"
           path: "cov_status\\Model.json"
@@ -308,7 +308,7 @@ jobs:
           checkout: false
 
       - name: "Upload JUnit report to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "junit-report"
           path: "junit-reports\\Model.xml"
@@ -325,7 +325,7 @@ jobs:
           checkout: false
 
       - name: "Upload metrics report artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "metrics"
           path: "${{ steps.suite-metrics.outputs.report }}"
@@ -342,7 +342,7 @@ jobs:
           checkout: false
 
       - name: "Upload Custom rules report artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "check-custom-rules"
           path: "${{ steps.suite-rules.outputs.report }}"
@@ -359,7 +359,7 @@ jobs:
           checkout: false
 
       - name: "Upload Checker report artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-suite-check-report"
           path: "${{ steps.suite-check.outputs.report }}"
@@ -376,7 +376,7 @@ jobs:
           checkout: false
 
       - name: "Upload the document to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-suite-report"
           path: "${{ steps.suite-report.outputs.report }}"
@@ -411,7 +411,7 @@ jobs:
           checkout: false
 
       - name: "Upload the document to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-display-report"
           path: "${{ steps.display-report.outputs.report }}"
@@ -428,7 +428,7 @@ jobs:
           checkout: false
 
       - name: "Upload code target directory to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-display-code-target-directory"
           path: "${{ steps.display-generate-code.outputs.target-directory }}/*.*"
@@ -445,7 +445,7 @@ jobs:
           checkout: false
 
       - name: "Upload standalone target directory to artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-display-standalone-target-directory"
           path: "${{ steps.display-generate-standalone.outputs.target-directory }}/*.*"
@@ -464,7 +464,7 @@ jobs:
           checkout: false
 
       - name: "Upload Checker report artifacts"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: "scade-display-check-report"
           path: 'design-checker-report-specification.txt'
@@ -499,7 +499,7 @@ jobs:
                   checkout: false
 
               - name: "Upload code target directory to artifacts"
-                uses: actions/upload-artifact@v4
+                uses: actions/upload-artifact@v6
                 with:
                   name: "scade-rapid-prototyper-scade-one-target-directory"
                   path: "${{ steps.rapid-prototyper-generate-scade-one.outputs.target-directory }}"
@@ -516,7 +516,7 @@ jobs:
                   checkout: false
 
               - name: "Upload standalone target directory to artifacts"
-                uses: actions/upload-artifact@v4
+                uses: actions/upload-artifact@v6
                 with:
                   name: "scade-rapid-prototyper-standalone-target-directory"
                   path: "${{ steps.rapid-prototyper-generate-standalone.outputs.target-directory }}/*.*"
