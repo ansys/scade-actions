@@ -295,7 +295,7 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "scade-actions-release-tag"
+          action_ref: "v3.0.0"
         run: |
           echo action_ref=${{ env.action_ref }}>> ${GITHUB_OUTPUT}
 
@@ -535,7 +535,7 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "scade-actions-release-tag"
+          action_ref: "v3.0.0"
         shell: cmd
         run: |
           echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
