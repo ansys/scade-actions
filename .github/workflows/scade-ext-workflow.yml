@@ -299,13 +299,13 @@ jobs:
         run: |
           echo action_ref=${{ env.action_ref }}>> ${GITHUB_OUTPUT}
 
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         if: ${{ !inputs.dry-test }}
 
       - name: "Update labels"
         if: ${{ !inputs.dry-test }}
         # use internal wrapping action to provide a default configuration file
-        uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1
         env:
           action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
@@ -318,7 +318,7 @@ jobs:
       - name: "Label pull-request"
         if: ${{ !inputs.dry-test }}
         # use internal wrapping action to provide a default configuration file
-        uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1
         env:
           action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
@@ -546,7 +546,7 @@ jobs:
 
       - name: "Run tests"
         if: ${{ !inputs.dry-test }}
-        uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1
         env:
           action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
