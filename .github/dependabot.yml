@@ -6,17 +6,30 @@ updates:
         - dependency-name: "sphinx"
     schedule:
       interval: "monthly"
-    commit-message:
-      prefix: "build"
     labels:
       - "maintenance"
       - "dependencies"
+    assignees:
+      - "pyansys-ci-bot"
+    commit-message:
+      prefix: "build(deps)"
+    groups:
+      dependencies:
+          patterns:
+            # group all dependencies to minimize repository management
+            - "*"
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
-    commit-message:
-      prefix: "build"
     labels:
       - "maintenance"
+    assignees:
+      - "pyansys-ci-bot"
+    commit-message:
+      prefix: "ci"
+    groups:
+       actions:
+          patterns:
+            - "*"
