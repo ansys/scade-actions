@@ -68,6 +68,7 @@ jobs:
       skip-code-style: true
       skip-doc-style: true
       skip-check-vulnerabilities: true
+      skip-check-actions-security: true
       skip-update-changelog: true
       skip-build-wheelhouse: true
       # skip-scade-tests: true
