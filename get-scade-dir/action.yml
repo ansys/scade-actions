@@ -46,15 +46,11 @@ runs:
   using: composite
   steps:
 
-  - name: "Pass Inputs to Shell"
-    shell: cmd
-    run: |
-      :: Pass Inputs to Shell
-      echo INPUT_SCADE_VERSION=${{ inputs.scade-version }}>> %GITHUB_ENV%
-
   - name: "Find SCADE_DIR"
     id: find-scade-dir
     shell: cmd
+    env:
+      INPUT_SCADE_VERSION: "${{ inputs.scade-version }}"
     run: |
       :: Find SCADE_DIR
       echo Searching for Ansys SCADE "%INPUT_SCADE_VERSION%"
