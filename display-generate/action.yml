@@ -70,19 +70,31 @@ runs:
   steps:
 
     - name: "Install Git and clone project"
-      uses: actions/checkout@v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      with:
+          persist-credentials: false
       if: ${{ inputs.checkout == 'true' }}
 
     - name: "Retrieve target directory for the configuration"
       shell: cmd
       id: get
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        PROJECT: "${{ inputs.project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
       run: |
         :: get_sdy_target_dir.py echoes on stdout target-directory=<computed directory>
-        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_sdy_target_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
+        "%SCADE_DIR%\SCADE\bin\scade.exe" -script "%PROJECT%" "%ACTION_PATH%\get_sdy_target_dir.py" "main('%CONFIGURATION%')" >> %GITHUB_OUTPUT%
 
     - name: "Generate configuration"
       shell: cmd
       id: generate
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        PROJECT: "${{ inputs.project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
       run: |
         :: Call SdyGenerate.bat
-        call "${{ github.action_path }}\SdyGenerate.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
+        call "%ACTION_PATH%\SdyGenerate.bat" "%SCADE_DIR%" "%PROJECT%" "%CONFIGURATION%"
