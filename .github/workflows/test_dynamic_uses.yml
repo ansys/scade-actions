@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 name: Dynamic Uses
+
 on:
   pull_request:
     # opened, reopened, and synchronize are default for pull_request
@@ -40,6 +41,8 @@ on:
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
+permissions: {}
 
 jobs:
 
@@ -78,4 +81,8 @@ jobs:
       # strategies
       build-wheelhouse-versions: "['3.10']"
       python-tests-versions: "['3.10', '3.12']"
-    secrets: inherit
+    secrets:
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      PYANSYS_CI_BOT_USERNAME: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+      PYANSYS_CI_BOT_EMAIL: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+      PYANSYS_PYPI_PRIVATE_PAT : ${{ secrets.PYANSYS_PYPI_PRIVATE_PAT }}
