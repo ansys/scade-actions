@@ -106,7 +106,7 @@ runs:
       shell: cmd
       env:
         OUTPUT_SCADE_DIRECTORY: ${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}
-      run: |
+      run: | # zizmor: ignore[github-env]
         echo SCADE_DIRECTORY=%OUTPUT_SCADE_DIRECTORY%>> %GITHUB_ENV%
 
     - name: "Get SCADE Python interpreter"
@@ -121,18 +121,20 @@ runs:
             "scade-dir": ${{ toJSON(env.SCADE_DIRECTORY) }}
           }
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set python-dir"
       shell: cmd
       env:
         OUTPUT_PYTHON_DIR: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}
-      run: |
+      run: | # zizmor: ignore[github-env]
         echo PYTHON_DIR=%OUTPUT_PYTHON_DIR%>> %GITHUB_ENV%
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set python-name"
       shell: cmd
       env:
         OUTPUT_PYTHON_NAME: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}
-      run: |
+      run: | # zizmor: ignore[github-env]
         echo PYTHON_NAME=%OUTPUT_PYTHON_NAME%>> %GITHUB_ENV%
 
     - name: "Create Python virtual environment"
@@ -149,11 +151,12 @@ runs:
             "target-name": "${{ env.PYTHON_NAME }}"
           }
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set scripts-dir"
       shell: cmd
       env:
         OUTPUT_SCRIPTS_DIR: ${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}
-      run: |
+      run: | # zizmor: ignore[github-env]
         echo SCRIPTS_DIR=%OUTPUT_SCRIPTS_DIR%>> %GITHUB_ENV%
 
     - name: "Run the tests"

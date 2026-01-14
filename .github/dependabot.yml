@@ -6,6 +6,8 @@ updates:
         - dependency-name: "sphinx"
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 7
     labels:
       - "maintenance"
       - "dependencies"
@@ -23,6 +25,8 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 7
     labels:
       - "maintenance"
     assignees:

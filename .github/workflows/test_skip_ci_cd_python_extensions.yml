@@ -27,9 +27,6 @@ on:
     # opened, reopened, and synchronize are default for pull_request
     # edited - when PR title or body is changed
     # labeled - when labels are added to PR
-    # closed: removed since it might cancel the run related to merge on main
-    # --> skip doc-deploy-pr
-    # types: [opened, reopened, synchronize, edited, labeled, closed]
     types: [opened, reopened, synchronize, edited, labeled]
   push:
     tags:
@@ -49,10 +46,10 @@ jobs:
   test-skip-scade-ext-workflow:
     uses: ./.github/workflows/scade-ext-workflow.yml
     permissions:
-      attestations: write
-      contents: write
-      id-token: write
-      pull-requests: write
+      attestations: write # needed for build-wheelhouse and build-library jobs
+      contents: write # needed for update-changelog, doc-deploy-pr, and release jobs
+      id-token: write # needed for build-wheelhouse and build-library jobs
+      pull-requests: write # needed for labeler, changelog-fragment, update-changelog, and doc-deploy-pr jobs
     with:
       documentation-cname: 'not-applicable'
       library-name: 'not-applicable'

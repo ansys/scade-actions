@@ -22,6 +22,9 @@
 
 name: GitHub CI for SCADE Python extensions
 
+# this workflow does not execute jobs from its own
+# zizmor: ignore[concurrency-limits]
+
 on:
   workflow_call:
     inputs:
@@ -259,7 +262,8 @@ on:
       PYANSYS_PYPI_PRIVATE_PAT:
         required: false
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
 
@@ -318,8 +322,7 @@ jobs:
       !inputs.skip-labeler
       }}
     permissions:
-      contents: read
-      pull-requests: write
+      pull-requests: write # needed to add labels to the pull request
     runs-on: ubuntu-latest
     steps:
       - name: "Skip step"
@@ -379,8 +382,7 @@ jobs:
       !inputs.skip-changelog-fragment
       }}
     permissions:
-      contents: write
-      pull-requests: write
+      pull-requests: write # needed to create changelog fragment PR comments
     runs-on: ubuntu-latest
     steps:
       - name: "Skip step"
@@ -475,8 +477,8 @@ jobs:
       }}
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # needed to create PR for changelog
+      pull-requests: write # needed to create PR for changelog
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -502,9 +504,8 @@ jobs:
       !inputs.skip-build-wheelhouse
       }}
     permissions:
-      contents: read
-      id-token: write
-      attestations: write
+      id-token: write # needed for provenance attestation
+      attestations: write # needed for provenance attestation
     strategy:
       fail-fast: false
       matrix:
@@ -641,8 +642,8 @@ jobs:
     name: "Deploy PR documentation"
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # needed to update files on the gh-pages branch
+      pull-requests: write # needed to create deployment comments on PRs
     needs: doc-build
     # run when the PR is closed i.e. when doc-build job is skipped
     # also run only when appropriate label is added
@@ -682,9 +683,8 @@ jobs:
       !inputs.skip-build-library
       }}
     permissions:
-      attestations: write
-      contents: read
-      id-token: write
+      attestations: write # needed for provenance attestation
+      id-token: write # needed for provenance attestation
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -712,8 +712,7 @@ jobs:
       !inputs.skip-release
       }}
     permissions:
-      id-token: write
-      contents: write
+      contents: write # needed for publishing to private pypi
     outputs:
       to-release: ${{ steps.to-release.outputs.to-release }}
     steps:

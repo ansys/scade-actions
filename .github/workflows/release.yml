@@ -5,6 +5,10 @@ on:
     tags:
       - "v*.*.*"
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 permissions: {}
 
 jobs:
@@ -15,7 +19,7 @@ jobs:
       REF_NAME: ${{ github.ref_name }}
       BASE_REF: ${{ github.event.base_ref }}
     permissions:
-      contents: write
+      contents: write # needed to create and delete tags
     steps:
     - name: "Checkout repository" # zizmor: ignore[artipacked] git credentials need to be persisted on this job
       uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1

@@ -49,10 +49,10 @@ jobs:
   test-dynamic-uses:
     uses: ./.github/workflows/scade-ext-workflow.yml
     permissions:
-      attestations: write
-      contents: write
-      id-token: write
-      pull-requests: write
+      attestations: write # needed for build-wheelhouse and build-library jobs
+      contents: write # needed for labeler, changelog-fragment, update-changelog, build-wheelhouse, build-library, doc-deploy-pr, and release jobs
+      id-token: write # needed for build-wheelhouse, build-library, and release jobs
+      pull-requests: write # needed for labeler, changelog-fragment, update-changelog, and doc-deploy-pr jobs
     with:
       documentation-cname: 'not-applicable'
       library-name: 'not-applicable'
