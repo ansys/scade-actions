@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 name: GitHub CI for SCADE Python extensions
+
 on:
   workflow_call:
     inputs:
@@ -251,6 +252,8 @@ on:
       PYANSYS_PYPI_PRIVATE_PAT:
         required: false
 
+permissions: {}
+
 jobs:
 
   pr-name:
@@ -295,11 +298,13 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "scade-actions-release-tag"
+          ACTION_REF: "scade-actions-release-tag"
         run: |
-          echo action_ref=${{ env.action_ref }}>> ${GITHUB_OUTPUT}
+          echo action_ref=$ACTION_REF>> ${GITHUB_OUTPUT}
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+            persist-credentials: false
         if: ${{ !inputs.dry-test }}
 
       - name: "Update labels"
@@ -535,14 +540,16 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "scade-actions-release-tag"
+          ACTION_REF: "scade-actions-release-tag"
         shell: cmd
         run: |
-          echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+          echo action_ref=%ACTION_REF%>> %GITHUB_OUTPUT%
 
       - name: "Install Git and clone project"
         if: ${{ !inputs.dry-test }}
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+            persist-credentials: false
 
       - name: "Run tests"
         if: ${{ !inputs.dry-test }}
@@ -562,7 +569,7 @@ jobs:
       # TODO: secret not always defined
       - name: "Upload coverage reports to Codecov"
         if: ${{ inputs.is-public }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: ${{ inputs.repository-name }}
