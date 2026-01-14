@@ -83,11 +83,11 @@ runs:
         ACTION_PATH: "${{ github.action_path }}"
         SCADE_DIR: "${{ inputs.scade-dir }}"
         PROJECT: "${{ inputs.project }}"
-        CONFIGURATION: "${{ inputs.configuration }}"
+        SPECIFICATION: "${{ inputs.specification }}"
         CHECK_FORMAT: "${{ inputs.format }}"
         CHECK_OUTPUT: "${{ inputs.output }}"
       run: |
         :: Call CheckSdyModel.bat
-        call "%ACTION_PATH%\CheckSdyModel.bat" "%SCADE_DIR%" "%PROJECT%" "%CONFIGURATION%" "%CHECK_FORMAT%" "%CHECK_OUTPUT%"
+        call "%ACTION_PATH%\CheckSdyModel.bat" "%SCADE_DIR%" "%PROJECT%" "%SPECIFICATION%" "%CHECK_FORMAT%" "%CHECK_OUTPUT%"
 
 
