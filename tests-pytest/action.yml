@@ -92,7 +92,7 @@ runs:
         call "%INPUT_PYTHON_DIR%\activate.bat"
         python.exe --version
         :: store the "exe for the next steps"
-        echo python_exe=%INPUT_PYTHON_DIR%\python.exe>> ${GITHUB_OUTPUT}
+        echo python_exe=%INPUT_PYTHON_DIR%\python.exe>> %GITHUB_OUTPUT%
 
     - name: "Update pip"
       shell: cmd
