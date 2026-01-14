@@ -91,7 +91,7 @@ runs:
 
     - name: "Get SCADE installation directory"
       id: get-scade-dir
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
@@ -111,7 +111,7 @@ runs:
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
@@ -139,7 +139,7 @@ runs:
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
@@ -160,7 +160,7 @@ runs:
         echo SCRIPTS_DIR=%OUTPUT_SCRIPTS_DIR%>> %GITHUB_ENV%
 
     - name: "Run the tests"
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
