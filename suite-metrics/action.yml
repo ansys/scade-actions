@@ -64,15 +64,18 @@ runs:
   steps:
 
     - name: "Install Git and clone project"
-      uses: actions/checkout@v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+      with:
+          persist-credentials: false
       if: ${{ inputs.checkout == 'true' }}
 
     - name: "Retrieve metrics report"
       shell: cmd
       id: get
+      env:
+        PROJECT: "${{ inputs.project }}"
       run: |
         :: replace .etp with _metrics.xml
-        set PROJECT=${{ inputs.project }}
         if "%PROJECT:~-4%" == ".etp" (
           echo report=%PROJECT:~0,-4%_metrics.xml>> %GITHUB_OUTPUT%
         ) else (
@@ -82,6 +85,11 @@ runs:
     - name: "Compute metrics"
       shell: cmd
       id: code
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        PROJECT: "${{ inputs.project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
       run: |
         :: Call ComputeMetrics.bat
-        call "${{ github.action_path }}\ComputeMetrics.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
+        call "%ACTION_PATH%\ComputeMetrics.bat" "%SCADE_DIR%" "%PROJECT%" "%CONFIGURATION%"
