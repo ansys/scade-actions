@@ -322,6 +322,7 @@ jobs:
       !inputs.skip-labeler
       }}
     permissions:
+      contents: read
       pull-requests: write # needed to add labels to the pull request
     runs-on: ubuntu-latest
     steps:
@@ -382,6 +383,7 @@ jobs:
       !inputs.skip-changelog-fragment
       }}
     permissions:
+      contents: read
       pull-requests: write # needed to create changelog fragment PR comments
     runs-on: ubuntu-latest
     steps:
@@ -504,6 +506,7 @@ jobs:
       !inputs.skip-build-wheelhouse
       }}
     permissions:
+      contents: read
       id-token: write # needed for provenance attestation
       attestations: write # needed for provenance attestation
     strategy:
@@ -683,6 +686,7 @@ jobs:
       !inputs.skip-build-library
       }}
     permissions:
+      contents: read
       attestations: write # needed for provenance attestation
       id-token: write # needed for provenance attestation
     steps:
