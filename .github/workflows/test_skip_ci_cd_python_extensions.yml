@@ -21,14 +21,12 @@
 # SOFTWARE.
 
 name: Skip SCADE Ext
+
 on:
   pull_request:
     # opened, reopened, and synchronize are default for pull_request
     # edited - when PR title or body is changed
     # labeled - when labels are added to PR
-    # closed: removed since it might cancel the run related to merge on main
-    # --> skip doc-deploy-pr
-    # types: [opened, reopened, synchronize, edited, labeled, closed]
     types: [opened, reopened, synchronize, edited, labeled]
   push:
     tags:
@@ -41,15 +39,17 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
 
   test-skip-scade-ext-workflow:
     uses: ./.github/workflows/scade-ext-workflow.yml
     permissions:
-      attestations: write
-      contents: write
-      id-token: write
-      pull-requests: write
+      attestations: write # needed for build-wheelhouse and build-library jobs
+      contents: write # needed for update-changelog, doc-deploy-pr, and release jobs
+      id-token: write # needed for build-wheelhouse and build-library jobs
+      pull-requests: write # needed for labeler, changelog-fragment, update-changelog, and doc-deploy-pr jobs
     with:
       documentation-cname: 'not-applicable'
       library-name: 'not-applicable'
@@ -62,6 +62,7 @@ jobs:
       skip-code-style: true
       skip-doc-style: true
       skip-check-vulnerabilities: true
+      skip-check-actions-security: true
       skip-update-changelog: true
       skip-build-wheelhouse: true
       skip-scade-tests: true
@@ -75,4 +76,8 @@ jobs:
       # strategies
       build-wheelhouse-versions: "['3.10']"
       python-tests-versions: "['3.10', '3.12']"
-    secrets: inherit
+    secrets:
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      PYANSYS_CI_BOT_USERNAME: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+      PYANSYS_CI_BOT_EMAIL: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+      PYANSYS_PYPI_PRIVATE_PAT : ${{ secrets.PYANSYS_PYPI_PRIVATE_PAT }}

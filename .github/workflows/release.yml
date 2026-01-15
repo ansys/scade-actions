@@ -1,10 +1,15 @@
 name: Rolling release
+
 on:
   push:
     tags:
       - "v*.*.*"
 
-permissions: write-all
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions: {}
 
 jobs:
   automate-tagging:
@@ -13,9 +18,11 @@ jobs:
     env:
       REF_NAME: ${{ github.ref_name }}
       BASE_REF: ${{ github.event.base_ref }}
+    permissions:
+      contents: write # needed to create and delete tags
     steps:
-    - name: "Checkout repository"
-      uses: actions/checkout@v6
+    - name: "Checkout repository" # zizmor: ignore[artipacked] git credentials need to be persisted on this job
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
     - name: "Configure git"
       run: |
@@ -23,36 +30,46 @@ jobs:
         git config user.email github-actions@github.com
 
     - name: "Decompose tag into components"
+      id: xyz
       run: |
-        if [[ ${{ github.ref_name }} =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+        if [[ "$REF_NAME" =~ ^v[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
           # Split the tag into its components
           IFS='.' read -ra PARTS <<< "$REF_NAME"
-          echo "X=${PARTS[0]}" >> $GITHUB_ENV
-          echo "Y=${PARTS[1]}" >> $GITHUB_ENV
-          echo "Z=${PARTS[2]}" >> $GITHUB_ENV
+          echo "x=${PARTS[0]}" >> $GITHUB_OUTPUT
+          echo "y=${PARTS[1]}" >> $GITHUB_OUTPUT
+          echo "z=${PARTS[2]}" >> $GITHUB_OUTPUT
         else
           echo "Invalid tag format. Expected vX.Y.Z but got $REF_NAME"
           exit 1
         fi
 
     - name: "Verify tag was created in the proper release branch"
+      env:
+        X : ${{ steps.xyz.outputs.x }}
+        Y : ${{ steps.xyz.outputs.y }}
       run: |
         # Remove leading "v" from env.X
         X_NO_V="${X:1}"
         # Check if the tag was created in the proper branch
-        if [[ "$BASE_REF" != "refs/heads/release/${X_NO_V}.${{ env.Y }}" ]]; then
-          echo "Tag $REF_NAME was created in the wrong branch. Expected branch name release/${X_NO_V}.${{ env.Y }}"
+        if [[ "$BASE_REF" != "refs/heads/release/${X_NO_V}.${Y}" ]]; then
+          echo "Tag $REF_NAME was created in the wrong branch. Expected branch name release/${X_NO_V}.${Y}"
           exit 1
         fi
 
     - name: "Remove old tags"
+      env:
+        X : ${{ steps.xyz.outputs.x }}
+        Y : ${{ steps.xyz.outputs.y }}
       run: |
-        git push --delete origin ${{ env.X }}
-        git push --delete origin ${{ env.X }}.${{ env.Y }}
+        git push --delete origin ${X}
+        git push --delete origin ${X}.${Y}
 
     - name: "Create new tags"
+      env:
+        X : ${{ steps.xyz.outputs.x }}
+        Y : ${{ steps.xyz.outputs.y }}
       run: |
-        git tag ${{ env.X }}.${{ env.Y }}
-        git tag ${{ env.X }}
-        git push origin ${{ env.X }}.${{ env.Y }}
-        git push origin ${{ env.X }}
+        git tag ${X}.${Y}
+        git tag ${X}
+        git push origin ${X}.${Y}
+        git push origin ${X}

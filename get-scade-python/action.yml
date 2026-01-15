@@ -57,16 +57,11 @@ runs:
   using: composite
   steps:
 
-  - name: "Pass Inputs to Shell"
-    id: set
-    shell: cmd
-    run: |
-      :: Pass Inputs to Shell
-      echo INPUT_SCADE_DIR=${{ inputs.scade-dir }}>> %GITHUB_ENV%
-
   - name: "Retrieve Python name/directory/version"
     id: get
     shell: cmd
+    env:
+      INPUT_SCADE_DIR: "${{ inputs.scade-dir }}"
     run: |
       :: Retrieve Python name/directory
       setlocal ENABLEDELAYEDEXPANSION

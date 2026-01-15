@@ -44,20 +44,23 @@ runs:
       shell: bash
       # outputs labels_yml_path
       id: get
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        WORKSPACE: "${{ github.workspace }}"
       run: |
-        if [ -f "${{ github.workspace }}/.github/labels.yml" ]
+        if [ -f "$WORKSPACE/.github/labels.yml" ]
         then
-          echo using existing ${{ github.workspace }}/.github/labels.yml
-          # echo "labels_yml_path=${{ github.workspace }}/.github/labels.yml">> "$GITHUB_OUTPUT"
+          echo using existing $WORKSPACE/.github/labels.yml
+          # echo "labels_yml_path=$WORKSPACE/.github/labels.yml">> "$GITHUB_OUTPUT"
         else
-          echo using default ${{ github.action_path }}/labels.yml
-          # echo "labels_yml_path=${{ github.action_path }}/labels.yml">> "$GITHUB_OUTPUT"
+          echo using default $ACTION_PATH/labels.yml
+          # echo "labels_yml_path=$ACTION_PATH/labels.yml">> "$GITHUB_OUTPUT"
           # action's file not found, workaround: copy the file to the checked-out repository
-          cp ${{ github.action_path }}/labels.yml ${{ github.workspace }}/.github/labels.yml
+          cp $ACTION_PATH/labels.yml $WORKSPACE/.github/labels.yml
         fi
 
     - name: "Call action-label-syncer action"
-      uses: micnncim/action-label-syncer@v1
+      uses: micnncim/action-label-syncer@3abd5ab72fda571e69fffd97bd4e0033dd5f495c # v1
       env:
         GITHUB_TOKEN: ${{ inputs.repo-token }}
       # alternative: use "repository" input, but it requires a PAT

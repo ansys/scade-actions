@@ -47,17 +47,13 @@ author: 'ESEG'
 runs:
   using: composite
   steps:
-  - name: Pass Inputs to Shell
-    shell: cmd
-    run: |
-      :: Pass inputs to the shell
-      echo INPUT_PYTHON_DIR=${{ inputs.python-dir }}>> %GITHUB_ENV%
-      echo INPUT_TARGET_DIR=${{ inputs.target-dir }}>> %GITHUB_ENV%
-      echo INPUT_TARGET_NAME=${{ inputs.target-name}}>> %GITHUB_ENV%
-
   - name: Create environment
     id: venv
     shell: cmd
+    env:
+      INPUT_PYTHON_DIR: "${{ inputs.python-dir }}"
+      INPUT_TARGET_DIR: "${{ inputs.target-dir }}"
+      INPUT_TARGET_NAME: "${{ inputs.target-name}}"
     run: |
       :: Create virtual environment
       set VENV=%INPUT_TARGET_DIR%\%INPUT_TARGET_NAME%

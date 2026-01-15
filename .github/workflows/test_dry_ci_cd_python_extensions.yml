@@ -21,6 +21,7 @@
 # SOFTWARE.
 
 name: Dry SCADE Ext
+
 on:
   pull_request:
     # opened, reopened, and synchronize are default for pull_request
@@ -41,15 +42,17 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions: {}
+
 jobs:
 
   test-dry-scade-ext-workflow:
     uses: ./.github/workflows/scade-ext-workflow.yml
     permissions:
-      attestations: write
-      contents: write
-      id-token: write
-      pull-requests: write
+      attestations: write # needed for build-wheelhouse and build-library jobs
+      contents: write # needed for labeler, changelog-fragment, update-changelog, build-wheelhouse, build-library, doc-deploy-pr, and release jobs
+      id-token: write # needed for build-wheelhouse, build-library, and release jobs
+      pull-requests: write # needed for labeler, changelog-fragment, update-changelog, and doc-deploy-pr jobs
     with:
       documentation-cname: 'not-applicable'
       library-name: 'not-applicable'
@@ -61,4 +64,8 @@ jobs:
       # strategies
       build-wheelhouse-versions: "['3.10']"
       python-tests-versions: "['3.10', '3.12']"
-    secrets: inherit
+    secrets:
+      PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+      PYANSYS_CI_BOT_USERNAME: ${{ secrets.PYANSYS_CI_BOT_USERNAME }}
+      PYANSYS_CI_BOT_EMAIL: ${{ secrets.PYANSYS_CI_BOT_EMAIL }}
+      PYANSYS_PYPI_PRIVATE_PAT : ${{ secrets.PYANSYS_PYPI_PRIVATE_PAT }}
