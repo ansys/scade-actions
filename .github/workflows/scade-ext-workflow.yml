@@ -767,6 +767,8 @@ jobs:
     name: "Deploy development documentation"
     # Deploy development only when merging or pushing to the 'main' branch
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to update files on the gh-pages branch
     needs: [build-library]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
@@ -794,6 +796,8 @@ jobs:
     name: "Deploy stable documentation"
     # Deploy release documentation when creating a new tag
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to update files on the gh-pages branch
     needs: [release]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{

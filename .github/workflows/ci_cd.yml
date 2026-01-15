@@ -580,6 +580,8 @@ jobs:
   doc-deploy-dev:
     name: "Deploy developers documentation"
     needs: [doc-build, tests]
+    permissions:
+      contents: write # needed to update files on the gh-pages branch
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:
@@ -637,6 +639,8 @@ jobs:
     name: "Upload stable documentation"
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags')
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed to update files on the gh-pages branch
     needs: release
     steps:
       - uses: ansys/actions/doc-deploy-stable@v10
