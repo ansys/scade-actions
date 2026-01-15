@@ -44,18 +44,21 @@ runs:
       shell: bash
       # outputs labeler_yml_path
       id: get
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        WORKSPACE: "${{ github.workspace }}"
       run: |
-        if [ -f "${{ github.workspace }}/.github/labeler.yml" ]
+        if [ -f "$WORKSPACE/.github/labeler.yml" ]
         then
-          echo using existing ${{ github.workspace }}/.github/labeler.yml
-          echo "labeler_yml_path=${{ github.workspace }}/.github/labeler.yml">> "$GITHUB_OUTPUT"
+          echo using existing $WORKSPACE/.github/labeler.yml
+          echo "labeler_yml_path=$WORKSPACE/.github/labeler.yml">> "$GITHUB_OUTPUT"
         else
-          echo using default ${{ github.action_path }}/labeler.yml
-          echo "labeler_yml_path=${{ github.action_path }}/labeler.yml">> "$GITHUB_OUTPUT"
+          echo using default $ACTION_PATH/labeler.yml
+          echo "labeler_yml_path=$ACTION_PATH/labeler.yml">> "$GITHUB_OUTPUT"
         fi
 
     - name: "Call labeler action"
-      uses: actions/labeler@v6.0.1
+      uses: actions/labeler@634933edcd8ababfe52f92936142cc22ac488b1b # v6.0.1
       with:
         repo-token: ${{ inputs.repo-token }}
         configuration-path: ${{ steps.get.outputs.labeler_yml_path }}

@@ -21,6 +21,10 @@
 # SOFTWARE.
 
 name: GitHub CI for SCADE Python extensions
+
+# this workflow does not execute jobs from its own
+# zizmor: ignore[concurrency-limits]
+
 on:
   workflow_call:
     inputs:
@@ -217,6 +221,13 @@ on:
         type: boolean
         default: false
 
+      skip-check-actions-security:
+        description: >
+          Whether to skip the check-actions-security step's content.
+        required: false
+        type: boolean
+        default: false
+
       # unit tests or debug
       dry-test:
         description: >
@@ -251,12 +262,44 @@ on:
       PYANSYS_PYPI_PRIVATE_PAT:
         required: false
 
+permissions:
+  contents: read
+
 jobs:
+
+  check-actions-security:
+    name: "Check actions security"
+    # allow the action to execute if dependencies are successful or explicitly deactivated
+    if: ${{
+      !cancelled() &&
+      !inputs.skip-check-actions-security &&
+      inputs.is-public
+      }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Skip step"
+        if: ${{ inputs.dry-test }}
+        shell: bash
+        run: |
+          echo "Dry test: skipping step"
+
+      - uses: ansys/actions/check-actions-security@v10
+        if: ${{ !inputs.dry-test }}
+        with:
+          generate-summary: true
+          token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
+          auditing-level: "high"
+          trust-ansys-actions: true
 
   pr-name:
     name: "Check PR title"
+    needs: [check-actions-security]
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && !inputs.skip-pr-name
+    if: ${{
+      github.event_name == 'pull_request' &&
+      !inputs.skip-pr-name &&
+      (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped')
+      }}
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -280,7 +323,7 @@ jobs:
       }}
     permissions:
       contents: read
-      pull-requests: write
+      pull-requests: write # needed to add labels to the pull request
     runs-on: ubuntu-latest
     steps:
       - name: "Skip step"
@@ -295,17 +338,19 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "v3.0.1"
+          ACTION_REF: "v3.0.1"
         run: |
-          echo action_ref=${{ env.action_ref }}>> ${GITHUB_OUTPUT}
+          echo action_ref=$ACTION_REF>> ${GITHUB_OUTPUT}
 
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+            persist-credentials: false
         if: ${{ !inputs.dry-test }}
 
       - name: "Update labels"
         if: ${{ !inputs.dry-test }}
         # use internal wrapping action to provide a default configuration file
-        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1
+        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
         env:
           action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
@@ -318,7 +363,7 @@ jobs:
       - name: "Label pull-request"
         if: ${{ !inputs.dry-test }}
         # use internal wrapping action to provide a default configuration file
-        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1
+        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
         env:
           action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
@@ -337,8 +382,8 @@ jobs:
       !inputs.skip-changelog-fragment
       }}
     permissions:
-      contents: write
-      pull-requests: write
+      contents: read
+      pull-requests: write # needed to create changelog fragment PR comments
     runs-on: ubuntu-latest
     steps:
       - name: "Skip step"
@@ -425,14 +470,16 @@ jobs:
 
   update-changelog:
     name: "Update CHANGELOG (on release)"
+    needs: [check-actions-security]
     if: ${{
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
+      (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped') &&
       !inputs.skip-update-changelog
       }}
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # needed to create PR for changelog
+      pull-requests: write # needed to create PR for changelog
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -459,8 +506,8 @@ jobs:
       }}
     permissions:
       contents: read
-      id-token: write
-      attestations: write
+      id-token: write # needed for provenance attestation
+      attestations: write # needed for provenance attestation
     strategy:
       fail-fast: false
       matrix:
@@ -535,18 +582,20 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          action_ref: "v3.0.1"
+          ACTION_REF: "v3.0.1"
         shell: cmd
         run: |
-          echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+          echo action_ref=%ACTION_REF%>> %GITHUB_OUTPUT%
 
       - name: "Install Git and clone project"
         if: ${{ !inputs.dry-test }}
-        uses: actions/checkout@v6
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+        with:
+            persist-credentials: false
 
       - name: "Run tests"
         if: ${{ !inputs.dry-test }}
-        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1
+        uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
         env:
           action_ref: ${{ steps.action-ref.outputs.action_ref }}
         with:
@@ -562,7 +611,7 @@ jobs:
       # TODO: secret not always defined
       - name: "Upload coverage reports to Codecov"
         if: ${{ inputs.is-public }}
-        uses: codecov/codecov-action@v5
+        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: ${{ inputs.repository-name }}
@@ -594,8 +643,8 @@ jobs:
     name: "Deploy PR documentation"
     runs-on: ubuntu-latest
     permissions:
-      contents: write
-      pull-requests: write
+      contents: write # needed to update files on the gh-pages branch
+      pull-requests: write # needed to create deployment comments on PRs
     needs: doc-build
     # run when the PR is closed i.e. when doc-build job is skipped
     # also run only when appropriate label is added
@@ -635,9 +684,9 @@ jobs:
       !inputs.skip-build-library
       }}
     permissions:
-      attestations: write
       contents: read
-      id-token: write
+      attestations: write # needed for provenance attestation
+      id-token: write # needed for provenance attestation
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -665,8 +714,7 @@ jobs:
       !inputs.skip-release
       }}
     permissions:
-      id-token: write
-      contents: write
+      contents: write # needed for publishing to private pypi
     outputs:
       to-release: ${{ steps.to-release.outputs.to-release }}
     steps:

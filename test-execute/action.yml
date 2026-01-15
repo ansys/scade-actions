@@ -77,19 +77,33 @@ runs:
   steps:
 
     - name: "Install Git and clone project"
-      uses: actions/checkout@v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+          persist-credentials: false
       if: ${{ inputs.checkout == 'true' }}
 
     - name: "Run the tests"
       shell: cmd
       id: code
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        TEST_PROJECT: "${{ inputs.test-project }}"
+        RESULTS_PROJECT: "${{ inputs.results-project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
+        JUNIT-REPORT: "${{ inputs.junit-report }}"
       run: |
         :: Call ExecuteTests.bat
-        call "${{ github.action_path }}\ExecuteTests.bat" "${{ inputs.scade-dir }}" "${{ inputs.test-project }}" "${{ inputs.configuration }}" "${{ inputs.results-project }}" "${{ inputs.junit-report }}"
+        call "%ACTION_PATH%\ExecuteTests.bat" "%SCADE_DIR%" "%TEST_PROJECT%" "%CONFIGURATION%" "%RESULTS_PROJECT%" "%JUNIT-REPORT%"
 
     - name: "Retrieve results directory for the configuration"
       shell: cmd
       id: get
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        RESULTS_PROJECT: "${{ inputs.results-project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
       run: |
         :: get_results_dir.py echoes on stdout results-directory=<computed directory>
-        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.results-project }}" "${{ github.action_path }}\get_results_dir.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
+        "%SCADE_DIR%\SCADE\bin\scade.exe" -script "%RESULTS_PROJECT%" "%ACTION_PATH%\get_results_dir.py" "main('%CONFIGURATION%')" >> %GITHUB_OUTPUT%

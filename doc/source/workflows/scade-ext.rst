@@ -166,8 +166,11 @@ For more information, see the workflow itself: ``.github/workflows/scade-ext-wor
    * - **Job**
      - **Dependencies**
      - **Actions**
-   * - pr-name
+   * - check-actions-security
      -
+     - `ansys/actions/check-actions-security <https://actions.docs.ansys.com/version/stable/vulnerability-actions/#check-actions-security-action>`_
+   * - pr-name
+     - check-actions-security
      - `ansys/actions/check-pr-title <https://actions.docs.ansys.com/version/stable/style-actions/index.html#pull-request-title-action>`_
    * - labeler
      - pr-name
@@ -187,7 +190,7 @@ For more information, see the workflow itself: ``.github/workflows/scade-ext-wor
      - pr-name
      - `ansys/actions/check-vulnerabilities <https://actions.docs.ansys.com/version/stable/vulnerability-actions/#check-vulnerabilities-action>`_
    * - update-changelog
-     -
+     - check-actions-security
      - `ansys/actions/doc-deploy-changelog <https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-deploy-changelog-action>`_
    * - build-wheelhouse
      - code-style

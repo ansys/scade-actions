@@ -78,19 +78,31 @@ runs:
   steps:
 
     - name: "Install Git and clone project"
-      uses: actions/checkout@v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+          persist-credentials: false
       if: ${{ inputs.checkout == 'true' }}
 
     - name: "Retrieve generated report for the configuration"
       shell: cmd
       id: get
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        PROJECT: "${{ inputs.project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
       run: |
         :: get_report.py echoes on stdout report=<document>
         ::                            and target-directory=<document directory>
-        "${{ inputs.scade-dir }}\SCADE\bin\scade.exe" -script "${{ inputs.project }}" "${{ github.action_path }}\get_document.py" "main('${{ inputs.configuration }}')" >> %GITHUB_OUTPUT%
+        "%SCADE_DIR%\SCADE\bin\scade.exe" -script "%PROJECT%" "%ACTION_PATH%\get_document.py" "main('%CONFIGURATION%')" >> %GITHUB_OUTPUT%
 
     - name: "Generate documentation"
       shell: cmd
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        PROJECT: "${{ inputs.project }}"
+        CONFIGURATION: "${{ inputs.configuration }}"
       run: |
         :: Call ReportModel.bat
-        call "${{ github.action_path }}\ReportModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.configuration }}"
+        call "%ACTION_PATH%\ReportModel.bat" "%SCADE_DIR%" "%PROJECT%" "%CONFIGURATION%"

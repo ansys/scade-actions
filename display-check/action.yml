@@ -72,14 +72,22 @@ runs:
   steps:
 
     - name: "Install Git and clone project"
-      uses: actions/checkout@v5
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+          persist-credentials: false
       if: ${{ inputs.checkout == 'true' }}
 
     - name: "Check model"
       shell: cmd
-      id: code
+      env:
+        ACTION_PATH: "${{ github.action_path }}"
+        SCADE_DIR: "${{ inputs.scade-dir }}"
+        PROJECT: "${{ inputs.project }}"
+        SPECIFICATION: "${{ inputs.specification }}"
+        CHECK_FORMAT: "${{ inputs.format }}"
+        CHECK_OUTPUT: "${{ inputs.output }}"
       run: |
         :: Call CheckSdyModel.bat
-        call "${{ github.action_path }}\CheckSdyModel.bat" "${{ inputs.scade-dir }}" "${{ inputs.project }}" "${{ inputs.specification }}" "${{ inputs.format }}" "${{ inputs.output }}"
+        call "%ACTION_PATH%\CheckSdyModel.bat" "%SCADE_DIR%" "%PROJECT%" "%SPECIFICATION%" "%CHECK_FORMAT%" "%CHECK_OUTPUT%"
 
 

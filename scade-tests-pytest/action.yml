@@ -83,14 +83,14 @@ runs:
         # github.action_ref not usable in callable workflows: as a workaround,
         # use hard-coded reference instead, that must be updated for new releases
         # action_ref: ${{ github.action_ref }}
-        action_ref: "v3.0.1"
+        ACTION_REF: "v3.0.1"
       shell: cmd
       run: |
-        echo action_ref=${{ env.action_ref }}>> %GITHUB_OUTPUT%
+        echo action_ref=%ACTION_REF%>> %GITHUB_OUTPUT%
 
     - name: "Get SCADE installation directory"
       id: get-scade-dir
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
@@ -103,12 +103,14 @@ runs:
     # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set scade-directory"
       shell: cmd
-      run: |
-        echo SCADE_DIRECTORY=${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}>> %GITHUB_ENV%
+      env:
+        OUTPUT_SCADE_DIRECTORY: ${{ fromJSON(steps.get-scade-dir.outputs.outputs).scade-directory }}
+      run: | # zizmor: ignore[github-env]
+        echo SCADE_DIRECTORY=%OUTPUT_SCADE_DIRECTORY%>> %GITHUB_ENV%
 
     - name: "Get SCADE Python interpreter"
       id: get-scade-python
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
@@ -118,19 +120,25 @@ runs:
             "scade-dir": ${{ toJSON(env.SCADE_DIRECTORY) }}
           }
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set python-dir"
       shell: cmd
-      run: |
-        echo PYTHON_DIR=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}>> %GITHUB_ENV%
+      env:
+        OUTPUT_PYTHON_DIR: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-dir }}
+      run: | # zizmor: ignore[github-env]
+        echo PYTHON_DIR=%OUTPUT_PYTHON_DIR%>> %GITHUB_ENV%
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set python-name"
       shell: cmd
-      run: |
-        echo PYTHON_NAME=${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}>> %GITHUB_ENV%
+      env:
+        OUTPUT_PYTHON_NAME: ${{ fromJSON(steps.get-scade-python.outputs.outputs).python-name }}
+      run: | # zizmor: ignore[github-env]
+        echo PYTHON_NAME=%OUTPUT_PYTHON_NAME%>> %GITHUB_ENV%
 
     - name: "Create Python virtual environment"
       id: create-scade-venv
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
@@ -142,13 +150,16 @@ runs:
             "target-name": "${{ env.PYTHON_NAME }}"
           }
 
+    # pass data along with GITHUB_ENV: https://github.com/jenseng/dynamic-uses?tab=readme-ov-file#gotchaslimitations
     - name: "Set scripts-dir"
       shell: cmd
-      run: |
-        echo SCRIPTS_DIR=${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}>> %GITHUB_ENV%
+      env:
+        OUTPUT_SCRIPTS_DIR: ${{ fromJSON(steps.create-scade-venv.outputs.outputs).scripts-dir }}
+      run: | # zizmor: ignore[github-env]
+        echo SCRIPTS_DIR=%OUTPUT_SCRIPTS_DIR%>> %GITHUB_ENV%
 
     - name: "Run the tests"
-      uses: jenseng/dynamic-uses@5175289a9a87978dcfcb9cf512b821d23b2a53eb # v1
+      uses: jenseng/dynamic-uses@8bc24f0360175e710da532c4d19eafdbed489a06 # v1.1.1
       env:
         action_ref: ${{ steps.action-ref.outputs.action_ref }}
       with:
