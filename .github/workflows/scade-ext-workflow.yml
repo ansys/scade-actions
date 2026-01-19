@@ -84,6 +84,13 @@ on:
         type: string
         default: "['3.10']"
 
+      sphinx-opts:
+        description: >
+          Set of options to pass to the ``Sphinx`` builder.
+        default: "-j auto -W --keep-going"
+        type: string
+        required: false
+
       # repository nature
       is-public:
         description: >
@@ -638,6 +645,7 @@ jobs:
         if: ${{ !inputs.dry-test }}
         with:
           python-version: ${{ inputs.main-python-version }}
+          sphinxopts: ${{ inputs.sphinx-opts }}
 
   doc-deploy-pr:
     name: "Deploy PR documentation"
