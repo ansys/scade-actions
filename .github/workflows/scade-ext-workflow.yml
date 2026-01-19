@@ -747,7 +747,7 @@ jobs:
         id: to-release
         shell: bash
         run: |
-          echo to-release=true>> %GITHUB_OUTPUT%
+          echo to-release=true>> ${GITHUB_OUTPUT}
 
       # to be inserted in the calling process
       # - name: "Download the library artifacts from build-library step"
