@@ -59,6 +59,11 @@ Inputs
      - String
      - False
      - ``"['3.10']"``
+   * - sphinx-opts
+     - Set of options to pass to the ``Sphinx`` builder.
+     - String
+     - False
+     - ``"-j auto -W --keep-going"``
 
 .. Note::
 
