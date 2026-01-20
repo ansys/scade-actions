@@ -338,7 +338,7 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          ACTION_REF: "v3.0.4"
+          ACTION_REF: "v3.0.5"
         run: |
           echo action_ref=$ACTION_REF>> ${GITHUB_OUTPUT}
 
@@ -582,7 +582,7 @@ jobs:
           # no equivalent to github.action_ref for callable workflows
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
-          ACTION_REF: "v3.0.4"
+          ACTION_REF: "v3.0.5"
         shell: cmd
         run: |
           echo action_ref=%ACTION_REF%>> %GITHUB_OUTPUT%
