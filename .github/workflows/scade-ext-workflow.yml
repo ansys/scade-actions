@@ -303,6 +303,7 @@ jobs:
     needs: [check-actions-security]
     runs-on: ubuntu-latest
     if: ${{
+      always() && !cancelled() &&
       github.event_name == 'pull_request' &&
       !inputs.skip-pr-name &&
       (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped')
