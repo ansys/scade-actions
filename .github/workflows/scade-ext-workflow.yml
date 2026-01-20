@@ -303,6 +303,7 @@ jobs:
     needs: [check-actions-security]
     runs-on: ubuntu-latest
     if: ${{
+      always() && !cancelled() &&
       github.event_name == 'pull_request' &&
       !inputs.skip-pr-name &&
       (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped')
@@ -325,7 +326,8 @@ jobs:
     needs: [pr-name]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      always() && !cancelled() &&
+      (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
       !inputs.skip-labeler
       }}
     permissions:
@@ -385,7 +387,8 @@ jobs:
     needs: [labeler]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.labeler.result == 'success' || inputs.skip-labeler) &&
+      always() && !cancelled() &&
+      (needs.labeler.result == 'success' || inputs.skip-labeler) &&
       !inputs.skip-changelog-fragment
       }}
     permissions:
@@ -413,7 +416,8 @@ jobs:
     needs: [pr-name]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      always() && !cancelled() &&
+      (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
       !inputs.skip-code-style
       }}
     runs-on: ubuntu-latest
@@ -434,7 +438,8 @@ jobs:
     needs: [pr-name]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      always() && !cancelled() &&
+      (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
       !inputs.skip-doc-style
       }}
     runs-on: ubuntu-latest
@@ -455,7 +460,8 @@ jobs:
     needs: [pr-name]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
+      always() && !cancelled() &&
+      (needs.pr-name.result == 'success' || needs.pr-name.result == 'skipped') &&
       !inputs.skip-check-vulnerabilities &&
       inputs.is-public
       }}
@@ -508,7 +514,8 @@ jobs:
     needs: [code-style]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.code-style.result == 'success' || inputs.skip-code-style) &&
+      always() && !cancelled() &&
+      (needs.code-style.result == 'success' || inputs.skip-code-style) &&
       !inputs.skip-build-wheelhouse
       }}
     permissions:
@@ -541,7 +548,8 @@ jobs:
     needs: [build-wheelhouse]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
+      always() && !cancelled() &&
+      (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
       !inputs.skip-python-tests
       }}
     strategy:
@@ -568,7 +576,8 @@ jobs:
     needs: [build-wheelhouse]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
+      always() && !cancelled() &&
+      (needs.build-wheelhouse.result == 'success' || inputs.skip-build-wheelhouse) &&
       !inputs.skip-scade-tests
       }}
     strategy:
@@ -631,7 +640,8 @@ jobs:
     needs: [doc-style]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() && (needs.doc-style.result == 'success' || inputs.skip-doc-style) &&
+      always() && !cancelled() &&
+      (needs.doc-style.result == 'success' || inputs.skip-doc-style) &&
       !inputs.skip-doc-build
       }}
     steps:
@@ -658,7 +668,7 @@ jobs:
     # also run only when appropriate label is added
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() &&
+      always() && !cancelled() &&
       contains(github.event.pull_request.labels.*.name, 'deploy-pr-doc') &&
       !inputs.skip-doc-deploy-pr
       }}
@@ -684,7 +694,7 @@ jobs:
     needs: [python-tests, scade-tests, doc-build, check-vulnerabilities]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() &&
+      always() && !cancelled() &&
       (needs.python-tests.result == 'success' || inputs.skip-python-tests) &&
       (needs.scade-tests.result == 'success' || inputs.skip-scade-tests) &&
       (needs.doc-build.result == 'success' || inputs.skip-doc-build) &&
@@ -715,7 +725,7 @@ jobs:
     needs: [build-library, update-changelog]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() &&
+      always() && !cancelled() &&
       (needs.build-library.result == 'success' || inputs.skip-build-library) &&
       (needs.update-changelog.result == 'success' || inputs.skip-update-changelog) &&
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
@@ -780,7 +790,7 @@ jobs:
     needs: [build-library]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() &&
+      always() && !cancelled() &&
       (needs.build-library.result == 'success' || inputs.skip-build-library) &&
       github.event_name == 'push' && !contains(github.ref, 'refs/tags') &&
       !inputs.skip-doc-deploy-dev
@@ -809,7 +819,7 @@ jobs:
     needs: [release]
     # allow the action to execute if dependencies are successful or explicitly deactivated
     if: ${{
-      !cancelled() &&
+      always() && !cancelled() &&
       (needs.release.result == 'success' || inputs.skip-release) &&
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
       !inputs.skip-doc-deploy-stable
