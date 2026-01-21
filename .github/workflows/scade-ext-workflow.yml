@@ -308,6 +308,9 @@ jobs:
       !inputs.skip-pr-name &&
       (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped')
       }}
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
@@ -348,7 +351,7 @@ jobs:
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
           # ACTION_REF: "scade-actions-release-tag"
-          ACTION_REF: "ci/security"
+          ACTION_REF: "ci/tune-permissions"
         run: |
           echo action_ref=$ACTION_REF>> ${GITHUB_OUTPUT}
 
@@ -600,7 +603,7 @@ jobs:
           # cf. https://github.com/orgs/community/discussions/31054
           # as a workaround, use hard-coded reference instead, that must be updated for new releases
           # ACTION_REF: "scade-actions-release-tag"
-          ACTION_REF: "ci/security"
+          ACTION_REF: "ci/tune-permissions"
         shell: cmd
         run: |
           echo action_ref=%ACTION_REF%>> %GITHUB_OUTPUT%
