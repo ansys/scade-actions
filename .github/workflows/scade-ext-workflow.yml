@@ -310,7 +310,7 @@ jobs:
       }}
     permissions:
       contents: read
-      pull-requests: read
+      pull-requests: read # needed for private repositories
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
