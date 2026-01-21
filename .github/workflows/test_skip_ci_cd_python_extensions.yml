@@ -29,8 +29,6 @@ on:
     # labeled - when labels are added to PR
     types: [opened, reopened, synchronize, edited, labeled]
   push:
-    tags:
-      - "*"
     branches:
       - main
   workflow_dispatch:
