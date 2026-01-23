@@ -488,6 +488,7 @@ jobs:
     name: "Update CHANGELOG (on release)"
     needs: [check-actions-security]
     if: ${{
+      always() && !cancelled() &&
       github.event_name == 'push' && contains(github.ref, 'refs/tags') &&
       (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped') &&
       !inputs.skip-update-changelog
