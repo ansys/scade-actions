@@ -308,6 +308,9 @@ jobs:
       !inputs.skip-pr-name &&
       (needs.check-actions-security.result == 'success' || needs.check-actions-security.result == 'skipped')
       }}
+    permissions:
+      contents: read
+      pull-requests: read # needed for private repositories
     steps:
       - name: "Skip step"
         if: ${{ inputs.dry-test }}
