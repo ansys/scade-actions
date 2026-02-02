@@ -12,7 +12,7 @@ on:
 permissions: {}
 
 env:
-  MAIN_PYTHON_VERSION: '3.10'
+  MAIN_PYTHON_VERSION: '3.11'
   DOCUMENTATION_CNAME: 'actions.scade.docs.pyansys.com'
   test-library-name: 'ansys-scade-actions'
 
