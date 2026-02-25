@@ -1,0 +1,1008 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GitHub Workflow for SCADE Python Extensions &#8212; Ansys SCADE Actions</title>
+  
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/ansys-sphinx-theme.css?v=9e79609d" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.23/css/jquery.dataTables.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://www.nerdfonts.com/assets/css/webfont.css" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+
+  <!-- Include desired assets -->
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  
+
+  
+    <link href="../_static/css/breadcrumbs.css" rel="stylesheet" />
+  
+    <script src="../_static/documentation_options.js?v=8310b8a2"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="https://cdn.datatables.net/1.10.23/js/jquery.dataTables.min.js"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'workflows/scade-ext';</script>
+    <script>
+        DOCUMENTATION_OPTIONS.theme_version = '0.16.1';
+        DOCUMENTATION_OPTIONS.theme_switcher_json_url = 'https://actions.scade.docs.pyansys.com/versions.json';
+        DOCUMENTATION_OPTIONS.theme_switcher_version_match = '3.0';
+        DOCUMENTATION_OPTIONS.show_version_warning_banner =
+            false;
+        </script>
+    <link rel="icon" href="../_static/ansys-favicon.png"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Ansys SCADE reusable workflows" href="index.html" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="3.0.7" />
+  <link rel="canonical" href="https://actions.scade.docs.pyansys.com/version/stable/workflows/scade-ext.html" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="https://docs.pyansys.com/">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/pyansys_logo_transparent_black.png" class="logo__image only-light" alt="Ansys SCADE Actions - Home"/>
+    <img src="../_static/pyansys_logo_transparent_white.png" class="logo__image only-dark pst-js-only" alt="Ansys SCADE Actions - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html" title="Ansys SCADE Actions home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../query-actions/index.html">
+    Query Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tests-actions/index.html">
+    Test Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../suite-actions/index.html">
+    SCADE Suite Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../test-actions/index.html">
+    SCADE Test Actions
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../display-actions/index.html">
+    SCADE Display Actions
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../rapid-prototyper-actions/index.html">
+    SCADE Rapid Prototyper Actions
+  </a>
+</li>
+
+
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Ansys SCADE reusable workflows
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav>
+</div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+      
+        <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+      
+        <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-2"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-2"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-2"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-2">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/scade-actions" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+  
+    <div id="announcement_msg"></div>
+<script>
+  fetch("announcement.html")
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error: ${response.status}`);
+      }
+      return response.text();
+    })
+    .then(
+      (text) => (document.getElementById("announcement_msg").innerHTML = text),
+    )
+    .catch((error) => console.error(`Fetch problem: ${error.message}`));
+</script>
+  
+
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../index.html" title="Ansys SCADE Actions home">Home</a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../query-actions/index.html">
+    Query Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tests-actions/index.html">
+    Test Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../suite-actions/index.html">
+    SCADE Suite Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../test-actions/index.html">
+    SCADE Test Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../display-actions/index.html">
+    SCADE Display Actions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../rapid-prototyper-actions/index.html">
+    SCADE Rapid Prototyper Actions
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Ansys SCADE reusable workflows
+  </a>
+</li>
+
+  </ul>
+</nav>
+</div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<div class="search-bar pst-js-only" id="search-bar">
+  <form class="bd-search d-flex align-items-center" action="../search.html" method="get">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <input type="search" class="form-control" name="q" placeholder="Search the docs ..."
+      aria-label="Search the docs ..." autocomplete="off" autocorrect="off"
+      autocapitalize="off" spellcheck="false" />
+    <span class="search-button__kbd-shortcut">
+      <kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd>
+    </span>
+  </form>
+  <div id="static-search-results" class="static-search-results" style="display:none;" tabindex="0"></div>
+</div></div>
+        
+          <div class="navbar-item">
+<div class="version-switcher__container dropdown pst-js-only">
+  <button id="pst-version-switcher-button-3"
+    type="button"
+    class="version-switcher__button btn btn-sm dropdown-toggle"
+    data-bs-toggle="dropdown"
+    aria-haspopup="listbox"
+    aria-controls="pst-version-switcher-list-3"
+    aria-label="Version switcher list"
+  >
+    Choose version  <!-- this text may get changed later by javascript -->
+    <span class="caret"></span>
+  </button>
+  <div id="pst-version-switcher-list-3"
+    class="version-switcher__menu dropdown-menu list-group-flush py-0"
+    role="listbox" aria-labelledby="pst-version-switcher-button-3">
+    <!-- dropdown will be populated by javascript on page load -->
+  </div>
+</div></div>
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/ansys/scade-actions" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GitHub Workflow for SCADE Python Extensions</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+         
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="https://docs.pyansys.com/" class="nav-link">PyAnsys</a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a
+        href="../index.html"
+        class="nav-link"
+        aria-label="Home"
+      >
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+     
+    <li class="breadcrumb-item">
+      <a href="index.html" class="nav-link">Ansys SCADE reusable workflows</a>
+    </li>
+      
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GitHub Workflow for SCADE Python Extensions</span></li>
+    
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="github-workflow-for-scade-python-extensions">
+<h1>GitHub Workflow for SCADE Python Extensions<a class="headerlink" href="#github-workflow-for-scade-python-extensions" title="Link to this heading">#</a></h1>
+<p>You can use the GitHub workflow for SCADE Python Extensions to develop a SCADE Python library,
+for example <a class="reference external" href="https://github.com/ansys/scade-apitools">ansys-scade-apitools</a>.
+You can also use it to create an extension, such as a code generator wrapper or a SCADE IDE Python custom extension.</p>
+<p>The workflow accepts inputs to specify repository properties used in jobs and options to deactivate a given job.</p>
+<section id="inputs">
+<h2>Inputs<a class="headerlink" href="#inputs" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 40.0%" />
+<col style="width: 10.0%" />
+<col style="width: 10.0%" />
+<col style="width: 10.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+<th class="head"><p><strong>Type</strong></p></th>
+<th class="head"><p><strong>Required</strong></p></th>
+<th class="head"><p><strong>Default</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>documentation-cname</p></td>
+<td><p>Documentation’s CNAME, for example <code class="docutils literal notranslate"><span class="pre">apitools.scade.docs.pyansys.com</span></code>.</p></td>
+<td><p>String</p></td>
+<td><p>True</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>library-name</p></td>
+<td><p>Name of the library, for example <code class="docutils literal notranslate"><span class="pre">ansys-scade-apitools</span></code>.</p></td>
+<td><p>String</p></td>
+<td><p>True</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p>repository-name</p></td>
+<td><p>Name of the repository, for example <code class="docutils literal notranslate"><span class="pre">ansys/scade-apitools</span></code>.</p></td>
+<td><p>String</p></td>
+<td><p>True</p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p>main-python-version</p></td>
+<td><p>Python version used for the workflow, unless specified otherwise.</p></td>
+<td><p>String</p></td>
+<td><p>False</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;3.12&quot;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>build-wheelhouse-versions</p></td>
+<td><p>List of Python versions as a JSON list.</p></td>
+<td><p>String</p></td>
+<td><p>False</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;['3.10']&quot;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>scade-tests-versions</p></td>
+<td><p>List of Ansys SCADE versions as a JSON list.</p></td>
+<td><p>String</p></td>
+<td><p>True</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;['25.1']&quot;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>python-tests-os</p></td>
+<td><p>List of OS versions as a JSON list.</p></td>
+<td><p>String</p></td>
+<td><p>True</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;['ubuntu-latest']&quot;</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>python-tests-versions</p></td>
+<td><p>List of Python versions as a JSON list.</p></td>
+<td><p>String</p></td>
+<td><p>False</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;['3.10']&quot;</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>sphinx-opts</p></td>
+<td><p>Set of options to pass to the <code class="docutils literal notranslate"><span class="pre">Sphinx</span></code> builder.</p></td>
+<td><p>String</p></td>
+<td><p>False</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">&quot;-j</span> <span class="pre">auto</span> <span class="pre">-W</span> <span class="pre">--keep-going&quot;</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A Boolean <code class="docutils literal notranslate"><span class="pre">dry-test</span></code> input, <code class="docutils literal notranslate"><span class="pre">false</span></code> by default, verifies the workflow configuration. The jobs log a message instead of executing their actions.</p>
+</div>
+</section>
+<section id="outputs">
+<h2>Outputs<a class="headerlink" href="#outputs" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>to-release</p></td>
+<td><p>Returns <code class="docutils literal notranslate"><span class="pre">true</span></code> if the public release action should be executed at the end of the workflow; otherwise, it returns <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+<p><strong>Note:</strong> The returned value is always <code class="docutils literal notranslate"><span class="pre">false</span></code> for private repositories.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="secrets">
+<h2>Secrets<a class="headerlink" href="#secrets" title="Link to this heading">#</a></h2>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 70.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Description</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>PYANSYS_CI_BOT_TOKEN</p></td>
+<td><p>Used to perform a git commit and push.</p></td>
+</tr>
+<tr class="row-odd"><td><p>PYANSYS_CI_BOT_USERNAME</p></td>
+<td><p>Defines the user for a git commit and push.</p></td>
+</tr>
+<tr class="row-even"><td><p>PYANSYS_CI_BOT_EMAIL</p></td>
+<td><p>Defines the email for a git commit and push.</p></td>
+</tr>
+<tr class="row-odd"><td><p>CODECOV_TOKEN</p></td>
+<td><p>Used to upload coverage reports to <code class="docutils literal notranslate"><span class="pre">Codecov</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>PYANSYS_PYPI_PRIVATE_PAT</p></td>
+<td><p>Used to release library artifacts to the PyAnsys private index. It addresses private repositories only.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="permissions">
+<h2>Permissions<a class="headerlink" href="#permissions" title="Link to this heading">#</a></h2>
+<p>Some workflow jobs require <code class="docutils literal notranslate"><span class="pre">read</span></code> or <code class="docutils literal notranslate"><span class="pre">write</span></code> permissions.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 30.0%" />
+<col style="width: 20.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Name</strong></p></th>
+<th class="head"><p><strong>Permission</strong></p></th>
+<th class="head"><p><strong>Jobs</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>attestations</p></td>
+<td><p>write</p></td>
+<td><p>build-wheelhouse, build-library</p></td>
+</tr>
+<tr class="row-odd"><td><p>contents</p></td>
+<td><p>read</p></td>
+<td><p>labeler, build-wheelhouse, build-library</p></td>
+</tr>
+<tr class="row-even"><td></td>
+<td><p>write</p></td>
+<td><p>changelog-fragment, update-changelog, doc-deploy-pr</p></td>
+</tr>
+<tr class="row-odd"><td><p>id-token</p></td>
+<td><p>write</p></td>
+<td><p>build-wheelhouse, build-library, release</p></td>
+</tr>
+<tr class="row-even"><td><p>pull-requests</p></td>
+<td><p>write</p></td>
+<td><p>build-wheelhouse, build-library, release</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="control">
+<h2>Control<a class="headerlink" href="#control" title="Link to this heading">#</a></h2>
+<p>The workflow defines an optional Boolean input for each job to control its activation. This input is named <code class="docutils literal notranslate"><span class="pre">skip-&lt;job-name&gt;</span></code>, for example, <code class="docutils literal notranslate"><span class="pre">skip-build-wheelhouse</span></code>. The default value is <code class="docutils literal notranslate"><span class="pre">false</span></code>.</p>
+</section>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">dry-test</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ansys/scade-actions/.github/workflows/ci_cd_python_extensions.yml@main</span>
+<span class="w">  </span><span class="nt">permissions</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">attestations</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">    </span><span class="nt">id-token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">    </span><span class="nt">pull-requests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">write</span>
+<span class="w">  </span><span class="nt">with</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">documentation-cname</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;apitools.scade.docs.pyansys.com&#39;</span>
+<span class="w">    </span><span class="nt">library-name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;ansys-scade-apitools&#39;</span>
+<span class="w">    </span><span class="nt">repository-name</span><span class="p">:</span><span class="w"> </span><span class="s">&#39;scade-apitools&#39;</span>
+<span class="w">    </span><span class="c1"># actions not executed</span>
+<span class="w">    </span><span class="nt">dry-test</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="nt">secrets</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">inherit</span>
+</pre></div>
+</div>
+</section>
+<section id="jobs">
+<h2>Jobs<a class="headerlink" href="#jobs" title="Link to this heading">#</a></h2>
+<p>The following table summarizes the jobs, their dependencies, and the actions that are used.
+For more information, see the workflow itself: <code class="docutils literal notranslate"><span class="pre">.github/workflows/scade-ext-workflow.yml</span></code>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The table does not list common actions such as <code class="docutils literal notranslate"><span class="pre">checkout</span></code> or <code class="docutils literal notranslate"><span class="pre">download-artifact</span></code>.</p>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 27.3%" />
+<col style="width: 36.4%" />
+<col style="width: 36.4%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p><strong>Job</strong></p></th>
+<th class="head"><p><strong>Dependencies</strong></p></th>
+<th class="head"><p><strong>Actions</strong></p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>check-actions-security</p></td>
+<td></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/vulnerability-actions/#check-actions-security-action">ansys/actions/check-actions-security</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>pr-name</p></td>
+<td><p>check-actions-security</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/style-actions/index.html#pull-request-title-action">ansys/actions/check-pr-title</a></p></td>
+</tr>
+<tr class="row-even"><td><p>labeler</p></td>
+<td><p>pr-name</p></td>
+<td><p><a class="reference external" href="https://github.com/micnncim/action-label-syncer">micnncim/action-label-syncer</a></p>
+<p><a class="reference external" href="https://github.com/actions/labeler">actions/labeler</a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>changelog-fragment</p></td>
+<td><p>labeler</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-changelog-action">ansys/actions/doc-changelog</a></p></td>
+</tr>
+<tr class="row-even"><td><p>code-style</p></td>
+<td><p>pr-name</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/style-actions/index.html#code-style-action">ansys/actions/code-style</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>doc-style</p></td>
+<td><p>pr-name</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/style-actions/index.html#doc-style-action">ansys/actions/doc-style</a></p></td>
+</tr>
+<tr class="row-even"><td><p>check-vulnerabilities</p></td>
+<td><p>pr-name</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/vulnerability-actions/#check-vulnerabilities-action">ansys/actions/check-vulnerabilities</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>update-changelog</p></td>
+<td><p>check-actions-security</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-deploy-changelog-action">ansys/actions/doc-deploy-changelog</a></p></td>
+</tr>
+<tr class="row-even"><td><p>build-wheelhouse</p></td>
+<td><p>code-style</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/build-actions/index.html#build-wheelhouse-action">ansys/actions/build-wheelhouse</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>scade-tests</p></td>
+<td><p>build-wheelhouse</p></td>
+<td><p><a class="reference external" href="https://actions.scade.docs.pyansys.com/version/stable/tests-actions/index.html#run-the-test-suite-for-a-given-scade-version">ansys/scade-actions/scade-tests-pytest</a></p>
+<p><a class="reference external" href="https://github.com/codecov/codecov-action">codecov/codecov-action</a></p>
+</td>
+</tr>
+<tr class="row-even"><td><p>python-tests (skipped by default)</p></td>
+<td><p>build-wheelhouse</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/tests-actions/index.html#test-library-action">ansys/actions/tests-pytest</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>doc-build</p></td>
+<td><p>doc-style</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-build-action">ansys/actions/doc-build</a></p></td>
+</tr>
+<tr class="row-even"><td><p>doc-deploy-pr</p></td>
+<td><p>doc-build</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-deploy-pr-action">ansys/actions/doc-deploy-pr</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>build-library</p></td>
+<td><p>python-tests, scade-tests, doc-build, check-vulnerabilities</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/build-actions/index.html#build-library-action">ansys/actions/build-library</a></p></td>
+</tr>
+<tr class="row-even"><td><p>release</p></td>
+<td><p>build-library, update-changelog</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/release-actions/index.html#release-pypi-private-action">ansys/actions/release-pypi-private</a></p>
+<p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/release-actions/index.html#release-github-action">ansys/actions/release-github</a></p>
+</td>
+</tr>
+<tr class="row-odd"><td><p>doc-deploy-dev</p></td>
+<td><p>build-library</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-deploy-dev-action">ansys/actions/doc-deploy-dev</a></p></td>
+</tr>
+<tr class="row-even"><td><p>doc-deploy-stable</p></td>
+<td><p>release</p></td>
+<td><p><a class="reference external" href="https://actions.docs.ansys.com/version/stable/doc-actions/index.html#doc-deploy-stable-action">ansys/actions/doc-deploy-stable</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Ansys SCADE reusable workflows</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inputs">Inputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#outputs">Outputs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#secrets">Secrets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#permissions">Permissions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#control">Control</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jobs">Jobs</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item"> 
+<div class="tocsection editthispage">
+  <a href="https://github.com/ansys/scade-actions/edit/main/doc/source/workflows/scade-ext.rst">
+    <i class="fa-solid fa-pencil"></i>
+       Edit
+    on GitHub  
+  </a>
+</div>
+
+</div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <ul class="this-page-menu">
+      <li><a href="../_sources/workflows/scade-ext.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+
+  <!-- Include desired assets -->
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.7/require.min.js"></script>
+
+<script>
+// Passing the search options to the search.js file
+const SEARCH_OPTIONS = JSON.parse('{"keys": ["title", "text", "objectID"], "limit": 10, "threshold": 0.2}');
+const SEARCH_FILE = "../_static/search.json";
+const ADVANCE_SEARCH_PATH = "../search.html";
+const EXTRA_SOURCES = JSON.parse('""');
+</script>
+
+
+<script src="../_static/js/search.js"></script>
+
+  
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright (c) 2023-2026 ANSYS, Inc. and/or its affiliates..
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the
+  <a href="https://sphinxdocs.ansys.com/version/stable/index.html"
+    >Ansys Sphinx Theme</a
+  >
+  1.6.4. <br />Last updated on
+  <span id="ast_build_date"></span>
+</p>
+<script>
+  var options = { day: "numeric", month: "long", year: "numeric" };
+  var ast_lastModifiedDate = new Date(document.lastModified);
+  var ast_build_date = ast_lastModifiedDate.toLocaleDateString("en-US", options);
+  document.getElementById("ast_build_date").innerHTML = ast_build_date;
+</script></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
