@@ -570,7 +570,7 @@ jobs:
 
   tests:
     name: "All Tests"
-    needs: [display-tests, python-tests, unit-tests, suite-tests]
+    needs: [display-tests, python-tests, unit-tests, suite-tests, rapid-prototyper-tests]
     runs-on: ubuntu-latest
     steps:
       - name: "Synchronization"
