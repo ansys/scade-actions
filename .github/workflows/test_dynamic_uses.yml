@@ -78,7 +78,6 @@ jobs:
       skip-doc-deploy-dev: true
       skip-doc-deploy-stable: true
       # strategies
-      build-wheelhouse-versions: "['3.10']"
       python-tests-versions: "['3.10', '3.12']"
     secrets:
       PYANSYS_CI_BOT_TOKEN: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}

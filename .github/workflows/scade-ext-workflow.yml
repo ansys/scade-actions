@@ -53,7 +53,7 @@ on:
           Python version used for the workflow, unless specified otherwise.
         required: false
         type: string
-        default: "3.12"
+        default: "3.14"
 
       # action inputs
       build-wheelhouse-versions:
@@ -529,7 +529,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest]
+        os: [windows-latest]
         python-version: ${{ fromJSON(inputs.build-wheelhouse-versions) }}
     steps:
       - name: "Skip step"
