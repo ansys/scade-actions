@@ -38,7 +38,7 @@ Inputs
      - Python version used for the workflow, unless specified otherwise.
      - String
      - False
-     - ``"3.12"``
+     - ``"3.14"``
    * - build-wheelhouse-versions
      - List of Python versions as a JSON list.
      - String
