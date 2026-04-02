@@ -1,0 +1,27 @@
+[
+  {
+    "name": "dev",
+    "version": "dev",
+    "url": "https://actions.scade.docs.pyansys.com/version/dev/"
+  },
+  {
+    "name": "3.0 (stable)",
+    "version": "3.0",
+    "url": "https://actions.scade.docs.pyansys.com/version/stable/"
+  },
+  {
+    "name": "2.2",
+    "version": "2.2",
+    "url": "https://actions.scade.docs.pyansys.com/version/2.2/"
+  },
+  {
+    "name": "2.1",
+    "version": "2.1",
+    "url": "https://actions.scade.docs.pyansys.com/version/2.1/"
+  },
+  {
+    "name": "Older version",
+    "version": "N/A",
+    "url": "https://actions.scade.docs.pyansys.com/version/"
+  }
+]
