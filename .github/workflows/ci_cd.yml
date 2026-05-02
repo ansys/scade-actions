@@ -26,7 +26,7 @@ jobs:
     name: "Check actions security"
     runs-on: ubuntu-latest
     steps:
-      - uses: ansys/actions/check-actions-security@v10
+      - uses: ansys/actions/check-actions-security@v10.2.12
         with:
           generate-summary: true
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
@@ -102,7 +102,7 @@ jobs:
     needs: labeler
     steps:
       - name: "Check pr title"
-        uses: ansys/actions/check-pr-title@v10
+        uses: ansys/actions/check-pr-title@v10.2.12
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -112,7 +112,7 @@ jobs:
     needs: pr-style
     steps:
       - name: "Run code style checks"
-        uses: ansys/actions/code-style@v10
+        uses: ansys/actions/code-style@v10.2.12
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           use-python-cache: false
@@ -131,7 +131,7 @@ jobs:
     needs: pr-style
     steps:
       - name: "Run documentation style checks"
-        uses: ansys/actions/doc-style@v10
+        uses: ansys/actions/doc-style@v10.2.12
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -141,7 +141,7 @@ jobs:
     needs: doc-style
     steps:
       - name: "Build documentation"
-        uses: ansys/actions/doc-build@v10
+        uses: ansys/actions/doc-build@v10.2.12
         with:
           skip-install: true
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
@@ -290,7 +290,7 @@ jobs:
           checkout: false
 
       - name: "Upload code target directory to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-suite-code-target-directory"
           path: "${{ steps.suite-code-generate.outputs.target-directory }}/*.*"
@@ -328,7 +328,7 @@ jobs:
           checkout: false
 
       - name: "Upload coverage status to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "coverage-status"
           path: "cov_status\\Model.json"
@@ -347,7 +347,7 @@ jobs:
           checkout: false
 
       - name: "Upload JUnit report to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "junit-report"
           path: "junit-reports\\Model.xml"
@@ -364,7 +364,7 @@ jobs:
           checkout: false
 
       - name: "Upload metrics report artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "metrics"
           path: "${{ steps.suite-metrics.outputs.report }}"
@@ -381,7 +381,7 @@ jobs:
           checkout: false
 
       - name: "Upload Custom rules report artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "check-custom-rules"
           path: "${{ steps.suite-rules.outputs.report }}"
@@ -398,7 +398,7 @@ jobs:
           checkout: false
 
       - name: "Upload Checker report artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-suite-check-report"
           path: "${{ steps.suite-check.outputs.report }}"
@@ -415,7 +415,7 @@ jobs:
           checkout: false
 
       - name: "Upload the document to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-suite-report"
           path: "${{ steps.suite-report.outputs.report }}"
@@ -453,7 +453,7 @@ jobs:
           checkout: false
 
       - name: "Upload the document to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-display-report"
           path: "${{ steps.display-report.outputs.report }}"
@@ -470,7 +470,7 @@ jobs:
           checkout: false
 
       - name: "Upload code target directory to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-display-code-target-directory"
           path: "${{ steps.display-generate-code.outputs.target-directory }}/*.*"
@@ -487,7 +487,7 @@ jobs:
           checkout: false
 
       - name: "Upload standalone target directory to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-display-standalone-target-directory"
           path: "${{ steps.display-generate-standalone.outputs.target-directory }}/*.*"
@@ -506,7 +506,7 @@ jobs:
           checkout: false
 
       - name: "Upload Checker report artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-display-check-report"
           path: 'design-checker-report-specification.txt'
@@ -544,7 +544,7 @@ jobs:
           checkout: false
 
       - name: "Upload code target directory to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-rapid-prototyper-scade-one-target-directory"
           path: "${{ steps.rapid-prototyper-generate-scade-one.outputs.target-directory }}"
@@ -561,7 +561,7 @@ jobs:
           checkout: false
 
       - name: "Upload standalone target directory to artifacts"
-        uses: actions/upload-artifact@bbbca2ddaa5d8feaa63e36b76fdaad77386f024f # v7.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: "scade-rapid-prototyper-standalone-target-directory"
           path: "${{ steps.rapid-prototyper-generate-standalone.outputs.target-directory }}/*.*"
@@ -585,7 +585,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:
-      - uses: ansys/actions/doc-deploy-dev@v10
+      - uses: ansys/actions/doc-deploy-dev@v10.2.12
         with:
             cname: ${{ env.DOCUMENTATION_CNAME }}
             token: ${{ secrets.GITHUB_TOKEN }}
@@ -630,7 +630,7 @@ jobs:
       run: ls -R
 
     - name: "Release to GitHub"
-      uses: softprops/action-gh-release@153bb8e04406b158c6c84fc1615b65b24149a1fe # v2.6.1
+      uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
       with:
         generate_release_notes: true
         files: |
@@ -645,7 +645,7 @@ jobs:
       contents: write # needed to update files on the gh-pages branch
     needs: release
     steps:
-      - uses: ansys/actions/doc-deploy-stable@v10
+      - uses: ansys/actions/doc-deploy-stable@v10.2.12
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}

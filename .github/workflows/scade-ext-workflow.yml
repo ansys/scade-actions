@@ -290,7 +290,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/check-actions-security@v10
+      - uses: ansys/actions/check-actions-security@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           generate-summary: true
@@ -319,7 +319,7 @@ jobs:
           echo "Dry test: skipping step"
 
       - name: "Check PR title"
-        uses: ansys/actions/check-pr-title@v10
+        uses: ansys/actions/check-pr-title@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -406,7 +406,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-changelog@v10
+      - uses: ansys/actions/doc-changelog@v10.2.12
         if: ${{ github.event_name == 'pull_request' && !inputs.dry-test }}
         with:
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
@@ -432,7 +432,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/code-style@v10
+      - uses: ansys/actions/code-style@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           python-version: ${{ inputs.main-python-version }}
@@ -454,7 +454,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-style@v10
+      - uses: ansys/actions/doc-style@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -477,7 +477,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/check-vulnerabilities@v10
+      - uses: ansys/actions/check-vulnerabilities@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           python-version: ${{ inputs.main-python-version }}
@@ -505,7 +505,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-deploy-changelog@v10
+      - uses: ansys/actions/doc-deploy-changelog@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
@@ -539,7 +539,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/build-wheelhouse@v10
+      - uses: ansys/actions/build-wheelhouse@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           library-name: ${{ inputs.library-name }}
@@ -571,7 +571,7 @@ jobs:
 
       - name: "Run pytest"
         if: ${{ !inputs.dry-test }}
-        uses: ansys/actions/tests-pytest@v10
+        uses: ansys/actions/tests-pytest@v10.2.12
         with:
           python-version: ${{ matrix.python-version }}
 
@@ -633,7 +633,7 @@ jobs:
       # TODO: secret not always defined
       - name: "Upload coverage reports to Codecov"
         if: ${{ inputs.is-public }}
-        uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+        uses: codecov/codecov-action@57e3a136b779b570ffcdbf80b3bdc90e7fab3de2 # v6.0.0
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           slug: ${{ inputs.repository-name }}
@@ -657,7 +657,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-build@v10
+      - uses: ansys/actions/doc-build@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           python-version: ${{ inputs.main-python-version }}
@@ -685,7 +685,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-deploy-pr@v10
+      - uses: ansys/actions/doc-deploy-pr@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           cname: ${{ inputs.documentation-cname }}
@@ -718,7 +718,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/build-library@v10
+      - uses: ansys/actions/build-library@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           library-name: ${{ inputs.library-name }}
@@ -749,7 +749,7 @@ jobs:
           echo "Dry test: skipping step"
 
       - name: "Release to private PyPI"
-        uses: ansys/actions/release-pypi-private@v10
+        uses: ansys/actions/release-pypi-private@v10.2.12
         if: ${{ !inputs.is-public && !inputs.dry-test }}
         with:
           library-name: ${{ inputs.library-name }}
@@ -782,7 +782,7 @@ jobs:
 
       - name: "Release to GitHub"
         if: ${{ !inputs.dry-test }}
-        uses: ansys/actions/release-github@v10
+        uses: ansys/actions/release-github@v10.2.12
         with:
           library-name: ${{ inputs.library-name }}
           token: ${{ secrets.GITHUB_TOKEN }}
@@ -808,7 +808,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-deploy-dev@v10
+      - uses: ansys/actions/doc-deploy-dev@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           cname: ${{ inputs.documentation-cname }}
@@ -837,7 +837,7 @@ jobs:
         run: |
           echo "Dry test: skipping step"
 
-      - uses: ansys/actions/doc-deploy-stable@v10
+      - uses: ansys/actions/doc-deploy-stable@v10.2.12
         if: ${{ !inputs.dry-test }}
         with:
           cname: ${{ inputs.documentation-cname }}
