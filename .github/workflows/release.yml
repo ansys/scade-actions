@@ -61,8 +61,11 @@ jobs:
         X : ${{ steps.xyz.outputs.x }}
         Y : ${{ steps.xyz.outputs.y }}
       run: |
-        git push --delete origin ${X}
-        git push --delete origin ${X}.${Y}
+        for tag in "${X}" "${X}.${Y}"; do
+          if git ls-remote --exit-code --tags origin "refs/tags/${tag}" > /dev/null 2>&1; then
+            git push --delete origin "${tag}"
+          fi
+        done
 
     - name: "Create new tags"
       env:
