@@ -93,7 +93,7 @@ master_doc = "index"
 
 # TODO: remove this when library is public
 linkcheck_ignore = [
-    r"https://github.com/ansys/scade-actions*",
+    r"https://github\.com/ansys/scade-actions(?:[/?#].*)?$",
     r"https://github\.com/micnncim/action-label-syncer(?:[/?#].*)?$",
 ]
 
