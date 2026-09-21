@@ -42,3 +42,11 @@ rules:
   superfluous-actions:
     ignore:
       - ci_cd.yml
+  # These workflows intentionally consume repository or caller-provided bot
+  # credentials. Because the reusable workflow is shared across repositories,
+  # it cannot assume a dedicated GitHub environment exists in every consumer.
+  # Suppress the audit for these workflow basenames only.
+  secrets-outside-env:
+    ignore:
+      - ci_cd.yml
+      - scade-ext-workflow.yml
