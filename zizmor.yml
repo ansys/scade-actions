@@ -26,3 +26,27 @@ rules:
       policies:
         ansys/*: ref-pin
         actions/*: hash-pin
+  # 'shell: cmd' is required by the SCADE toolchain on the self-hosted Windows
+  # runners; pwsh/bash are not a valid substitute here. The pedantic-only
+  # 'misfeature' audit is therefore not actionable for this repository.
+  # NOTE: zizmor 'ignore' keys match on the file basename only, so 'action.yml'
+  # covers every composite action (create-scade-venv, suite-*, display-*, ...).
+  misfeature:
+    ignore:
+      - action.yml
+      - ci_cd.yml
+      - scade-ext-workflow.yml
+  # The label / comment / release actions are used intentionally instead of the
+  # equivalent 'gh' CLI script steps; the pedantic-only 'superfluous-actions'
+  # audit is a deliberate style choice for this repository.
+  superfluous-actions:
+    ignore:
+      - ci_cd.yml
+  # These workflows intentionally consume repository or caller-provided bot
+  # credentials. Because the reusable workflow is shared across repositories,
+  # it cannot assume a dedicated GitHub environment exists in every consumer.
+  # Suppress the audit for these workflow basenames only.
+  secrets-outside-env:
+    ignore:
+      - ci_cd.yml
+      - scade-ext-workflow.yml
