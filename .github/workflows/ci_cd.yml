@@ -26,7 +26,7 @@ jobs:
     name: "Check actions security"
     runs-on: ubuntu-latest
     steps:
-      - uses: ansys/actions/check-actions-security@v10.3.2
+      - uses: ansys/actions/check-actions-security@v11.0.8
         with:
           generate-summary: true
           token: ${{ secrets.PYANSYS_CI_BOT_TOKEN }}
@@ -41,7 +41,7 @@ jobs:
       contents: read
       pull-requests: write # needed to add labels to the pull request
     steps:
-      - uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
             persist-credentials: false
 
@@ -50,7 +50,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Label based on changed files
-        uses: actions/labeler@f27b608878404679385c85cfa523b85ccb86e213 # v6.1.0
+        uses: actions/labeler@bf12e9b00b37c5c0ca2b87b79b2daf7891dbda13 # v7.0.0
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
 
@@ -102,7 +102,7 @@ jobs:
     needs: labeler
     steps:
       - name: "Check pr title"
-        uses: ansys/actions/check-pr-title@v10.3.2
+        uses: ansys/actions/check-pr-title@v11.0.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -112,7 +112,7 @@ jobs:
     needs: pr-style
     steps:
       - name: "Run code style checks"
-        uses: ansys/actions/code-style@v10.3.2
+        uses: ansys/actions/code-style@v11.0.8
         with:
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
           use-python-cache: false
@@ -131,7 +131,7 @@ jobs:
     needs: pr-style
     steps:
       - name: "Run documentation style checks"
-        uses: ansys/actions/doc-style@v10.3.2
+        uses: ansys/actions/doc-style@v11.0.8
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -141,7 +141,7 @@ jobs:
     needs: doc-style
     steps:
       - name: "Build documentation"
-        uses: ansys/actions/doc-build@v10.3.2
+        uses: ansys/actions/doc-build@v11.0.8
         with:
           skip-install: true
           python-version: ${{ env.MAIN_PYTHON_VERSION }}
@@ -159,7 +159,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Install git and clone project"
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
             persist-credentials: false
 
@@ -191,7 +191,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Install Git and clone project"
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
             persist-credentials: false
 
@@ -269,7 +269,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Check out the repository"
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
             persist-credentials: false
 
@@ -433,7 +433,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Check out the repository"
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
             persist-credentials: false
 
@@ -524,7 +524,7 @@ jobs:
       fail-fast: false
     steps:
       - name: "Check out the repository"
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
             persist-credentials: false
 
@@ -585,7 +585,7 @@ jobs:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags')
     steps:
-      - uses: ansys/actions/doc-deploy-dev@v10.3.2
+      - uses: ansys/actions/doc-deploy-dev@v11.0.8
         with:
             cname: ${{ env.DOCUMENTATION_CNAME }}
             token: ${{ secrets.GITHUB_TOKEN }}
@@ -630,7 +630,7 @@ jobs:
       run: ls -R
 
     - name: "Release to GitHub"
-      uses: softprops/action-gh-release@718ea10b132b3b2eba29c1007bb80653f286566b # v3.0.1
+      uses: softprops/action-gh-release@efb35369e0ad2afab669f228072c1b0d510eae64 # v3.0.3
       with:
         generate_release_notes: true
         files: |
@@ -645,7 +645,7 @@ jobs:
       contents: write # needed to update files on the gh-pages branch
     needs: release
     steps:
-      - uses: ansys/actions/doc-deploy-stable@v10.3.2
+      - uses: ansys/actions/doc-deploy-stable@v11.0.8
         with:
           cname: ${{ env.DOCUMENTATION_CNAME }}
           token: ${{ secrets.GITHUB_TOKEN }}
