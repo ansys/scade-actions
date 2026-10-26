@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- managed-by: ansys/actions/_doc-gen-sitemap -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/</loc>
+    <lastmod>2026-10-26T10:14:28+00:00</lastmod>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/display-actions/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/suite-actions/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/test-actions/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/tests-actions/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/rapid-prototyper-actions/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/workflows/index.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/workflows/scade-ext.html</loc>
+  </url>
+  <url>
+    <loc>https://actions.scade.docs.pyansys.com/version/stable/query-actions/index.html</loc>
+  </url>
+</urlset>
