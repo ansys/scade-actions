@@ -42,7 +42,7 @@ permissions: {}
 jobs:
 
   test-skip-scade-ext-workflow:
-    uses: ./.github/workflows/scade-ext-workflow.yml
+    uses: $/.github/workflows/scade-ext-workflow.yml
     permissions:
       attestations: write # needed for build-wheelhouse and build-library jobs
       contents: write # needed for update-changelog, doc-deploy-pr, and release jobs

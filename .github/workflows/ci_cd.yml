@@ -164,7 +164,7 @@ jobs:
             persist-credentials: false
 
       - name: "Execute setup.py tests"
-        uses: ./scade-tests-pytest
+        uses: $/scade-tests-pytest
         with:
           scade-version: ${{ matrix.scade-version }}
           library-dir: "tests/python-setup"
@@ -172,7 +172,7 @@ jobs:
           checkout: false
 
       - name: "Execute pyproject tests"
-        uses: ./scade-tests-pytest
+        uses: $/scade-tests-pytest
         with:
           scade-version: ${{ matrix.scade-version }}
           library-dir: "tests/python-pyproject"
@@ -196,19 +196,19 @@ jobs:
             persist-credentials: false
 
       - name: "Get SCADE installation directory"
-        uses: ./get-scade-dir
+        uses: $/get-scade-dir
         id: get-scade-dir
         with:
           scade-version: ${{ matrix.scade-version }}
 
       - name: "Get SCADE Python interpreter"
-        uses: ./get-scade-python
+        uses: $/get-scade-python
         id: get-scade-python
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
 
       - name: "Create Python virtual environment"
-        uses: ./create-scade-venv
+        uses: $/create-scade-venv
         id: create-scade-venv
         with:
           python-dir: ${{ steps.get-scade-python.outputs.python-dir }}
@@ -274,13 +274,13 @@ jobs:
             persist-credentials: false
 
       - name: "Get SCADE installation directory"
-        uses: ./get-scade-dir
+        uses: $/get-scade-dir
         id: get-scade-dir
         with:
           scade-version: ${{ matrix.scade-version }}
 
       - name: "Generate with suite-code"
-        uses: ./suite-code
+        uses: $/suite-code
         id: suite-code-generate
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -298,7 +298,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Build with suite-code"
-        uses: ./suite-code
+        uses: $/suite-code
         id: suite-code-build
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -317,7 +317,7 @@ jobs:
           echo Build target directory: %BUILD_TARGET_DIR%
 
       - name: "Acquire the model coverage with test-coverage"
-        uses: ./test-coverage
+        uses: $/test-coverage
         id: test-coverage
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -336,7 +336,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Run the tests with test-execute"
-        uses: ./test-execute
+        uses: $/test-execute
         id: test-execute
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -355,7 +355,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Compute metrics with suite-metrics"
-        uses: ./suite-metrics
+        uses: $/suite-metrics
         id: suite-metrics
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -372,7 +372,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Check custom rules with suite-rules"
-        uses: ./suite-rules
+        uses: $/suite-rules
         id: suite-rules
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -389,7 +389,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Check with suite-check"
-        uses: ./suite-check
+        uses: $/suite-check
         id: suite-check
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -406,7 +406,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Generate the documentation with suite-report"
-        uses: ./suite-report
+        uses: $/suite-report
         id: suite-report
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -438,13 +438,13 @@ jobs:
             persist-credentials: false
 
       - name: "Get SCADE installation directory"
-        uses: ./get-scade-dir
+        uses: $/get-scade-dir
         id: get-scade-dir
         with:
           scade-version: ${{ matrix.scade-version }}
 
       - name: "Generate the documentation with display-report"
-        uses: ./display-report
+        uses: $/display-report
         id: display-report
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -461,7 +461,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Generate code with display-generate"
-        uses: ./display-generate
+        uses: $/display-generate
         id: display-generate-code
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -478,7 +478,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Generate standalone with display-generate"
-        uses: ./display-generate
+        uses: $/display-generate
         id: display-generate-standalone
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -495,7 +495,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Check with display-check"
-        uses: ./display-check
+        uses: $/display-check
         id: display-check
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -529,13 +529,13 @@ jobs:
             persist-credentials: false
 
       - name: "Get SCADE installation directory"
-        uses: ./get-scade-dir
+        uses: $/get-scade-dir
         id: get-scade-dir
         with:
           scade-version: ${{ matrix.scade-version }}
 
       - name: "Generate Scade One project with rapid-prototyper-generate"
-        uses: ./rapid-prototyper-generate
+        uses: $/rapid-prototyper-generate
         id: rapid-prototyper-generate-scade-one
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
@@ -552,7 +552,7 @@ jobs:
           if-no-files-found: error
 
       - name: "Generate standalone with rapid-prototyper-generate"
-        uses: ./rapid-prototyper-generate
+        uses: $/rapid-prototyper-generate
         id: rapid-prototyper-generate-standalone
         with:
           scade-dir: ${{ steps.get-scade-dir.outputs.scade-directory }}
